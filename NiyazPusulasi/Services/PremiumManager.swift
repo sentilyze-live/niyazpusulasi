@@ -24,7 +24,7 @@ final class PremiumManager: NSObject, ObservableObject {
     static let defaultOfferingId = "default"
     static let ramadanOfferingId = "ramazan_campaign"
 
-    private init() {
+    private override init() {
         super.init()
     }
 
