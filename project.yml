@@ -62,11 +62,9 @@ targets:
       - path: NiyazPusulasWidget
         excludes:
           - "**/.DS_Store"
-      - path: NiyazPusulasi/Models
-        includes:
-          - WidgetPayload.swift
-          - PrayerTimeDay.swift
-          - PrayerName.swift
+      - path: NiyazPusulasi/Models/WidgetPayload.swift
+      - path: NiyazPusulasi/Models/PrayerTimeDay.swift
+      - path: NiyazPusulasi/Models/PrayerName.swift
     info:
       path: NiyazPusulasWidget/Info.plist
     entitlements:
