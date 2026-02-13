@@ -59,12 +59,23 @@ platform :ios do
     # Build the app
     build_app(
       scheme: SCHEME,
+      configuration: "Release",
       export_method: "app-store",
       output_directory: "./build",
       output_name: "NiyazPusulasi.ipa",
       clean: true,
       include_bitcode: false,
-      xcargs: "-allowProvisioningUpdates"
+      skip_profile_detection: true,
+      export_options: {
+        method: "app-store",
+        signingStyle: "manual",
+        teamID: "C4WUTK99E3",
+        provisioningProfiles: {
+          APP_IDENTIFIER => "match AppStore #{APP_IDENTIFIER}",
+          WIDGET_IDENTIFIER => "match AppStore #{WIDGET_IDENTIFIER}"
+        }
+      },
+      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3"
     )
 
     # Upload to TestFlight

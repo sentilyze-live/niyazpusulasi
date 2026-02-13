@@ -31,13 +31,13 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
-      - name: Install Fastlane
-        run: gem install fastlane
-
       - name: Decode API Key
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8
+        run: |
+          (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
+          (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
+          (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
 
       - name: Create API Key JSON
         env:
@@ -60,7 +60,7 @@ jobs:
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
         run: |
-          fastlane match appstore \
+          bundle exec fastlane match appstore \
             --app_identifier "com.niyazpusulasi.app,com.niyazpusulasi.app.widget" \
             --team_id "C4WUTK99E3" \
             --api_key_path api_key.json

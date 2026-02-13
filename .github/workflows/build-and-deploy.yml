@@ -50,6 +50,12 @@ jobs:
       - name: Generate Xcode Project
         run: xcodegen generate
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
       - name: Cache SPM
         uses: actions/cache@v4
         with:
@@ -64,6 +70,7 @@ jobs:
 
       - name: Build (Debug)
         run: |
+          set -o pipefail
           xcodebuild build \
             -scheme ${{ env.SCHEME }} \
             -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=latest' \
@@ -71,10 +78,11 @@ jobs:
             -configuration Debug \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
-            | xcpretty
+            | bundle exec xcpretty
 
       - name: Run Tests
         run: |
+          set -o pipefail
           xcodebuild test \
             -scheme ${{ env.SCHEME }} \
             -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=latest' \
@@ -83,7 +91,7 @@ jobs:
             -resultBundlePath TestResults.xcresult \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
-            | xcpretty
+            | bundle exec xcpretty
 
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
@@ -130,9 +138,6 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
-      - name: Install Fastlane
-        run: gem install fastlane
-
       - name: Cache SPM
         uses: actions/cache@v4
         with:
@@ -146,7 +151,10 @@ jobs:
       - name: Decode API Key
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-        run: echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8
+        run: |
+          (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
+          (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
+          (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
 
       # Install certificates and profiles via Fastlane Match
       - name: Install Code Signing
@@ -154,7 +162,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-        run: fastlane match appstore --readonly
+        run: bundle exec fastlane match appstore --readonly
 
       # Build and upload to TestFlight
       - name: Build & Upload to TestFlight
@@ -165,7 +173,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-        run: fastlane beta
+        run: bundle exec fastlane beta
 
       - name: Clean up
         if: always()
