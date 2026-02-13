@@ -1,4 +1,4 @@
-git_url(ENV["MATCH_GIT_URL"] || "https://github.com/YOUR_USERNAME/certificates.git")
+git_url(ENV["MATCH_GIT_URL"] || "https://github.com/sentilyze-live/ios-certificates.git")
 
 storage_mode("git")
 
