@@ -38,13 +38,19 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
 
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: xcodegen generate
+
       - name: Cache SPM
         uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             .build
-          key: spm-${{ runner.os }}-${{ hashFiles('Package.swift') }}
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
           restore-keys: spm-${{ runner.os }}-
 
       - name: Resolve Dependencies
@@ -100,6 +106,12 @@ jobs:
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
 
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: xcodegen generate
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -115,7 +127,7 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             .build
-          key: spm-${{ runner.os }}-${{ hashFiles('Package.swift') }}
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
           restore-keys: spm-${{ runner.os }}-
 
       # Decode the App Store Connect API Key from secrets
