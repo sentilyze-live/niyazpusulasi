@@ -36,7 +36,7 @@ struct NextPrayerProvider: TimelineProvider {
 
         // Future prayer entries
         for (_, time) in allTimes where time > now {
-            var updatedPayload = payload
+            let updatedPayload = payload
             entries.append(NextPrayerEntry(date: time, payload: updatedPayload))
         }
 
