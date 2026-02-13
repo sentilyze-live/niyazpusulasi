@@ -4,7 +4,7 @@ import RevenueCat
 /// Manages premium subscription state and feature gating.
 /// Single source of truth for "is user premium?" across the app.
 @MainActor
-final class PremiumManager: NSObject, ObservableObject {
+final class PremiumManager: ObservableObject {
     static let shared = PremiumManager()
 
     @Published var isPremium: Bool = false
@@ -24,9 +24,7 @@ final class PremiumManager: NSObject, ObservableObject {
     static let defaultOfferingId = "default"
     static let ramadanOfferingId = "ramazan_campaign"
 
-    private init() {
-        super.init()
-    }
+    private init() {}
 
     // MARK: - Configuration
 
@@ -122,7 +120,7 @@ final class PremiumManager: NSObject, ObservableObject {
 
 // MARK: - PurchasesDelegate
 
-extension PremiumManager: PurchasesDelegate {
+extension PremiumManager: @preconcurrency PurchasesDelegate {
     nonisolated func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
         Task { @MainActor in
             updateFromCustomerInfo(customerInfo)

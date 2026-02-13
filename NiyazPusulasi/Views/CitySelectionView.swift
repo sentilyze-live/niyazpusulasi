@@ -18,10 +18,6 @@ struct CitySelectionView: View {
 
     private var cityService = CityService.shared
 
-    init(onCitySelected: @escaping (City?) -> Void) {
-        self.onCitySelected = onCitySelected
-    }
-
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
