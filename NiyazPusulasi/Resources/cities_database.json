@@ -1,0 +1,2101 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-14T00:19:37.047586",
+  "total_cities": 349,
+  "cities": [
+    {
+      "name": "Adana",
+      "country": "Turkey",
+      "lat": 37.0,
+      "lng": 35.3213
+    },
+    {
+      "name": "Adıyaman",
+      "country": "Turkey",
+      "lat": 37.7648,
+      "lng": 38.2786
+    },
+    {
+      "name": "Afyonkarahisar",
+      "country": "Turkey",
+      "lat": 38.7507,
+      "lng": 30.5567
+    },
+    {
+      "name": "Ağrı",
+      "country": "Turkey",
+      "lat": 39.7191,
+      "lng": 43.0503
+    },
+    {
+      "name": "Aksaray",
+      "country": "Turkey",
+      "lat": 38.3687,
+      "lng": 34.037
+    },
+    {
+      "name": "Amasya",
+      "country": "Turkey",
+      "lat": 40.6499,
+      "lng": 35.8353
+    },
+    {
+      "name": "Ankara",
+      "country": "Turkey",
+      "lat": 39.9334,
+      "lng": 32.8597
+    },
+    {
+      "name": "Antalya",
+      "country": "Turkey",
+      "lat": 36.8969,
+      "lng": 30.7133
+    },
+    {
+      "name": "Ardahan",
+      "country": "Turkey",
+      "lat": 41.1105,
+      "lng": 42.7022
+    },
+    {
+      "name": "Artvin",
+      "country": "Turkey",
+      "lat": 41.1828,
+      "lng": 41.8183
+    },
+    {
+      "name": "Aydın",
+      "country": "Turkey",
+      "lat": 37.856,
+      "lng": 27.8416
+    },
+    {
+      "name": "Balıkesir",
+      "country": "Turkey",
+      "lat": 39.6484,
+      "lng": 27.8826
+    },
+    {
+      "name": "Bartın",
+      "country": "Turkey",
+      "lat": 41.5811,
+      "lng": 32.461
+    },
+    {
+      "name": "Batman",
+      "country": "Turkey",
+      "lat": 37.8812,
+      "lng": 41.1351
+    },
+    {
+      "name": "Bayburt",
+      "country": "Turkey",
+      "lat": 40.2552,
+      "lng": 40.2249
+    },
+    {
+      "name": "Bilecik",
+      "country": "Turkey",
+      "lat": 40.0567,
+      "lng": 30.0665
+    },
+    {
+      "name": "Bingöl",
+      "country": "Turkey",
+      "lat": 39.0626,
+      "lng": 40.7696
+    },
+    {
+      "name": "Bitlis",
+      "country": "Turkey",
+      "lat": 38.4001,
+      "lng": 42.1097
+    },
+    {
+      "name": "Bolu",
+      "country": "Turkey",
+      "lat": 40.576,
+      "lng": 31.5788
+    },
+    {
+      "name": "Burdur",
+      "country": "Turkey",
+      "lat": 37.4613,
+      "lng": 30.0665
+    },
+    {
+      "name": "Bursa",
+      "country": "Turkey",
+      "lat": 40.2669,
+      "lng": 29.0634
+    },
+    {
+      "name": "Çanakkale",
+      "country": "Turkey",
+      "lat": 40.1553,
+      "lng": 26.4142
+    },
+    {
+      "name": "Çankırı",
+      "country": "Turkey",
+      "lat": 40.6013,
+      "lng": 33.6134
+    },
+    {
+      "name": "Çorum",
+      "country": "Turkey",
+      "lat": 40.5506,
+      "lng": 34.9556
+    },
+    {
+      "name": "Denizli",
+      "country": "Turkey",
+      "lat": 37.7765,
+      "lng": 29.0864
+    },
+    {
+      "name": "Diyarbakır",
+      "country": "Turkey",
+      "lat": 37.9144,
+      "lng": 40.2306
+    },
+    {
+      "name": "Düzce",
+      "country": "Turkey",
+      "lat": 40.8438,
+      "lng": 31.1565
+    },
+    {
+      "name": "Edirne",
+      "country": "Turkey",
+      "lat": 41.6818,
+      "lng": 26.5623
+    },
+    {
+      "name": "Elazığ",
+      "country": "Turkey",
+      "lat": 38.681,
+      "lng": 39.2264
+    },
+    {
+      "name": "Erzincan",
+      "country": "Turkey",
+      "lat": 39.75,
+      "lng": 39.5
+    },
+    {
+      "name": "Erzurum",
+      "country": "Turkey",
+      "lat": 39.9,
+      "lng": 41.27
+    },
+    {
+      "name": "Eskişehir",
+      "country": "Turkey",
+      "lat": 39.7767,
+      "lng": 30.5206
+    },
+    {
+      "name": "Gaziantep",
+      "country": "Turkey",
+      "lat": 37.0662,
+      "lng": 37.3833
+    },
+    {
+      "name": "Giresun",
+      "country": "Turkey",
+      "lat": 40.9128,
+      "lng": 38.3895
+    },
+    {
+      "name": "Gümüşhane",
+      "country": "Turkey",
+      "lat": 40.4386,
+      "lng": 39.5086
+    },
+    {
+      "name": "Hakkari",
+      "country": "Turkey",
+      "lat": 37.5744,
+      "lng": 43.7408
+    },
+    {
+      "name": "Hatay",
+      "country": "Turkey",
+      "lat": 36.4018,
+      "lng": 36.3498
+    },
+    {
+      "name": "Iğdır",
+      "country": "Turkey",
+      "lat": 39.888,
+      "lng": 44.0048
+    },
+    {
+      "name": "Isparta",
+      "country": "Turkey",
+      "lat": 37.7648,
+      "lng": 30.5566
+    },
+    {
+      "name": "İstanbul",
+      "country": "Turkey",
+      "lat": 41.0082,
+      "lng": 28.9784
+    },
+    {
+      "name": "İzmir",
+      "country": "Turkey",
+      "lat": 38.4192,
+      "lng": 27.1287
+    },
+    {
+      "name": "Kahramanmaraş",
+      "country": "Turkey",
+      "lat": 37.5858,
+      "lng": 36.9371
+    },
+    {
+      "name": "Karabük",
+      "country": "Turkey",
+      "lat": 41.2061,
+      "lng": 32.6204
+    },
+    {
+      "name": "Karaman",
+      "country": "Turkey",
+      "lat": 37.1759,
+      "lng": 33.2287
+    },
+    {
+      "name": "Kars",
+      "country": "Turkey",
+      "lat": 40.6167,
+      "lng": 43.1
+    },
+    {
+      "name": "Kastamonu",
+      "country": "Turkey",
+      "lat": 41.3887,
+      "lng": 33.7827
+    },
+    {
+      "name": "Kayseri",
+      "country": "Turkey",
+      "lat": 38.7312,
+      "lng": 35.4787
+    },
+    {
+      "name": "Kırıkkale",
+      "country": "Turkey",
+      "lat": 39.8468,
+      "lng": 33.5153
+    },
+    {
+      "name": "Kırklareli",
+      "country": "Turkey",
+      "lat": 41.7333,
+      "lng": 27.2167
+    },
+    {
+      "name": "Kırşehir",
+      "country": "Turkey",
+      "lat": 39.1425,
+      "lng": 34.1709
+    },
+    {
+      "name": "Kilis",
+      "country": "Turkey",
+      "lat": 36.7184,
+      "lng": 37.1212
+    },
+    {
+      "name": "Kocaeli",
+      "country": "Turkey",
+      "lat": 40.8533,
+      "lng": 29.8815
+    },
+    {
+      "name": "Konya",
+      "country": "Turkey",
+      "lat": 37.8667,
+      "lng": 32.4833
+    },
+    {
+      "name": "Kütahya",
+      "country": "Turkey",
+      "lat": 39.4242,
+      "lng": 29.9833
+    },
+    {
+      "name": "Malatya",
+      "country": "Turkey",
+      "lat": 38.3552,
+      "lng": 38.3095
+    },
+    {
+      "name": "Manisa",
+      "country": "Turkey",
+      "lat": 38.6191,
+      "lng": 27.4289
+    },
+    {
+      "name": "Mardin",
+      "country": "Turkey",
+      "lat": 37.3212,
+      "lng": 40.7245
+    },
+    {
+      "name": "Mersin",
+      "country": "Turkey",
+      "lat": 36.8121,
+      "lng": 34.6415
+    },
+    {
+      "name": "Muğla",
+      "country": "Turkey",
+      "lat": 37.2153,
+      "lng": 28.3636
+    },
+    {
+      "name": "Muş",
+      "country": "Turkey",
+      "lat": 38.9462,
+      "lng": 41.7539
+    },
+    {
+      "name": "Nevşehir",
+      "country": "Turkey",
+      "lat": 38.6939,
+      "lng": 34.6857
+    },
+    {
+      "name": "Niğde",
+      "country": "Turkey",
+      "lat": 37.9667,
+      "lng": 34.6833
+    },
+    {
+      "name": "Ordu",
+      "country": "Turkey",
+      "lat": 40.9839,
+      "lng": 37.8764
+    },
+    {
+      "name": "Osmaniye",
+      "country": "Turkey",
+      "lat": 37.213,
+      "lng": 36.1763
+    },
+    {
+      "name": "Rize",
+      "country": "Turkey",
+      "lat": 41.0201,
+      "lng": 40.5234
+    },
+    {
+      "name": "Sakarya",
+      "country": "Turkey",
+      "lat": 40.694,
+      "lng": 30.4358
+    },
+    {
+      "name": "Samsun",
+      "country": "Turkey",
+      "lat": 41.2867,
+      "lng": 36.33
+    },
+    {
+      "name": "Siirt",
+      "country": "Turkey",
+      "lat": 37.9333,
+      "lng": 41.95
+    },
+    {
+      "name": "Sinop",
+      "country": "Turkey",
+      "lat": 42.0231,
+      "lng": 35.1531
+    },
+    {
+      "name": "Sivas",
+      "country": "Turkey",
+      "lat": 39.7477,
+      "lng": 37.0179
+    },
+    {
+      "name": "Şanlıurfa",
+      "country": "Turkey",
+      "lat": 37.1591,
+      "lng": 38.7969
+    },
+    {
+      "name": "Şırnak",
+      "country": "Turkey",
+      "lat": 37.4187,
+      "lng": 42.4918
+    },
+    {
+      "name": "Tekirdağ",
+      "country": "Turkey",
+      "lat": 40.9833,
+      "lng": 27.5167
+    },
+    {
+      "name": "Tokat",
+      "country": "Turkey",
+      "lat": 40.3167,
+      "lng": 36.55
+    },
+    {
+      "name": "Trabzon",
+      "country": "Turkey",
+      "lat": 41.0015,
+      "lng": 39.7178
+    },
+    {
+      "name": "Tunceli",
+      "country": "Turkey",
+      "lat": 39.3074,
+      "lng": 39.4388
+    },
+    {
+      "name": "Uşak",
+      "country": "Turkey",
+      "lat": 38.6823,
+      "lng": 29.4082
+    },
+    {
+      "name": "Van",
+      "country": "Turkey",
+      "lat": 38.4891,
+      "lng": 43.4089
+    },
+    {
+      "name": "Yalova",
+      "country": "Turkey",
+      "lat": 40.65,
+      "lng": 29.2667
+    },
+    {
+      "name": "Yozgat",
+      "country": "Turkey",
+      "lat": 39.8181,
+      "lng": 34.8147
+    },
+    {
+      "name": "Zonguldak",
+      "country": "Turkey",
+      "lat": 41.4564,
+      "lng": 31.7987
+    },
+    {
+      "name": "Mecca",
+      "country": "Saudi Arabia",
+      "lat": 21.4225,
+      "lng": 39.8262
+    },
+    {
+      "name": "Medina",
+      "country": "Saudi Arabia",
+      "lat": 24.5247,
+      "lng": 39.5692
+    },
+    {
+      "name": "Riyadh",
+      "country": "Saudi Arabia",
+      "lat": 24.7136,
+      "lng": 46.6753
+    },
+    {
+      "name": "Jeddah",
+      "country": "Saudi Arabia",
+      "lat": 21.5433,
+      "lng": 39.1728
+    },
+    {
+      "name": "Dammam",
+      "country": "Saudi Arabia",
+      "lat": 26.4207,
+      "lng": 50.0888
+    },
+    {
+      "name": "Khobar",
+      "country": "Saudi Arabia",
+      "lat": 26.2172,
+      "lng": 50.1971
+    },
+    {
+      "name": "Dhahran",
+      "country": "Saudi Arabia",
+      "lat": 26.2361,
+      "lng": 50.0393
+    },
+    {
+      "name": "Taif",
+      "country": "Saudi Arabia",
+      "lat": 21.2703,
+      "lng": 40.4158
+    },
+    {
+      "name": "Tabuk",
+      "country": "Saudi Arabia",
+      "lat": 28.3998,
+      "lng": 36.5717
+    },
+    {
+      "name": "Abha",
+      "country": "Saudi Arabia",
+      "lat": 18.2164,
+      "lng": 42.5053
+    },
+    {
+      "name": "Dubai",
+      "country": "UAE",
+      "lat": 25.2048,
+      "lng": 55.2708
+    },
+    {
+      "name": "Abu Dhabi",
+      "country": "UAE",
+      "lat": 24.4539,
+      "lng": 54.3773
+    },
+    {
+      "name": "Sharjah",
+      "country": "UAE",
+      "lat": 25.3463,
+      "lng": 55.4209
+    },
+    {
+      "name": "Ajman",
+      "country": "UAE",
+      "lat": 25.4052,
+      "lng": 55.5136
+    },
+    {
+      "name": "Ras Al Khaimah",
+      "country": "UAE",
+      "lat": 25.7895,
+      "lng": 55.9432
+    },
+    {
+      "name": "Fujairah",
+      "country": "UAE",
+      "lat": 25.1288,
+      "lng": 56.3265
+    },
+    {
+      "name": "Al Ain",
+      "country": "UAE",
+      "lat": 24.2075,
+      "lng": 55.7447
+    },
+    {
+      "name": "Cairo",
+      "country": "Egypt",
+      "lat": 30.0444,
+      "lng": 31.2357
+    },
+    {
+      "name": "Alexandria",
+      "country": "Egypt",
+      "lat": 31.2001,
+      "lng": 29.9187
+    },
+    {
+      "name": "Giza",
+      "country": "Egypt",
+      "lat": 30.0131,
+      "lng": 31.2089
+    },
+    {
+      "name": "Shubra El-Kheima",
+      "country": "Egypt",
+      "lat": 30.1286,
+      "lng": 31.2422
+    },
+    {
+      "name": "Port Said",
+      "country": "Egypt",
+      "lat": 31.2653,
+      "lng": 32.3019
+    },
+    {
+      "name": "Suez",
+      "country": "Egypt",
+      "lat": 29.9668,
+      "lng": 32.5498
+    },
+    {
+      "name": "Luxor",
+      "country": "Egypt",
+      "lat": 25.6872,
+      "lng": 32.6396
+    },
+    {
+      "name": "Aswan",
+      "country": "Egypt",
+      "lat": 24.0889,
+      "lng": 32.8998
+    },
+    {
+      "name": "Jakarta",
+      "country": "Indonesia",
+      "lat": -6.2088,
+      "lng": 106.8456
+    },
+    {
+      "name": "Surabaya",
+      "country": "Indonesia",
+      "lat": -7.2575,
+      "lng": 112.7521
+    },
+    {
+      "name": "Bandung",
+      "country": "Indonesia",
+      "lat": -6.9175,
+      "lng": 107.6191
+    },
+    {
+      "name": "Medan",
+      "country": "Indonesia",
+      "lat": 3.5952,
+      "lng": 98.6722
+    },
+    {
+      "name": "Semarang",
+      "country": "Indonesia",
+      "lat": -6.9667,
+      "lng": 110.4167
+    },
+    {
+      "name": "Makassar",
+      "country": "Indonesia",
+      "lat": -5.1477,
+      "lng": 119.4327
+    },
+    {
+      "name": "Palembang",
+      "country": "Indonesia",
+      "lat": -2.9761,
+      "lng": 104.7754
+    },
+    {
+      "name": "Yogyakarta",
+      "country": "Indonesia",
+      "lat": -7.7956,
+      "lng": 110.3695
+    },
+    {
+      "name": "Kuala Lumpur",
+      "country": "Malaysia",
+      "lat": 3.139,
+      "lng": 101.6869
+    },
+    {
+      "name": "George Town",
+      "country": "Malaysia",
+      "lat": 5.4164,
+      "lng": 100.3327
+    },
+    {
+      "name": "Johor Bahru",
+      "country": "Malaysia",
+      "lat": 1.4927,
+      "lng": 103.7414
+    },
+    {
+      "name": "Ipoh",
+      "country": "Malaysia",
+      "lat": 4.5975,
+      "lng": 101.0901
+    },
+    {
+      "name": "Shah Alam",
+      "country": "Malaysia",
+      "lat": 3.0738,
+      "lng": 101.5183
+    },
+    {
+      "name": "Petaling Jaya",
+      "country": "Malaysia",
+      "lat": 3.1073,
+      "lng": 101.6067
+    },
+    {
+      "name": "Kota Kinabalu",
+      "country": "Malaysia",
+      "lat": 5.9804,
+      "lng": 116.0735
+    },
+    {
+      "name": "Karachi",
+      "country": "Pakistan",
+      "lat": 24.8607,
+      "lng": 67.0011
+    },
+    {
+      "name": "Lahore",
+      "country": "Pakistan",
+      "lat": 31.5497,
+      "lng": 74.3436
+    },
+    {
+      "name": "Islamabad",
+      "country": "Pakistan",
+      "lat": 33.6844,
+      "lng": 73.0479
+    },
+    {
+      "name": "Rawalpindi",
+      "country": "Pakistan",
+      "lat": 33.5651,
+      "lng": 73.0169
+    },
+    {
+      "name": "Faisalabad",
+      "country": "Pakistan",
+      "lat": 31.4504,
+      "lng": 73.135
+    },
+    {
+      "name": "Multan",
+      "country": "Pakistan",
+      "lat": 30.1575,
+      "lng": 71.5249
+    },
+    {
+      "name": "Peshawar",
+      "country": "Pakistan",
+      "lat": 34.0151,
+      "lng": 71.5249
+    },
+    {
+      "name": "Quetta",
+      "country": "Pakistan",
+      "lat": 30.1798,
+      "lng": 66.975
+    },
+    {
+      "name": "Sialkot",
+      "country": "Pakistan",
+      "lat": 32.4972,
+      "lng": 74.5361
+    },
+    {
+      "name": "Tehran",
+      "country": "Iran",
+      "lat": 35.6892,
+      "lng": 51.389
+    },
+    {
+      "name": "Mashhad",
+      "country": "Iran",
+      "lat": 36.2605,
+      "lng": 59.6168
+    },
+    {
+      "name": "Isfahan",
+      "country": "Iran",
+      "lat": 32.6546,
+      "lng": 51.668
+    },
+    {
+      "name": "Shiraz",
+      "country": "Iran",
+      "lat": 29.5918,
+      "lng": 52.5836
+    },
+    {
+      "name": "Tabriz",
+      "country": "Iran",
+      "lat": 38.0667,
+      "lng": 46.2919
+    },
+    {
+      "name": "Qom",
+      "country": "Iran",
+      "lat": 34.6416,
+      "lng": 50.8746
+    },
+    {
+      "name": "Ahvaz",
+      "country": "Iran",
+      "lat": 31.3183,
+      "lng": 48.6706
+    },
+    {
+      "name": "Baghdad",
+      "country": "Iraq",
+      "lat": 33.3152,
+      "lng": 44.3661
+    },
+    {
+      "name": "Basra",
+      "country": "Iraq",
+      "lat": 30.5085,
+      "lng": 47.7804
+    },
+    {
+      "name": "Mosul",
+      "country": "Iraq",
+      "lat": 36.335,
+      "lng": 43.1189
+    },
+    {
+      "name": "Najaf",
+      "country": "Iraq",
+      "lat": 31.9996,
+      "lng": 44.3089
+    },
+    {
+      "name": "Karbala",
+      "country": "Iraq",
+      "lat": 32.616,
+      "lng": 44.0245
+    },
+    {
+      "name": "Erbil",
+      "country": "Iraq",
+      "lat": 36.1911,
+      "lng": 44.0092
+    },
+    {
+      "name": "Sulaymaniyah",
+      "country": "Iraq",
+      "lat": 35.555,
+      "lng": 45.4329
+    },
+    {
+      "name": "Amman",
+      "country": "Jordan",
+      "lat": 31.9454,
+      "lng": 35.9284
+    },
+    {
+      "name": "Zarqa",
+      "country": "Jordan",
+      "lat": 32.0722,
+      "lng": 36.1
+    },
+    {
+      "name": "Irbid",
+      "country": "Jordan",
+      "lat": 32.5556,
+      "lng": 35.85
+    },
+    {
+      "name": "Aqaba",
+      "country": "Jordan",
+      "lat": 29.5267,
+      "lng": 35.0067
+    },
+    {
+      "name": "Casablanca",
+      "country": "Morocco",
+      "lat": 33.5731,
+      "lng": -7.5898
+    },
+    {
+      "name": "Rabat",
+      "country": "Morocco",
+      "lat": 34.0209,
+      "lng": -6.8416
+    },
+    {
+      "name": "Fes",
+      "country": "Morocco",
+      "lat": 34.0181,
+      "lng": -5.0078
+    },
+    {
+      "name": "Marrakech",
+      "country": "Morocco",
+      "lat": 31.6295,
+      "lng": -7.9811
+    },
+    {
+      "name": "Tangier",
+      "country": "Morocco",
+      "lat": 35.7595,
+      "lng": -5.834
+    },
+    {
+      "name": "Meknes",
+      "country": "Morocco",
+      "lat": 33.8935,
+      "lng": -5.5473
+    },
+    {
+      "name": "Algiers",
+      "country": "Algeria",
+      "lat": 36.7538,
+      "lng": 3.0588
+    },
+    {
+      "name": "Oran",
+      "country": "Algeria",
+      "lat": 35.6969,
+      "lng": -0.6331
+    },
+    {
+      "name": "Constantine",
+      "country": "Algeria",
+      "lat": 36.365,
+      "lng": 6.6147
+    },
+    {
+      "name": "Annaba",
+      "country": "Algeria",
+      "lat": 36.9,
+      "lng": 7.7667
+    },
+    {
+      "name": "Tunis",
+      "country": "Tunisia",
+      "lat": 36.8065,
+      "lng": 10.1815
+    },
+    {
+      "name": "Sfax",
+      "country": "Tunisia",
+      "lat": 34.7406,
+      "lng": 10.7603
+    },
+    {
+      "name": "Sousse",
+      "country": "Tunisia",
+      "lat": 35.8256,
+      "lng": 10.6411
+    },
+    {
+      "name": "Tripoli",
+      "country": "Libya",
+      "lat": 32.8872,
+      "lng": 13.1913
+    },
+    {
+      "name": "Benghazi",
+      "country": "Libya",
+      "lat": 32.1167,
+      "lng": 20.0686
+    },
+    {
+      "name": "Doha",
+      "country": "Qatar",
+      "lat": 25.2854,
+      "lng": 51.531
+    },
+    {
+      "name": "Al Rayyan",
+      "country": "Qatar",
+      "lat": 25.2919,
+      "lng": 51.4244
+    },
+    {
+      "name": "Kuwait City",
+      "country": "Kuwait",
+      "lat": 29.3759,
+      "lng": 47.9774
+    },
+    {
+      "name": "Hawalli",
+      "country": "Kuwait",
+      "lat": 29.3333,
+      "lng": 48.0289
+    },
+    {
+      "name": "Manama",
+      "country": "Bahrain",
+      "lat": 26.2285,
+      "lng": 50.586
+    },
+    {
+      "name": "Riffa",
+      "country": "Bahrain",
+      "lat": 26.13,
+      "lng": 50.555
+    },
+    {
+      "name": "Muscat",
+      "country": "Oman",
+      "lat": 23.588,
+      "lng": 58.3829
+    },
+    {
+      "name": "Salalah",
+      "country": "Oman",
+      "lat": 17.0151,
+      "lng": 54.0924
+    },
+    {
+      "name": "Sohar",
+      "country": "Oman",
+      "lat": 24.3473,
+      "lng": 56.7095
+    },
+    {
+      "name": "Beirut",
+      "country": "Lebanon",
+      "lat": 33.8886,
+      "lng": 35.4955
+    },
+    {
+      "name": "Tripoli",
+      "country": "Lebanon",
+      "lat": 34.4333,
+      "lng": 35.8333
+    },
+    {
+      "name": "Sidon",
+      "country": "Lebanon",
+      "lat": 33.56,
+      "lng": 35.37
+    },
+    {
+      "name": "Damascus",
+      "country": "Syria",
+      "lat": 33.5138,
+      "lng": 36.2765
+    },
+    {
+      "name": "Aleppo",
+      "country": "Syria",
+      "lat": 36.2021,
+      "lng": 37.1343
+    },
+    {
+      "name": "Homs",
+      "country": "Syria",
+      "lat": 34.7333,
+      "lng": 36.7167
+    },
+    {
+      "name": "Gaza",
+      "country": "Palestine",
+      "lat": 31.5,
+      "lng": 34.4667
+    },
+    {
+      "name": "Hebron",
+      "country": "Palestine",
+      "lat": 31.5326,
+      "lng": 35.0998
+    },
+    {
+      "name": "Nablus",
+      "country": "Palestine",
+      "lat": 32.2211,
+      "lng": 35.2544
+    },
+    {
+      "name": "Dhaka",
+      "country": "Bangladesh",
+      "lat": 23.8103,
+      "lng": 90.4125
+    },
+    {
+      "name": "Chittagong",
+      "country": "Bangladesh",
+      "lat": 22.3569,
+      "lng": 91.7832
+    },
+    {
+      "name": "Sylhet",
+      "country": "Bangladesh",
+      "lat": 24.8949,
+      "lng": 91.8687
+    },
+    {
+      "name": "Kabul",
+      "country": "Afghanistan",
+      "lat": 34.5553,
+      "lng": 69.2075
+    },
+    {
+      "name": "Herat",
+      "country": "Afghanistan",
+      "lat": 34.3482,
+      "lng": 62.1997
+    },
+    {
+      "name": "Kandahar",
+      "country": "Afghanistan",
+      "lat": 31.6089,
+      "lng": 65.6989
+    },
+    {
+      "name": "Baku",
+      "country": "Azerbaijan",
+      "lat": 40.4093,
+      "lng": 49.8671
+    },
+    {
+      "name": "Ganja",
+      "country": "Azerbaijan",
+      "lat": 40.6828,
+      "lng": 46.3606
+    },
+    {
+      "name": "Tashkent",
+      "country": "Uzbekistan",
+      "lat": 41.2995,
+      "lng": 69.2401
+    },
+    {
+      "name": "Samarkand",
+      "country": "Uzbekistan",
+      "lat": 39.6542,
+      "lng": 66.9597
+    },
+    {
+      "name": "Bukhara",
+      "country": "Uzbekistan",
+      "lat": 39.7747,
+      "lng": 64.4286
+    },
+    {
+      "name": "Almaty",
+      "country": "Kazakhstan",
+      "lat": 43.222,
+      "lng": 76.8512
+    },
+    {
+      "name": "Nur-Sultan",
+      "country": "Kazakhstan",
+      "lat": 51.1694,
+      "lng": 71.4491
+    },
+    {
+      "name": "Ashgabat",
+      "country": "Turkmenistan",
+      "lat": 37.9601,
+      "lng": 58.3261
+    },
+    {
+      "name": "Bishkek",
+      "country": "Kyrgyzstan",
+      "lat": 42.8746,
+      "lng": 74.5698
+    },
+    {
+      "name": "Dushanbe",
+      "country": "Tajikistan",
+      "lat": 38.5598,
+      "lng": 68.7738
+    },
+    {
+      "name": "Sanaa",
+      "country": "Yemen",
+      "lat": 15.3694,
+      "lng": 44.191
+    },
+    {
+      "name": "Aden",
+      "country": "Yemen",
+      "lat": 12.7855,
+      "lng": 45.0187
+    },
+    {
+      "name": "Khartoum",
+      "country": "Sudan",
+      "lat": 15.5007,
+      "lng": 32.5599
+    },
+    {
+      "name": "Mogadishu",
+      "country": "Somalia",
+      "lat": 2.0469,
+      "lng": 45.3182
+    },
+    {
+      "name": "Dakar",
+      "country": "Senegal",
+      "lat": 14.7167,
+      "lng": -17.4677
+    },
+    {
+      "name": "Lagos",
+      "country": "Nigeria",
+      "lat": 6.5244,
+      "lng": 3.3792
+    },
+    {
+      "name": "Kano",
+      "country": "Nigeria",
+      "lat": 12.0022,
+      "lng": 8.5919
+    },
+    {
+      "name": "Abuja",
+      "country": "Nigeria",
+      "lat": 9.0579,
+      "lng": 7.4951
+    },
+    {
+      "name": "Berlin",
+      "country": "Germany",
+      "lat": 52.52,
+      "lng": 13.405
+    },
+    {
+      "name": "Frankfurt",
+      "country": "Germany",
+      "lat": 50.1109,
+      "lng": 8.6821
+    },
+    {
+      "name": "Munich",
+      "country": "Germany",
+      "lat": 48.1351,
+      "lng": 11.582
+    },
+    {
+      "name": "Cologne",
+      "country": "Germany",
+      "lat": 50.9375,
+      "lng": 6.9603
+    },
+    {
+      "name": "Hamburg",
+      "country": "Germany",
+      "lat": 53.5511,
+      "lng": 9.9937
+    },
+    {
+      "name": "Stuttgart",
+      "country": "Germany",
+      "lat": 48.7758,
+      "lng": 9.1829
+    },
+    {
+      "name": "Düsseldorf",
+      "country": "Germany",
+      "lat": 51.2277,
+      "lng": 6.7735
+    },
+    {
+      "name": "Dortmund",
+      "country": "Germany",
+      "lat": 51.5136,
+      "lng": 7.4653
+    },
+    {
+      "name": "Essen",
+      "country": "Germany",
+      "lat": 51.4556,
+      "lng": 7.0116
+    },
+    {
+      "name": "Duisburg",
+      "country": "Germany",
+      "lat": 51.4344,
+      "lng": 6.7623
+    },
+    {
+      "name": "Hannover",
+      "country": "Germany",
+      "lat": 52.3759,
+      "lng": 9.732
+    },
+    {
+      "name": "Nuremberg",
+      "country": "Germany",
+      "lat": 49.4521,
+      "lng": 11.0767
+    },
+    {
+      "name": "Paris",
+      "country": "France",
+      "lat": 48.8566,
+      "lng": 2.3522
+    },
+    {
+      "name": "Marseille",
+      "country": "France",
+      "lat": 43.2965,
+      "lng": 5.3698
+    },
+    {
+      "name": "Lyon",
+      "country": "France",
+      "lat": 45.764,
+      "lng": 4.8357
+    },
+    {
+      "name": "Toulouse",
+      "country": "France",
+      "lat": 43.6047,
+      "lng": 1.4442
+    },
+    {
+      "name": "Nice",
+      "country": "France",
+      "lat": 43.7102,
+      "lng": 7.262
+    },
+    {
+      "name": "Nantes",
+      "country": "France",
+      "lat": 47.2184,
+      "lng": -1.5536
+    },
+    {
+      "name": "Strasbourg",
+      "country": "France",
+      "lat": 48.5734,
+      "lng": 7.7521
+    },
+    {
+      "name": "Montpellier",
+      "country": "France",
+      "lat": 43.6108,
+      "lng": 3.8767
+    },
+    {
+      "name": "Bordeaux",
+      "country": "France",
+      "lat": 44.8378,
+      "lng": -0.5792
+    },
+    {
+      "name": "Lille",
+      "country": "France",
+      "lat": 50.6292,
+      "lng": 3.0573
+    },
+    {
+      "name": "Rennes",
+      "country": "France",
+      "lat": 48.1173,
+      "lng": -1.6778
+    },
+    {
+      "name": "Amsterdam",
+      "country": "Netherlands",
+      "lat": 52.3676,
+      "lng": 4.9041
+    },
+    {
+      "name": "Rotterdam",
+      "country": "Netherlands",
+      "lat": 51.9244,
+      "lng": 4.4777
+    },
+    {
+      "name": "The Hague",
+      "country": "Netherlands",
+      "lat": 52.0705,
+      "lng": 4.3007
+    },
+    {
+      "name": "Utrecht",
+      "country": "Netherlands",
+      "lat": 52.0907,
+      "lng": 5.1214
+    },
+    {
+      "name": "Eindhoven",
+      "country": "Netherlands",
+      "lat": 51.4416,
+      "lng": 5.4697
+    },
+    {
+      "name": "Tilburg",
+      "country": "Netherlands",
+      "lat": 51.5555,
+      "lng": 5.0913
+    },
+    {
+      "name": "Groningen",
+      "country": "Netherlands",
+      "lat": 53.2194,
+      "lng": 6.5665
+    },
+    {
+      "name": "Brussels",
+      "country": "Belgium",
+      "lat": 50.8503,
+      "lng": 4.3517
+    },
+    {
+      "name": "Antwerp",
+      "country": "Belgium",
+      "lat": 51.2194,
+      "lng": 4.4025
+    },
+    {
+      "name": "Ghent",
+      "country": "Belgium",
+      "lat": 51.0543,
+      "lng": 3.7174
+    },
+    {
+      "name": "Charleroi",
+      "country": "Belgium",
+      "lat": 50.4108,
+      "lng": 4.4446
+    },
+    {
+      "name": "Liège",
+      "country": "Belgium",
+      "lat": 50.6326,
+      "lng": 5.5797
+    },
+    {
+      "name": "London",
+      "country": "United Kingdom",
+      "lat": 51.5074,
+      "lng": -0.1278
+    },
+    {
+      "name": "Birmingham",
+      "country": "United Kingdom",
+      "lat": 52.4862,
+      "lng": -1.8904
+    },
+    {
+      "name": "Manchester",
+      "country": "United Kingdom",
+      "lat": 53.4808,
+      "lng": -2.2426
+    },
+    {
+      "name": "Bradford",
+      "country": "United Kingdom",
+      "lat": 53.796,
+      "lng": -1.7594
+    },
+    {
+      "name": "Leeds",
+      "country": "United Kingdom",
+      "lat": 53.8008,
+      "lng": -1.5491
+    },
+    {
+      "name": "Glasgow",
+      "country": "United Kingdom",
+      "lat": 55.8642,
+      "lng": -4.2518
+    },
+    {
+      "name": "Edinburgh",
+      "country": "United Kingdom",
+      "lat": 55.9533,
+      "lng": -3.1883
+    },
+    {
+      "name": "Liverpool",
+      "country": "United Kingdom",
+      "lat": 53.4084,
+      "lng": -2.9916
+    },
+    {
+      "name": "Leicester",
+      "country": "United Kingdom",
+      "lat": 52.6369,
+      "lng": -1.1398
+    },
+    {
+      "name": "Sheffield",
+      "country": "United Kingdom",
+      "lat": 53.3811,
+      "lng": -1.4701
+    },
+    {
+      "name": "Bristol",
+      "country": "United Kingdom",
+      "lat": 51.4545,
+      "lng": -2.5879
+    },
+    {
+      "name": "Luton",
+      "country": "United Kingdom",
+      "lat": 51.8787,
+      "lng": -0.42
+    },
+    {
+      "name": "Blackburn",
+      "country": "United Kingdom",
+      "lat": 53.75,
+      "lng": -2.4833
+    },
+    {
+      "name": "Vienna",
+      "country": "Austria",
+      "lat": 48.2082,
+      "lng": 16.3738
+    },
+    {
+      "name": "Graz",
+      "country": "Austria",
+      "lat": 47.0707,
+      "lng": 15.4395
+    },
+    {
+      "name": "Linz",
+      "country": "Austria",
+      "lat": 48.3069,
+      "lng": 14.2858
+    },
+    {
+      "name": "Stockholm",
+      "country": "Sweden",
+      "lat": 59.3293,
+      "lng": 18.0686
+    },
+    {
+      "name": "Gothenburg",
+      "country": "Sweden",
+      "lat": 57.7089,
+      "lng": 11.9746
+    },
+    {
+      "name": "Malmö",
+      "country": "Sweden",
+      "lat": 55.605,
+      "lng": 13.0038
+    },
+    {
+      "name": "Uppsala",
+      "country": "Sweden",
+      "lat": 59.8586,
+      "lng": 17.6389
+    },
+    {
+      "name": "Copenhagen",
+      "country": "Denmark",
+      "lat": 55.6761,
+      "lng": 12.5683
+    },
+    {
+      "name": "Aarhus",
+      "country": "Denmark",
+      "lat": 56.1629,
+      "lng": 10.2039
+    },
+    {
+      "name": "Odense",
+      "country": "Denmark",
+      "lat": 55.4038,
+      "lng": 10.4024
+    },
+    {
+      "name": "Oslo",
+      "country": "Norway",
+      "lat": 59.9139,
+      "lng": 10.7522
+    },
+    {
+      "name": "Bergen",
+      "country": "Norway",
+      "lat": 60.3913,
+      "lng": 5.3221
+    },
+    {
+      "name": "Trondheim",
+      "country": "Norway",
+      "lat": 63.4305,
+      "lng": 10.3951
+    },
+    {
+      "name": "Helsinki",
+      "country": "Finland",
+      "lat": 60.1699,
+      "lng": 24.9384
+    },
+    {
+      "name": "Zurich",
+      "country": "Switzerland",
+      "lat": 47.3769,
+      "lng": 8.5417
+    },
+    {
+      "name": "Geneva",
+      "country": "Switzerland",
+      "lat": 46.2044,
+      "lng": 6.1432
+    },
+    {
+      "name": "Basel",
+      "country": "Switzerland",
+      "lat": 47.5596,
+      "lng": 7.5886
+    },
+    {
+      "name": "Bern",
+      "country": "Switzerland",
+      "lat": 46.948,
+      "lng": 7.4474
+    },
+    {
+      "name": "Rome",
+      "country": "Italy",
+      "lat": 41.9028,
+      "lng": 12.4964
+    },
+    {
+      "name": "Milan",
+      "country": "Italy",
+      "lat": 45.4642,
+      "lng": 9.19
+    },
+    {
+      "name": "Naples",
+      "country": "Italy",
+      "lat": 40.8518,
+      "lng": 14.2681
+    },
+    {
+      "name": "Turin",
+      "country": "Italy",
+      "lat": 45.0703,
+      "lng": 7.6869
+    },
+    {
+      "name": "Florence",
+      "country": "Italy",
+      "lat": 43.7696,
+      "lng": 11.2558
+    },
+    {
+      "name": "Bologna",
+      "country": "Italy",
+      "lat": 44.4949,
+      "lng": 11.3426
+    },
+    {
+      "name": "Madrid",
+      "country": "Spain",
+      "lat": 40.4168,
+      "lng": -3.7038
+    },
+    {
+      "name": "Barcelona",
+      "country": "Spain",
+      "lat": 41.3851,
+      "lng": 2.1734
+    },
+    {
+      "name": "Valencia",
+      "country": "Spain",
+      "lat": 39.4699,
+      "lng": -0.3763
+    },
+    {
+      "name": "Seville",
+      "country": "Spain",
+      "lat": 37.3891,
+      "lng": -5.9845
+    },
+    {
+      "name": "Zaragoza",
+      "country": "Spain",
+      "lat": 41.6488,
+      "lng": -0.8891
+    },
+    {
+      "name": "Malaga",
+      "country": "Spain",
+      "lat": 36.7213,
+      "lng": -4.4214
+    },
+    {
+      "name": "Lisbon",
+      "country": "Portugal",
+      "lat": 38.7223,
+      "lng": -9.1393
+    },
+    {
+      "name": "Porto",
+      "country": "Portugal",
+      "lat": 41.1579,
+      "lng": -8.6291
+    },
+    {
+      "name": "Athens",
+      "country": "Greece",
+      "lat": 37.9838,
+      "lng": 23.7275
+    },
+    {
+      "name": "Warsaw",
+      "country": "Poland",
+      "lat": 52.2297,
+      "lng": 21.0122
+    },
+    {
+      "name": "Krakow",
+      "country": "Poland",
+      "lat": 50.0647,
+      "lng": 19.945
+    },
+    {
+      "name": "Prague",
+      "country": "Czech Republic",
+      "lat": 50.0755,
+      "lng": 14.4378
+    },
+    {
+      "name": "Bucharest",
+      "country": "Romania",
+      "lat": 44.4268,
+      "lng": 26.1025
+    },
+    {
+      "name": "Sofia",
+      "country": "Bulgaria",
+      "lat": 42.6977,
+      "lng": 23.3219
+    },
+    {
+      "name": "Sarajevo",
+      "country": "Bosnia and Herzegovina",
+      "lat": 43.8563,
+      "lng": 18.4131
+    },
+    {
+      "name": "Tirana",
+      "country": "Albania",
+      "lat": 41.3275,
+      "lng": 19.8187
+    },
+    {
+      "name": "Pristina",
+      "country": "Kosovo",
+      "lat": 42.6629,
+      "lng": 21.1655
+    },
+    {
+      "name": "Moscow",
+      "country": "Russia",
+      "lat": 55.7558,
+      "lng": 37.6173
+    },
+    {
+      "name": "Kazan",
+      "country": "Russia",
+      "lat": 55.8304,
+      "lng": 49.0661
+    },
+    {
+      "name": "Ufa",
+      "country": "Russia",
+      "lat": 54.7388,
+      "lng": 55.9721
+    },
+    {
+      "name": "New York",
+      "country": "USA",
+      "lat": 40.7128,
+      "lng": -74.006
+    },
+    {
+      "name": "Los Angeles",
+      "country": "USA",
+      "lat": 34.0522,
+      "lng": -118.2437
+    },
+    {
+      "name": "Chicago",
+      "country": "USA",
+      "lat": 41.8781,
+      "lng": -87.6298
+    },
+    {
+      "name": "Houston",
+      "country": "USA",
+      "lat": 29.7604,
+      "lng": -95.3698
+    },
+    {
+      "name": "Detroit",
+      "country": "USA",
+      "lat": 42.3314,
+      "lng": -83.0458
+    },
+    {
+      "name": "Philadelphia",
+      "country": "USA",
+      "lat": 39.9526,
+      "lng": -75.1652
+    },
+    {
+      "name": "Washington DC",
+      "country": "USA",
+      "lat": 38.9072,
+      "lng": -77.0369
+    },
+    {
+      "name": "Dallas",
+      "country": "USA",
+      "lat": 32.7767,
+      "lng": -96.797
+    },
+    {
+      "name": "Boston",
+      "country": "USA",
+      "lat": 42.3601,
+      "lng": -71.0589
+    },
+    {
+      "name": "Atlanta",
+      "country": "USA",
+      "lat": 33.749,
+      "lng": -84.388
+    },
+    {
+      "name": "Phoenix",
+      "country": "USA",
+      "lat": 33.4484,
+      "lng": -112.074
+    },
+    {
+      "name": "San Francisco",
+      "country": "USA",
+      "lat": 37.7749,
+      "lng": -122.4194
+    },
+    {
+      "name": "Seattle",
+      "country": "USA",
+      "lat": 47.6062,
+      "lng": -122.3321
+    },
+    {
+      "name": "Miami",
+      "country": "USA",
+      "lat": 25.7617,
+      "lng": -80.1918
+    },
+    {
+      "name": "Minneapolis",
+      "country": "USA",
+      "lat": 44.9778,
+      "lng": -93.265
+    },
+    {
+      "name": "Toronto",
+      "country": "Canada",
+      "lat": 43.6532,
+      "lng": -79.3832
+    },
+    {
+      "name": "Montreal",
+      "country": "Canada",
+      "lat": 45.5017,
+      "lng": -73.5673
+    },
+    {
+      "name": "Vancouver",
+      "country": "Canada",
+      "lat": 49.2827,
+      "lng": -123.1207
+    },
+    {
+      "name": "Calgary",
+      "country": "Canada",
+      "lat": 51.0447,
+      "lng": -114.0719
+    },
+    {
+      "name": "Edmonton",
+      "country": "Canada",
+      "lat": 53.5461,
+      "lng": -113.4938
+    },
+    {
+      "name": "Ottawa",
+      "country": "Canada",
+      "lat": 45.4215,
+      "lng": -75.6972
+    },
+    {
+      "name": "Mississauga",
+      "country": "Canada",
+      "lat": 43.589,
+      "lng": -79.6441
+    },
+    {
+      "name": "Winnipeg",
+      "country": "Canada",
+      "lat": 49.8951,
+      "lng": -97.1384
+    },
+    {
+      "name": "Sydney",
+      "country": "Australia",
+      "lat": -33.8688,
+      "lng": 151.2093
+    },
+    {
+      "name": "Melbourne",
+      "country": "Australia",
+      "lat": -37.8136,
+      "lng": 144.9631
+    },
+    {
+      "name": "Brisbane",
+      "country": "Australia",
+      "lat": -27.4698,
+      "lng": 153.0251
+    },
+    {
+      "name": "Perth",
+      "country": "Australia",
+      "lat": -31.9505,
+      "lng": 115.8605
+    },
+    {
+      "name": "Adelaide",
+      "country": "Australia",
+      "lat": -34.9285,
+      "lng": 138.6007
+    },
+    {
+      "name": "Canberra",
+      "country": "Australia",
+      "lat": -35.2809,
+      "lng": 149.13
+    },
+    {
+      "name": "Auckland",
+      "country": "New Zealand",
+      "lat": -36.8485,
+      "lng": 174.7633
+    },
+    {
+      "name": "Wellington",
+      "country": "New Zealand",
+      "lat": -41.2865,
+      "lng": 174.7762
+    },
+    {
+      "name": "Cape Town",
+      "country": "South Africa",
+      "lat": -33.9249,
+      "lng": 18.4241
+    },
+    {
+      "name": "Johannesburg",
+      "country": "South Africa",
+      "lat": -26.2041,
+      "lng": 28.0473
+    },
+    {
+      "name": "Durban",
+      "country": "South Africa",
+      "lat": -29.8587,
+      "lng": 31.0218
+    },
+    {
+      "name": "Pretoria",
+      "country": "South Africa",
+      "lat": -25.7479,
+      "lng": 28.2293
+    },
+    {
+      "name": "Singapore",
+      "country": "Singapore",
+      "lat": 1.3521,
+      "lng": 103.8198
+    },
+    {
+      "name": "Bangkok",
+      "country": "Thailand",
+      "lat": 13.7563,
+      "lng": 100.5018
+    },
+    {
+      "name": "Manila",
+      "country": "Philippines",
+      "lat": 14.5995,
+      "lng": 120.9842
+    },
+    {
+      "name": "Delhi",
+      "country": "India",
+      "lat": 28.7041,
+      "lng": 77.1025
+    },
+    {
+      "name": "Mumbai",
+      "country": "India",
+      "lat": 19.076,
+      "lng": 72.8777
+    },
+    {
+      "name": "Hyderabad",
+      "country": "India",
+      "lat": 17.385,
+      "lng": 78.4867
+    },
+    {
+      "name": "Lucknow",
+      "country": "India",
+      "lat": 26.8467,
+      "lng": 80.9462
+    },
+    {
+      "name": "Kolkata",
+      "country": "India",
+      "lat": 22.5726,
+      "lng": 88.3639
+    },
+    {
+      "name": "Beijing",
+      "country": "China",
+      "lat": 39.9042,
+      "lng": 116.4074
+    },
+    {
+      "name": "Shanghai",
+      "country": "China",
+      "lat": 31.2304,
+      "lng": 121.4737
+    },
+    {
+      "name": "Urumqi",
+      "country": "China",
+      "lat": 43.8256,
+      "lng": 87.6168
+    },
+    {
+      "name": "Tokyo",
+      "country": "Japan",
+      "lat": 35.6762,
+      "lng": 139.6503
+    },
+    {
+      "name": "Seoul",
+      "country": "South Korea",
+      "lat": 37.5665,
+      "lng": 126.978
+    },
+    {
+      "name": "São Paulo",
+      "country": "Brazil",
+      "lat": -23.5505,
+      "lng": -46.6333
+    },
+    {
+      "name": "Rio de Janeiro",
+      "country": "Brazil",
+      "lat": -22.9068,
+      "lng": -43.1729
+    },
+    {
+      "name": "Buenos Aires",
+      "country": "Argentina",
+      "lat": -34.6037,
+      "lng": -58.3816
+    },
+    {
+      "name": "Mexico City",
+      "country": "Mexico",
+      "lat": 19.4326,
+      "lng": -99.1332
+    }
+  ]
+}

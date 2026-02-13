@@ -1,0 +1,112 @@
+═══════════════════════════════════════════
+APP STORE CONNECT — BAŞVURU BİLGİLERİ
+═══════════════════════════════════════════
+
+GENEL BİLGİLER
+─────────────────────────────────────────
+Bundle ID:          com.niyazpusulasi.app
+Widget Bundle ID:   com.niyazpusulasi.app.widget
+App Group:          group.com.niyazpusulasi.shared
+SKU:                niyazpusulasi2026
+Deployment Target:  iOS 17.0
+
+KATEGORİ
+─────────────────────────────────────────
+Birincil Kategori:  Reference (Başvuru)
+İkincil Kategori:   Lifestyle (Yaşam Tarzı)
+
+Not: "Reference" kategorisi namaz vakitleri/kıble gibi
+bilgi sunan uygulamalar için en uygun kategori.
+Muslim Pro, Athan gibi rakipler de bu kategoride.
+
+YAŞ DERECELENDİRMESİ
+─────────────────────────────────────────
+İçerik:             4+ (Herkes için uygun)
+
+Tüm sorulara "Hayır/None" cevabı ver:
+- Şiddet: Yok
+- Cinsel içerik: Yok
+- Kumar: Yok
+- Alkol/Tütün/Uyuşturucu: Yok
+- Küfür: Yok
+- Korku: Yok
+- Kullanıcı oluşturmuş içerik: Yok (UGC yok)
+- Sınırsız web erişimi: Yok
+
+FİYATLANDIRMA
+─────────────────────────────────────────
+Uygulama Fiyatı:    Ücretsiz (Free)
+Uygulama İçi Satın Alımlar: Var (Auto-Renewable Subscription)
+
+ABONELİK ÜRÜNLERİ (App Store Connect'te oluşturulacak)
+─────────────────────────────────────────
+Abonelik Grubu Adı: Niyaz Pusulası Premium
+
+Ürün 1 - Aylık:
+  Product ID:       niyazpusulasi_monthly
+  Referans Adı:     Premium Aylık
+  Süre:             1 Ay
+  Fiyat Türkiye:    29,99 TL
+  Fiyat Global:     $3,99
+
+Ürün 2 - Yıllık:
+  Product ID:       niyazpusulasi_yearly
+  Referans Adı:     Premium Yıllık
+  Süre:             1 Yıl
+  Fiyat Türkiye:    149,99 TL
+  Fiyat Global:     $19,99
+  Tanıtım Teklifi:  7 gün ücretsiz deneme (Free Trial)
+
+GİZLİLİK BİLGİLERİ (App Privacy)
+─────────────────────────────────────────
+Toplanan veriler:
+1. Konum (Approximate Location)
+   - Kullanım amacı: App Functionality
+   - Kullanıcıya bağlı: Hayır
+   - Takip: Hayır
+
+2. Satın Alma (Purchases)
+   - Kullanım amacı: App Functionality (RevenueCat)
+   - Kullanıcıya bağlı: Evet
+   - Takip: Hayır
+
+Toplanmayan veriler:
+- İletişim bilgileri
+- Kullanıcı içeriği
+- Tarama geçmişi
+- Tanımlayıcılar
+- Tanılama verileri
+- Reklamcılık verileri
+
+Not: "Data Not Used to Track You" ve "Data Not Linked to You"
+seçeneklerini işaretle (konum için). RevenueCat purchases
+verisi "Data Linked to You" olacak.
+
+UYGULAMA İNCELEME BİLGİLERİ
+─────────────────────────────────────────
+İnceleme Notları (Review Notes):
+  "Niyaz Pusulası is an Islamic prayer times app that
+  calculates prayer times using astronomical algorithms
+  (Adhan library). It requires location access to determine
+  accurate prayer times for the user's city. The app works
+  fully offline once location is set. Premium features are
+  optional subscriptions for additional spiritual tools."
+
+Demo Hesabı: Gerekli değil (hesap sistemi yok)
+İletişim:
+  Ad:       [Senin adın]
+  Email:    destek@niyazpusulasi.com
+  Telefon:  [Senin telefon numaran]
+
+TELİF HAKKI
+─────────────────────────────────────────
+Copyright: © 2026 [Senin adın/şirket adın]
+
+DESTEK URL'LERİ (Zorunlu)
+─────────────────────────────────────────
+Destek URL:           https://niyazpusulasi.com/destek
+Gizlilik Politikası:  https://niyazpusulasi.com/gizlilik
+Kullanım Koşulları:   https://niyazpusulasi.com/kosullar
+
+Not: Bu URL'leri GitHub Pages veya basit bir web sitesi
+ile oluşturabilirsin. Apple bunları zorunlu tutuyor.

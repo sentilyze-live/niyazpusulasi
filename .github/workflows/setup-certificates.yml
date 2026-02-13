@@ -1,0 +1,63 @@
+name: Setup Certificates (First Time)
+
+on:
+  workflow_dispatch:
+
+env:
+  XCODE_VERSION: '15.4'
+
+jobs:
+  setup-match:
+    name: Generate Certificates & Profiles
+    runs-on: macos-14
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_${{ env.XCODE_VERSION }}.app
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Decode API Key
+        env:
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8
+
+      - name: Create API Key JSON
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cat > api_key.json <<EOF
+          {
+            "key_id": "$ASC_KEY_ID",
+            "issuer_id": "$ASC_ISSUER_ID",
+            "key": "$(cat AuthKey.p8)",
+            "in_house": false
+          }
+          EOF
+
+      - name: Generate Certificates & Profiles via Match
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        run: |
+          fastlane match appstore \
+            --app_identifier "com.niyazpusulasi.app,com.niyazpusulasi.app.widget" \
+            --team_id "C4WUTK99E3" \
+            --api_key_path api_key.json
+
+      - name: Clean up
+        if: always()
+        run: rm -f AuthKey.p8 api_key.json

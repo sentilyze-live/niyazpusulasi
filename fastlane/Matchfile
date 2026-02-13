@@ -1,0 +1,15 @@
+git_url(ENV["MATCH_GIT_URL"] || "https://github.com/YOUR_USERNAME/certificates.git")
+
+storage_mode("git")
+
+type("appstore")
+
+app_identifier([
+  "com.niyazpusulasi.app",
+  "com.niyazpusulasi.app.widget"
+])
+
+team_id("C4WUTK99E3")
+
+# Uncomment for readonly in CI
+# readonly(true)
