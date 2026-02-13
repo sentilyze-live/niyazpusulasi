@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  XCODE_VERSION: '15.4'
+  XCODE_VERSION: '16.0'
 
 jobs:
   setup-match:

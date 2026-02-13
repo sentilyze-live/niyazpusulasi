@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  XCODE_VERSION: '15.4'
+  XCODE_VERSION: '16.0'
   SCHEME: 'NiyazPusulasi'
   BUNDLE_ID: 'com.niyazpusulasi.app'
 
