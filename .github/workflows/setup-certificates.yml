@@ -38,14 +38,15 @@ jobs:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
-          cat > api_key.json <<EOF
+          KEY_CONTENT=$(cat AuthKey.p8 | python3 -c "import sys; print(sys.stdin.read().replace('\n', '\\\\n'), end='')")
+          cat > api_key.json <<ENDJSON
           {
             "key_id": "$ASC_KEY_ID",
             "issuer_id": "$ASC_ISSUER_ID",
-            "key": "$(cat AuthKey.p8)",
+            "key": "$KEY_CONTENT",
             "in_house": false
           }
-          EOF
+          ENDJSON
 
       - name: Generate Certificates & Profiles via Match
         env:
