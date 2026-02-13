@@ -50,6 +50,59 @@ jobs:
       - name: Generate Xcode Project
         run: xcodegen generate
 
+      - name: Select iOS Simulator
+        run: |
+          DESTINATION=$(python3 - <<'PY'
+          import json
+          import subprocess
+          import sys
+
+          preferred = [
+              "iPhone 16 Pro",
+              "iPhone 16",
+              "iPhone 15 Pro",
+              "iPhone 15",
+              "iPhone SE (3rd generation)"
+          ]
+
+          data = json.loads(subprocess.check_output([
+              "xcrun", "simctl", "list", "devices", "available", "-j"
+          ]))
+
+          ios_devices = []
+          for runtime, devices in data.get("devices", {}).items():
+              if "iOS" not in runtime:
+                  continue
+              version_str = runtime.split("iOS-")[-1].replace("-", ".") if "iOS-" in runtime else "0"
+              try:
+                  version = tuple(int(x) for x in version_str.split("."))
+              except ValueError:
+                  version = (0,)
+
+              for device in devices:
+                  if not device.get("isAvailable"):
+                      continue
+                  name = device.get("name")
+                  udid = device.get("udid")
+                  if name in preferred and udid:
+                      ios_devices.append((name, version, udid))
+
+          chosen = None
+          for wanted_name in preferred:
+              matches = [d for d in ios_devices if d[0] == wanted_name]
+              if matches:
+                  chosen = max(matches, key=lambda d: d[1])
+                  break
+
+          if not chosen:
+              sys.exit("No matching iOS simulator found for preferred device list")
+
+          print(f"platform=iOS Simulator,id={chosen[2]}")
+          PY
+          )
+          echo "IOS_SIM_DESTINATION=$DESTINATION" >> "$GITHUB_ENV"
+          echo "Using simulator destination: $DESTINATION"
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -73,7 +126,7 @@ jobs:
           set -o pipefail
           xcodebuild build \
             -scheme ${{ env.SCHEME }} \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=latest' \
+            -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
             CODE_SIGN_IDENTITY="-" \
@@ -85,7 +138,7 @@ jobs:
           set -o pipefail
           xcodebuild test \
             -scheme ${{ env.SCHEME }} \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro,OS=latest' \
+            -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
             -resultBundlePath TestResults.xcresult \
