@@ -12,7 +12,7 @@ struct CitySelectionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var searchText = ""
     @State private var selectedCountry: String?
-    @State private var useGPS = UserDefaults.standard.isUsingGPS
+    @State private var useGPS: Bool
 
     let onCitySelected: (City?) -> Void
 
@@ -20,6 +20,7 @@ struct CitySelectionView: View {
 
     init(onCitySelected: @escaping (City?) -> Void) {
         self.onCitySelected = onCitySelected
+        self._useGPS = State(initialValue: UserDefaults.standard.isUsingGPS)
     }
 
     var body: some View {

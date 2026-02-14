@@ -1,10 +1,20 @@
 import Foundation
 import RevenueCat
 
+private enum Config {
+    static var revenueCatAPIKey: String {
+        #if DEBUG
+        return ProcessInfo.processInfo.environment["REVENUECAT_API_KEY"] ?? "test_XOBsZUSCbusCTyQtPePOrMUsJJE"
+        #else
+        return ProcessInfo.processInfo.environment["REVENUECAT_API_KEY"] ?? ""
+        #endif
+    }
+}
+
 /// Manages premium subscription state and feature gating.
 /// Single source of truth for "is user premium?" across the app.
 @MainActor
-final class PremiumManager: NSObject, ObservableObject {
+final class PremiumManager: ObservableObject {
     static let shared = PremiumManager()
 
     @Published var isPremium: Bool = false
@@ -24,8 +34,7 @@ final class PremiumManager: NSObject, ObservableObject {
     static let defaultOfferingId = "default"
     static let ramadanOfferingId = "ramazan_campaign"
 
-    private override init() {
-        super.init()
+    private init() {
     }
 
     // MARK: - Configuration
@@ -34,7 +43,7 @@ final class PremiumManager: NSObject, ObservableObject {
     func configure() {
         Purchases.logLevel = .warn
         Purchases.configure(
-            with: .init(withAPIKey: "test_XOBsZUSCbusCTyQtPePOrMUsJJE")
+            with: .init(withAPIKey: Config.revenueCatAPIKey)
                 .with(usesStoreKit2IfAvailable: true)
         )
 
@@ -214,7 +223,7 @@ enum PremiumFeature: String, CaseIterable {
 
     var paywallDescription: String {
         switch self {
-        case .customAdhanSounds:          return "10+ müezzin sesi ile namazına hazırlan"
+        case .customAdhanSounds:          return "Özel ezan sesleri ile namazına hazırlan"
         case .advancedNotificationOffsets: return "Bildirimleri tam istediğin gibi ayarla"
         case .lockScreenWidgets:          return "Kilit ekranında namaz vakitlerini gör"
         case .allHomeScreenWidgets:       return "Ana ekranında tüm widget seçenekleri"
