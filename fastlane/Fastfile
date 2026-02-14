@@ -71,8 +71,8 @@ platform :ios do
         signingStyle: "manual",
         teamID: "C4WUTK99E3",
         provisioningProfiles: {
-          APP_IDENTIFIER => "match AppStore #{APP_IDENTIFIER}",
-          WIDGET_IDENTIFIER => "match AppStore #{WIDGET_IDENTIFIER}"
+          "com.niyazpusulasi.app" => "match AppStore com.niyazpusulasi.app",
+          "com.niyazpusulasi.app.widget" => "match AppStore com.niyazpusulasi.app.widget"
         }
       },
       xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3"
