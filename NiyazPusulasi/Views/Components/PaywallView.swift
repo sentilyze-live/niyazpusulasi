@@ -121,16 +121,16 @@ struct PaywallView: View {
                 .font(.subheadline.weight(.semibold))
                 .padding(.bottom, 4)
 
-            benefitRow("nosign", "Reklamsız deneyim")
-            benefitRow("speaker.wave.3.fill", "10+ özel ezan sesi")
-            benefitRow("bell.badge.fill", "Gelişmiş bildirim ayarları")
-            benefitRow("rectangle.3.group.fill", "Tüm widget'lar (home + kilit ekranı)")
+            benefitRow("lock.rectangle.stack.fill", "Kilit ekranı widget'ları")
+            benefitRow("rectangle.3.group.fill", "3 farklı ana ekran widget'ı")
+            benefitRow("moon.fill", "Ramazan özel widget'ı")
             benefitRow("infinity", "Sınırsız alışkanlık takibi")
-            benefitRow("chart.bar.fill", "Detaylı istatistikler ve ısı haritası")
-            benefitRow("paintpalette.fill", "6+ premium tema")
+            benefitRow("square.grid.3x3.fill", "Aylık performans ısı haritası")
+            benefitRow("paintpalette.fill", "6 premium tema")
             benefitRow("checkmark.seal.fill", "Namaz takibi")
             benefitRow("circle.dotted", "Dijital tesbih sayacı")
-            benefitRow("book.fill", "Dua koleksiyonu")
+            benefitRow("book.fill", "20+ dua koleksiyonu")
+            benefitRow("icloud.fill", "iCloud senkronizasyonu")
         }
     }
 
