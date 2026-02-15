@@ -63,8 +63,8 @@ struct SettingsView: View {
 
                     // Premium theme picker
                     if premiumManager.hasAccess(to: .premiumThemes) {
-                        Picker("Premium Tema", selection: Binding(
-                            get: { settingsManager.settings.premiumTheme ?? .ocean },
+                        Picker("Premium Tema", selection: Binding<PremiumTheme?>(
+                            get: { settingsManager.settings.premiumTheme },
                             set: { settingsManager.settings.premiumTheme = $0 }
                         )) {
                             Text("Kapalı").tag(Optional<PremiumTheme>.none)
@@ -131,4 +131,5 @@ struct SettingsView: View {
     SettingsView()
         .environmentObject(SettingsManager.shared)
         .environmentObject(LocationManager())
+        .environmentObject(PremiumManager.shared)
 }

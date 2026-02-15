@@ -33,7 +33,7 @@ struct NiyazPusulasiApp: App {
                 }
             case .background:
                 persistenceController.save()
-                scheduleBackgroundRefresh()
+                Self.scheduleBackgroundRefresh()
             default:
                 break
             }
@@ -56,11 +56,11 @@ struct NiyazPusulasiApp: App {
             using: nil
         ) { task in
             guard let refreshTask = task as? BGAppRefreshTask else { return }
-            handleAppRefresh(task: refreshTask)
+            Self.handleAppRefresh(task: refreshTask)
         }
     }
 
-    private func scheduleBackgroundRefresh() {
+    private static func scheduleBackgroundRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.niyazpusulasi.refresh")
         request.earliestBeginDate = Date(timeIntervalSinceNow: 6 * 3600) // 6 hours
         do {
@@ -70,7 +70,7 @@ struct NiyazPusulasiApp: App {
         }
     }
 
-    private func handleAppRefresh(task: BGAppRefreshTask) {
+    private static func handleAppRefresh(task: BGAppRefreshTask) {
         // Schedule next refresh
         scheduleBackgroundRefresh()
 

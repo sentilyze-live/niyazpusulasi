@@ -256,7 +256,8 @@ final class LocationManager: NSObject, ObservableObject {
     }
     
     private func timezoneFromAddress(_ address: CNPostalAddress) -> TimeZone? {
-        guard let state = address.state, !state.isEmpty else {
+        let state = address.state
+        guard !state.isEmpty else {
             return nil
         }
         return TimeZone(identifier: state)

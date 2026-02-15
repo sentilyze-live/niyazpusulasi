@@ -31,26 +31,30 @@ final class CloudSyncService: ObservableObject {
     // MARK: - Cloud Status
     
     func checkCloudStatus() {
-        container.accountStatus { [weak self] status, error in
-            DispatchQueue.main.async {
+        Task {
+            do {
+                let status = try await container.accountStatus()
                 switch status {
                 case .available:
-                    self?.isCloudAvailable = true
+                    self.isCloudAvailable = true
                 case .noAccount:
-                    self?.isCloudAvailable = false
-                    self?.syncError = "iCloud hesabı bulunamadı"
+                    self.isCloudAvailable = false
+                    self.syncError = "iCloud hesabı bulunamadı"
                 case .restricted:
-                    self?.isCloudAvailable = false
-                    self?.syncError = "iCloud erişimi kısıtlı"
+                    self.isCloudAvailable = false
+                    self.syncError = "iCloud erişimi kısıtlı"
                 case .couldNotDetermine:
-                    self?.isCloudAvailable = false
-                    self?.syncError = "iCloud durumu belirlenemedi"
+                    self.isCloudAvailable = false
+                    self.syncError = "iCloud durumu belirlenemedi"
                 case .temporarilyUnavailable:
-                    self?.isCloudAvailable = false
-                    self?.syncError = "iCloud geçici olarak kullanılamıyor"
+                    self.isCloudAvailable = false
+                    self.syncError = "iCloud geçici olarak kullanılamıyor"
                 @unknown default:
-                    self?.isCloudAvailable = false
+                    self.isCloudAvailable = false
                 }
+            } catch {
+                self.isCloudAvailable = false
+                self.syncError = error.localizedDescription
             }
         }
     }
@@ -69,7 +73,7 @@ final class CloudSyncService: ObservableObject {
         
         do {
             // Upload current settings
-            let record = try await uploadSettings()
+            _ = try await uploadSettings()
             
             // Download latest settings from cloud
             if let cloudSettings = try await downloadSettings() {
@@ -95,10 +99,12 @@ final class CloudSyncService: ObservableObject {
         
         let settings = settingsManager.settings
         if let data = try? JSONEncoder().encode(settings) {
-            record["data"] = data
+            record["data"] = data as CKRecordValue
         }
-        record["updatedAt"] = Date()
-        record["appVersion"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        record["updatedAt"] = Date() as CKRecordValue
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            record["appVersion"] = version as NSString
+        }
         
         return try await privateDatabase.save(record)
     }
@@ -147,20 +153,22 @@ final class CloudSyncService: ObservableObject {
     
     func setupSubscription() {
         let subscriptionID = "settings-changes"
-        
+
         let subscription = CKQuerySubscription(
             recordType: settingsRecordType,
             predicate: NSPredicate(value: true),
             subscriptionID: subscriptionID,
             options: [.firesOnRecordCreation, .firesOnRecordUpdate]
         )
-        
+
         let notificationInfo = CKSubscription.NotificationInfo()
         notificationInfo.shouldSendContentAvailable = true
         subscription.notificationInfo = notificationInfo
-        
-        privateDatabase.save(subscription) { _, error in
-            if let error {
+
+        Task {
+            do {
+                _ = try await privateDatabase.save(subscription)
+            } catch {
                 print("Failed to save subscription: \(error)")
             }
         }

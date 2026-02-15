@@ -47,14 +47,14 @@ struct MoreView: View {
                         TasbeehView()
                     } label: {
                         Label("Tesbih Sayacı", systemImage: "circle.dotted")
-                            .badge(premiumManager.isPremium ? nil : "Premium")
+                            .badge(premiumManager.isPremium ? nil : Text("Premium"))
                     }
 
                     NavigationLink {
                         DuaCollectionView()
                     } label: {
                         Label("Dua Koleksiyonu", systemImage: "book.fill")
-                            .badge(premiumManager.isPremium ? nil : "Premium")
+                            .badge(premiumManager.isPremium ? nil : Text("Premium"))
                     }
                 }
 
@@ -68,7 +68,7 @@ struct MoreView: View {
 
                     if !premiumManager.isPremium {
                         Button {
-                            paywallTrigger = .adFreeExperience
+                            paywallTrigger = .premiumThemes
                             showPaywall = true
                         } label: {
                             Label {

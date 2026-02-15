@@ -18,7 +18,13 @@ let package = Package(
                 .product(name: "Adhan", package: "adhan-swift"),
                 .product(name: "RevenueCat", package: "purchases-ios"),
             ],
-            path: "NiyazPusulasi"
+            path: "NiyazPusulasi",
+            exclude: [
+                "Resources/Assets.xcassets",
+                "Models/CoreData/NiyazPusulasi.xcdatamodeld",
+                "Info.plist",
+                "NiyazPusulasi.entitlements",
+            ]
         ),
         .testTarget(
             name: "NiyazPusulasTests",

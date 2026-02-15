@@ -114,31 +114,32 @@ struct PrayerActivityAttributes: ActivityAttributes {
 
 // MARK: - Fallback for older iOS versions
 
+@MainActor
 class LiveActivityServiceFallback {
     static let shared = LiveActivityServiceFallback()
     private init() {}
-    
+
     var isSupported: Bool {
         if #available(iOS 16.1, *) {
             return true
         }
         return false
     }
-    
+
     func startActivity(nextPrayer: PrayerName, prayerTime: Date) {
         guard isSupported else { return }
         if #available(iOS 16.1, *) {
             LiveActivityService.shared.startActivity(nextPrayer: nextPrayer, prayerTime: prayerTime)
         }
     }
-    
+
     func updateActivity(nextPrayer: PrayerName, prayerTime: Date) {
         guard isSupported else { return }
         if #available(iOS 16.1, *) {
             LiveActivityService.shared.updateActivity(nextPrayer: nextPrayer, prayerTime: prayerTime)
         }
     }
-    
+
     func endActivity() {
         guard isSupported else { return }
         if #available(iOS 16.1, *) {
