@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleExecutable</key>
+	<string>NiyazPusulasWidget</string>
 	<key>CFBundleDisplayName</key>
 	<string>Niyaz Pusulasi Widget</string>
 	<key>CFBundleShortVersionString</key>
