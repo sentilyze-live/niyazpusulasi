@@ -17,8 +17,15 @@ final class NotificationManager: ObservableObject {
     private let provider = FallbackPrayerTimesProvider.shared
     private let settingsManager = SettingsManager.shared
 
-    /// Maximum notifications to schedule (leaving 4 slots for housekeeping).
-    private let maxNotifications = 60
+    /// Maximum notifications to schedule (leaving 14 slots for other apps/system).
+    /// iOS has a 64-notification limit per app.
+    private let maxNotifications = 50
+    
+    /// iOS system notification limit
+    static let iOSNotificationLimit = 64
+    
+    /// Safety margin for other apps
+    static let safetyMargin = 14
 
     /// Notification category for prayer alerts.
     private let prayerCategory = "PRAYER_REMINDER"

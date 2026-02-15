@@ -198,6 +198,15 @@ struct HabitsView: View {
             Form {
                 TextField("Alışkanlık adı", text: $viewModel.newHabitTitle)
                     .textInputAutocapitalization(.sentences)
+                    .onChange(of: viewModel.newHabitTitle) { _, _ in
+                        viewModel.clearValidationError()
+                    }
+                
+                if let error = viewModel.validationError {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
             }
             .navigationTitle("Yeni Alışkanlık")
             .navigationBarTitleDisplayMode(.inline)
@@ -206,6 +215,7 @@ struct HabitsView: View {
                     Button("İptal") {
                         viewModel.showAddHabit = false
                         viewModel.newHabitTitle = ""
+                        viewModel.clearValidationError()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {

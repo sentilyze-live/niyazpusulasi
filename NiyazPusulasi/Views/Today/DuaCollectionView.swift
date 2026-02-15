@@ -5,40 +5,66 @@ struct DuaCollectionView: View {
     @StateObject private var premiumManager = PremiumManager.shared
     @State private var selectedCategory: DuaCategory = .daily
     @State private var showPaywall = false
+    @State private var hasAppeared = false
 
     var body: some View {
         NavigationStack {
-            List {
-                // Category picker
-                Section {
-                    Picker("Kategori", selection: $selectedCategory) {
-                        ForEach(DuaCategory.allCases) { category in
-                            Text(category.displayName).tag(category)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                    .padding(.vertical, 4)
-                }
-
-                // Duas
-                Section {
-                    ForEach(selectedCategory.duas) { dua in
-                        duaRow(dua)
-                    }
+            Group {
+                if premiumManager.hasAccess(to: .duaCollection) {
+                    duaList
+                } else {
+                    paywallView
                 }
             }
             .navigationTitle("Dua Koleksiyonu")
             .sheet(isPresented: $showPaywall) {
                 PaywallView(trigger: .duaCollection)
             }
-            .onAppear {
-                if !premiumManager.hasAccess(to: .duaCollection) {
-                    showPaywall = true
+        }
+    }
+    
+    private var duaList: some View {
+        List {
+            Section {
+                Picker("Kategori", selection: $selectedCategory) {
+                    ForEach(DuaCategory.allCases) { category in
+                        Text(category.displayName).tag(category)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets())
+                .padding(.vertical, 4)
+            }
+            
+            Section {
+                ForEach(selectedCategory.duas) { dua in
+                    duaRow(dua)
                 }
             }
         }
+    }
+    
+    private var paywallView: some View {
+        VStack(spacing: 20) {
+            Spacer()
+            Image(systemName: "book.fill")
+                .font(.system(size: 60))
+                .foregroundStyle(.secondary)
+            Text("Dua Koleksiyonu")
+                .font(.title2.weight(.semibold))
+            Text("Premium üye olarak tüm dualara erişebilirsiniz")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            Button("Premium'a Geç") {
+                showPaywall = true
+            }
+            .buttonStyle(.borderedProminent)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private func duaRow(_ dua: Dua) -> some View {

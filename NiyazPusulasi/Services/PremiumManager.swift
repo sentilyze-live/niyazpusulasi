@@ -14,7 +14,7 @@ private enum Config {
 /// Manages premium subscription state and feature gating.
 /// Single source of truth for "is user premium?" across the app.
 @MainActor
-final class PremiumManager: ObservableObject {
+final class PremiumManager: NSObject, ObservableObject {
     static let shared = PremiumManager()
 
     @Published var isPremium: Bool = false
@@ -34,7 +34,8 @@ final class PremiumManager: ObservableObject {
     static let defaultOfferingId = "default"
     static let ramadanOfferingId = "ramazan_campaign"
 
-    private init() {
+    override private init() {
+        super.init()
     }
 
     // MARK: - Configuration

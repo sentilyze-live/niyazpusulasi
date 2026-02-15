@@ -11,8 +11,38 @@ final class HabitsViewModel: ObservableObject {
     @Published var reflectionNote: String = ""
     @Published var showAddHabit = false
     @Published var newHabitTitle = ""
-
+    @Published var validationError: String?
+    
     private let habitService = HabitService.shared
+    
+    // MARK: - Validation Constants
+    private let minTitleLength = 2
+    private let maxTitleLength = 50
+    
+    /// Validates habit title input
+    func validateHabitTitle(_ title: String) -> String? {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmed.isEmpty {
+            return "Başlık boş olamaz"
+        }
+        
+        if trimmed.count < minTitleLength {
+            return "Başlık en az \(minTitleLength) karakter olmalı"
+        }
+        
+        if trimmed.count > maxTitleLength {
+            return "Başlık en fazla \(maxTitleLength) karakter olmalı"
+        }
+        
+        // Check for invalid characters
+        let invalidChars = CharacterSet(charactersIn: "<>{}[]\\^~")
+        if trimmed.rangeOfCharacter(from: invalidChars) != nil {
+            return "Özel karakterler kullanılamaz"
+        }
+        
+        return nil
+    }
 
     /// A view-friendly wrapper around Habit + its daily state.
     struct HabitItem: Identifiable {
@@ -42,11 +72,22 @@ final class HabitsViewModel: ObservableObject {
 
     func addHabit() {
         let title = newHabitTitle.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !title.isEmpty else { return }
+        
+        // Validate
+        if let error = validateHabitTitle(title) {
+            validationError = error
+            return
+        }
+        
+        validationError = nil
         habitService.createHabit(title: title)
         newHabitTitle = ""
         showAddHabit = false
         loadHabits()
+    }
+    
+    func clearValidationError() {
+        validationError = nil
     }
 
     func deleteHabit(at offsets: IndexSet) {

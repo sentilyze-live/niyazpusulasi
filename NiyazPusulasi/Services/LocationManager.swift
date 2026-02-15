@@ -1,5 +1,6 @@
 import Foundation
 import CoreLocation
+import Contacts
 import Combine
 
 /// Manages location services for prayer time calculation.
@@ -233,15 +234,30 @@ final class LocationManager: NSObject, ObservableObject {
     }
 
     /// Reverse geocode coordinates to get city and country names.
-    func reverseGeocode(latitude: Double, longitude: Double) async -> (city: String?, country: String?) {
+    func reverseGeocode(latitude: Double, longitude: Double) async -> (city: String?, country: String?, timezone: TimeZone?) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(location)
             let placemark = placemarks.first
-            return (placemark?.locality, placemark?.country)
+            
+            // Try to get timezone from the placemark
+            var detectedTimezone: TimeZone? = nil
+            if let area = placemark?.timeZone {
+                detectedTimezone = area
+            } else if let postalAddress = placemark?.postalAddress {
+                // Fallback to timezone detection from state/region
+                detectedTimezone = timezoneFromAddress(postalAddress)
+            }
+            
+            return (placemark?.locality, placemark?.country, detectedTimezone)
         } catch {
-            return (nil, nil)
+            return (nil, nil, nil)
         }
+    }
+    
+    private func timezoneFromAddress(_ address: CNPostalAddress) -> TimeZone? {
+        let tz = TimeZone(identifier: address.state ?? "")
+        return tz
     }
 }
 
@@ -254,12 +270,20 @@ extension LocationManager: CLLocationManagerDelegate {
         Task { @MainActor in
             self.isLocating = false
 
-            let (city, country) = await reverseGeocode(
+            let (city, country, detectedTimezone) = await reverseGeocode(
                 latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude
             )
 
-            let tz = TimeZone.current.identifier
+            // Use detected timezone, or fallback to best guess from country, then device timezone
+            let timezone: String
+            if let tz = detectedTimezone {
+                timezone = tz.identifier
+            } else if let countryName = country, let guessedTZ = self.timeZoneForCountry(countryName) as String? {
+                timezone = guessedTZ
+            } else {
+                timezone = TimeZone.current.identifier
+            }
 
             self.currentLocation = LocationSelection(
                 mode: .gps,
@@ -267,7 +291,7 @@ extension LocationManager: CLLocationManagerDelegate {
                 city: city,
                 latitude: location.coordinate.latitude,
                 longitude: location.coordinate.longitude,
-                timezone: tz
+                timezone: timezone
             )
         }
     }

@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import Adhan
+import ActivityKit
 
 /// ViewModel for the Today tab — manages prayer times, countdown, and Qibla.
 @MainActor
@@ -19,6 +20,11 @@ final class TodayViewModel: ObservableObject {
     private let settingsManager = SettingsManager.shared
     private var timer: Timer?
     private var cancellables = Set<AnyCancellable>()
+    
+    #if canImport(ActivityKit)
+    @available(iOS 16.1, *)
+    private lazy var liveActivityManager = LiveActivityService.shared
+    #endif
 
     init() {
         // Observe settings changes to reload
@@ -42,6 +48,15 @@ final class TodayViewModel: ObservableObject {
 
     func onDisappear() {
         stopPeriodicUpdate()
+        endLiveActivity()
+    }
+    
+    private func endLiveActivity() {
+        #if canImport(ActivityKit)
+        if #available(iOS 16.1, *) {
+            liveActivityManager.endActivity()
+        }
+        #endif
     }
 
     func refresh() async {
@@ -107,6 +122,29 @@ final class TodayViewModel: ObservableObject {
             today: today,
             tomorrow: tomorrowPrayers
         ).map { (name: $0.0, time: $0.1) }
+        
+        // Update Live Activity
+        updateLiveActivity()
+    }
+    
+    private func updateLiveActivity() {
+        guard let nextInfo = nextPrayerInfo else { return }
+        
+        #if canImport(ActivityKit)
+        if #available(iOS 16.1, *) {
+            if liveActivityManager.isActivityActive {
+                liveActivityManager.updateActivity(
+                    nextPrayer: nextInfo.name,
+                    prayerTime: nextInfo.time
+                )
+            } else {
+                liveActivityManager.startActivity(
+                    nextPrayer: nextInfo.name,
+                    prayerTime: nextInfo.time
+                )
+            }
+        }
+        #endif
     }
 
     // MARK: - Periodic Update

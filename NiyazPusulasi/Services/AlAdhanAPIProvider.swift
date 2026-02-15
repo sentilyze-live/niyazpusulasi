@@ -37,9 +37,40 @@ final class AlAdhanAPIProvider: PrayerTimesProvider {
 
         let (data, response) = try await session.data(from: url)
 
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse else {
             throw PrayerTimesError.networkError(
-                NSError(domain: "AlAdhan", code: (response as? HTTPURLResponse)?.statusCode ?? 0)
+                NSError(domain: "AlAdhan", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: "Invalid response"
+                ])
+            )
+        }
+        
+        switch httpResponse.statusCode {
+        case 200:
+            break
+        case 400:
+            throw PrayerTimesError.invalidLocation
+        case 403:
+            throw PrayerTimesError.networkError(
+                NSError(domain: "AlAdhan", code: 403, userInfo: [
+                    NSLocalizedDescriptionKey: "API rate limit exceeded"
+                ])
+            )
+        case 404:
+            throw PrayerTimesError.networkError(
+                NSError(domain: "AlAdhan", code: 404, userInfo: [
+                    NSLocalizedDescriptionKey: "Location not found"
+                ])
+            )
+        case 500...599:
+            throw PrayerTimesError.networkError(
+                NSError(domain: "AlAdhan", code: httpResponse.statusCode, userInfo: [
+                    NSLocalizedDescriptionKey: "Server error"
+                ])
+            )
+        default:
+            throw PrayerTimesError.networkError(
+                NSError(domain: "AlAdhan", code: httpResponse.statusCode)
             )
         }
 
