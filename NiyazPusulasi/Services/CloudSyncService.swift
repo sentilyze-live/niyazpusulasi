@@ -15,6 +15,7 @@ final class CloudSyncService: ObservableObject {
 
     private let container: CKContainer
     private let privateDatabase: CKDatabase
+    private var settingsManager: SettingsManager { SettingsManager.shared }
 
     // Record types
     private let settingsRecordType = "AppSettings"

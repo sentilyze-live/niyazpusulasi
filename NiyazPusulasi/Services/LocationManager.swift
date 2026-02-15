@@ -281,8 +281,8 @@ extension LocationManager: CLLocationManagerDelegate {
             let timezone: String
             if let tz = detectedTimezone {
                 timezone = tz.identifier
-            } else if let countryName = country, let guessedTZ = self.timeZoneForCountry(countryName) as String? {
-                timezone = guessedTZ
+            } else if let countryName = country {
+                timezone = self.timeZoneForCountry(countryName)
             } else {
                 timezone = TimeZone.current.identifier
             }
