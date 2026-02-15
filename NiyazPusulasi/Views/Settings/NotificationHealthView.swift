@@ -103,6 +103,9 @@ struct NotificationHealthView: View {
             case .notDetermined:
                 Label("Bekliyor", systemImage: "questionmark.circle.fill")
                     .foregroundStyle(.secondary)
+            case .ephemeral:
+                Label("Geçici", systemImage: "exclamationmark.circle.fill")
+                    .foregroundStyle(.orange)
             @unknown default:
                 Label("Bilinmiyor", systemImage: "questionmark.circle.fill")
                     .foregroundStyle(.secondary)

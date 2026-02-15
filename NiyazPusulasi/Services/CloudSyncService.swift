@@ -4,26 +4,26 @@ import Combine
 
 /// Manages iCloud synchronization for user data.
 /// Requires CloudKit container configuration in Apple Developer Portal.
+@MainActor
 final class CloudSyncService: ObservableObject {
     static let shared = CloudSyncService()
-    
+
     @Published var isSyncing = false
     @Published var lastSyncDate: Date?
     @Published var syncError: String?
     @Published var isCloudAvailable = false
-    
+
     private let container: CKContainer
     private let privateDatabase: CKDatabase
-    private let settingsManager = SettingsManager.shared
-    
+
     // Record types
     private let settingsRecordType = "AppSettings"
     private let habitsRecordType = "Habits"
-    
+
     private init() {
         container = CKContainer(identifier: "iCloud.com.niyazpusulasi.app")
         privateDatabase = container.privateCloudDatabase
-        
+
         checkCloudStatus()
     }
     

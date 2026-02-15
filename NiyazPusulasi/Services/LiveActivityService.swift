@@ -5,31 +5,32 @@ import WidgetKit
 /// Manages Live Activities for prayer times (Dynamic Island support).
 /// Requires iOS 16.1+ and ActivityKit entitlement.
 @available(iOS 16.1, *)
+@MainActor
 final class LiveActivityService: ObservableObject {
     static let shared = LiveActivityService()
-    
+
     @Published var isActivityActive = false
     @Published var currentActivity: Activity<PrayerActivityAttributes>?
-    
-    private let settingsManager = SettingsManager.shared
-    
+
     private init() {}
-    
+
     // MARK: - Start Live Activity
-    
+
     func startActivity(nextPrayer: PrayerName, prayerTime: Date) {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
             print("Live Activities are not enabled")
             return
         }
-        
+
         // End any existing activity
         endActivity()
-        
+
+        let settingsManager = SettingsManager.shared
+
         let attributes = PrayerActivityAttributes(
             locationName: settingsManager.location.displayName
         )
-        
+
         let contentState = PrayerActivityAttributes.ContentState(
             nextPrayerName: nextPrayer.turkishName,
             prayerTime: prayerTime,
@@ -53,10 +54,12 @@ final class LiveActivityService: ObservableObject {
     }
     
     // MARK: - Update Live Activity
-    
+
     func updateActivity(nextPrayer: PrayerName, prayerTime: Date) {
         guard let activity = currentActivity else { return }
-        
+
+        let settingsManager = SettingsManager.shared
+
         let contentState = PrayerActivityAttributes.ContentState(
             nextPrayerName: nextPrayer.turkishName,
             prayerTime: prayerTime,
