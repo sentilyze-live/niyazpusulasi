@@ -45,7 +45,7 @@ final class PremiumManager: NSObject, ObservableObject {
         Purchases.logLevel = .warn
         Purchases.configure(
             with: .init(withAPIKey: Config.revenueCatAPIKey)
-                .with(usesStoreKit2IfAvailable: true)
+                .with(storeKitVersion: .storeKit2)
         )
 
         // Listen for subscription changes

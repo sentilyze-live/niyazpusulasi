@@ -74,10 +74,10 @@ final class CloudSyncService: ObservableObject {
         do {
             // Upload current settings
             _ = try await uploadSettings()
-            
+
             // Download latest settings from cloud
             if let cloudSettings = try await downloadSettings() {
-                await mergeSettings(cloudSettings)
+                mergeSettings(cloudSettings)
             }
             
             await MainActor.run {
@@ -130,8 +130,7 @@ final class CloudSyncService: ObservableObject {
     private func mergeSettings(_ cloudSettings: AppSettings) {
         // Simple merge: use cloud version if it's newer
         // In a real app, you'd want more sophisticated conflict resolution
-        let localModified = settingsManager.settings
-        
+
         // For now, just update settings if cloud is available
         // Users can manually choose to use local or cloud in settings
         settingsManager.settings = cloudSettings
