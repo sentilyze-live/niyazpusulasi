@@ -22,6 +22,7 @@ platform :ios do
   desc "Run all unit tests"
   lane :tests do
     run_tests(
+      project: PROJECT,
       scheme: SCHEME,
       device: "iPhone 15 Pro",
       clean: true,
@@ -58,6 +59,7 @@ platform :ios do
 
     # Build the app
     build_app(
+      project: PROJECT,
       scheme: SCHEME,
       export_method: "app-store",
       output_directory: "./build",

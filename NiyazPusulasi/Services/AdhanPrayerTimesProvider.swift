@@ -12,12 +12,15 @@ final class AdhanPrayerTimesProvider: PrayerTimesProvider {
         location: LocationSelection,
         settings: CalcSettings
     ) async throws -> PrayerTimeDay {
+        let timeZone = TimeZone(identifier: location.timezone) ?? .current
+
         let coordinates = Coordinates(
             latitude: location.latitude,
             longitude: location.longitude
         )
 
-        let calendar = Calendar.current
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
         let components = calendar.dateComponents([.year, .month, .day], from: date)
 
         let params = mapCalculationParameters(settings: settings)

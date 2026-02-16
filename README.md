@@ -51,7 +51,7 @@ SwiftUI + MVVM
 8. Add the CoreData model file (`NiyazPusulasi.xcdatamodeld`) to the main target
 9. Set the Info.plist keys:
    - `NSLocationWhenInUseUsageDescription`: "Namaz vakitlerini hesaplamak için konumunuz kullanılır."
-   - `BGTaskSchedulerPermittedIdentifiers`: `["com.niyazpusulasi.refresh"]`
+   - `BGTaskSchedulerPermittedIdentifiers`: `["com.niyazpusulasi.app.refresh"]`
 10. Build and run on simulator or device
 
 ### Project Structure

@@ -38,9 +38,11 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.niyazpusulasi.app
+        PRODUCT_NAME: NiyazPusulasi
         INFOPLIST_FILE: NiyazPusulasi/Info.plist
         CODE_SIGN_ENTITLEMENTS: NiyazPusulasi/NiyazPusulasi.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
     dependencies:
       - package: Adhan
       - package: RevenueCat
@@ -54,16 +56,22 @@ targets:
       - path: NiyazPusulasWidget
         excludes:
           - "**/.DS_Store"
-      - NiyazPusulasi/Models/WidgetPayload.swift
-      - NiyazPusulasi/Models/PrayerTimeDay.swift
-      - NiyazPusulasi/Models/PrayerName.swift
+      - path: NiyazPusulasi/Models/WidgetPayload.swift
+        buildPhase: sources
+      - path: NiyazPusulasi/Models/PrayerTimeDay.swift
+        buildPhase: sources
+      - path: NiyazPusulasi/Models/PrayerName.swift
+        buildPhase: sources
     entitlements:
       path: NiyazPusulasWidget/NiyazPusulasWidget.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.niyazpusulasi.app.widget
+        PRODUCT_NAME: NiyazPusulasWidget
         INFOPLIST_FILE: NiyazPusulasWidget/Info.plist
         CODE_SIGN_ENTITLEMENTS: NiyazPusulasWidget/NiyazPusulasWidget.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        SKIP_INSTALL: YES
     dependencies:
       - package: Adhan
 

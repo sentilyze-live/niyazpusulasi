@@ -4,6 +4,8 @@ import RevenueCat
 
 @main
 struct NiyazPusulasiApp: App {
+    private static let backgroundRefreshTaskId = "com.niyazpusulasi.app.refresh"
+
     @Environment(\.scenePhase) private var scenePhase
 
     let persistenceController = PersistenceController.shared
@@ -52,7 +54,7 @@ struct NiyazPusulasiApp: App {
 
     private func registerBackgroundTasks() {
         BGTaskScheduler.shared.register(
-            forTaskWithIdentifier: "com.niyazpusulasi.refresh",
+            forTaskWithIdentifier: Self.backgroundRefreshTaskId,
             using: nil
         ) { task in
             guard let refreshTask = task as? BGAppRefreshTask else { return }
@@ -61,7 +63,7 @@ struct NiyazPusulasiApp: App {
     }
 
     private static func scheduleBackgroundRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: "com.niyazpusulasi.refresh")
+        let request = BGAppRefreshTaskRequest(identifier: backgroundRefreshTaskId)
         request.earliestBeginDate = Date(timeIntervalSinceNow: 6 * 3600) // 6 hours
         do {
             try BGTaskScheduler.shared.submit(request)

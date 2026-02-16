@@ -6,12 +6,17 @@ final class PrayerTimesTests: XCTestCase {
     let provider = AdhanPrayerTimesProvider()
     let istanbulLocation = LocationSelection.istanbul
     let turkeySettings = CalcSettings.turkeyDefault
+    let referenceDate: Date = {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "Europe/Istanbul") ?? .current
+        return cal.date(from: DateComponents(year: 2026, month: 2, day: 16, hour: 12, minute: 0))!
+    }()
 
     // MARK: - Basic Calculation Tests
 
     func testIstanbulPrayerTimesNotNil() async throws {
         let result = try await provider.fetchPrayerTimes(
-            for: Date(),
+            for: referenceDate,
             location: istanbulLocation,
             settings: turkeySettings
         )
@@ -26,7 +31,7 @@ final class PrayerTimesTests: XCTestCase {
 
     func testImsakIsFajrMinus10Minutes() async throws {
         let result = try await provider.fetchPrayerTimes(
-            for: Date(),
+            for: referenceDate,
             location: istanbulLocation,
             settings: turkeySettings
         )
@@ -38,7 +43,7 @@ final class PrayerTimesTests: XCTestCase {
 
     func testSourceIsAdhanLocal() async throws {
         let result = try await provider.fetchPrayerTimes(
-            for: Date(),
+            for: referenceDate,
             location: istanbulLocation,
             settings: turkeySettings
         )
@@ -49,7 +54,7 @@ final class PrayerTimesTests: XCTestCase {
     // MARK: - Date Range Tests
 
     func testDateRangeFetchesMultipleDays() async throws {
-        let today = Date()
+        let today = referenceDate
         guard let endDate = Calendar.current.date(byAdding: .day, value: 6, to: today) else {
             XCTFail("Could not create end date")
             return
@@ -77,7 +82,7 @@ final class PrayerTimesTests: XCTestCase {
         )
 
         let result = try await provider.fetchPrayerTimes(
-            for: Date(),
+            for: referenceDate,
             location: ankara,
             settings: turkeySettings
         )
@@ -88,7 +93,7 @@ final class PrayerTimesTests: XCTestCase {
 
     func testDifferentCitiesHaveDifferentTimes() async throws {
         let istanbul = try await provider.fetchPrayerTimes(
-            for: Date(), location: istanbulLocation, settings: turkeySettings
+            for: referenceDate, location: istanbulLocation, settings: turkeySettings
         )
 
         let vanLocation = LocationSelection(
@@ -96,7 +101,7 @@ final class PrayerTimesTests: XCTestCase {
             latitude: 38.4891, longitude: 43.4089, timezone: "Europe/Istanbul"
         )
         let van = try await provider.fetchPrayerTimes(
-            for: Date(), location: vanLocation, settings: turkeySettings
+            for: referenceDate, location: vanLocation, settings: turkeySettings
         )
 
         // Van is ~14° east of Istanbul, so times should differ
@@ -111,10 +116,10 @@ final class PrayerTimesTests: XCTestCase {
         let shafiSettings = CalcSettings(method: .turkey, madhab: .shafi, highLatitudeRule: nil)
 
         let hanafi = try await provider.fetchPrayerTimes(
-            for: Date(), location: istanbulLocation, settings: hanafiSettings
+            for: referenceDate, location: istanbulLocation, settings: hanafiSettings
         )
         let shafi = try await provider.fetchPrayerTimes(
-            for: Date(), location: istanbulLocation, settings: shafiSettings
+            for: referenceDate, location: istanbulLocation, settings: shafiSettings
         )
 
         XCTAssertTrue(hanafi.asr > shafi.asr, "Hanafi Asr should be later than Shafi Asr")
@@ -124,7 +129,7 @@ final class PrayerTimesTests: XCTestCase {
 
     func testIstanbulFajrReasonableHour() async throws {
         let result = try await provider.fetchPrayerTimes(
-            for: Date(), location: istanbulLocation, settings: turkeySettings
+            for: referenceDate, location: istanbulLocation, settings: turkeySettings
         )
 
         let calendar = Calendar.current
@@ -139,7 +144,7 @@ final class PrayerTimesTests: XCTestCase {
 
     func testIstanbulDhuhrAroundNoon() async throws {
         let result = try await provider.fetchPrayerTimes(
-            for: Date(), location: istanbulLocation, settings: turkeySettings
+            for: referenceDate, location: istanbulLocation, settings: turkeySettings
         )
 
         let tz = TimeZone(identifier: "Europe/Istanbul")!

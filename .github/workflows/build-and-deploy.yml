@@ -20,6 +20,7 @@ concurrency:
 env:
   XCODE_VERSION: '16.0'
   SCHEME: 'NiyazPusulasi'
+  PROJECT: 'NiyazPusulasi.xcodeproj'
   BUNDLE_ID: 'com.niyazpusulasi.app'
 
 jobs:
@@ -84,7 +85,7 @@ jobs:
                       continue
                   name = device.get("name")
                   udid = device.get("udid")
-                  if name in preferred and udid:
+                  if name and udid and name.startswith("iPhone"):
                       ios_devices.append((name, version, udid))
 
           chosen = None
@@ -94,8 +95,11 @@ jobs:
                   chosen = max(matches, key=lambda d: d[1])
                   break
 
+          if not chosen and ios_devices:
+              chosen = max(ios_devices, key=lambda d: (d[1], d[0]))
+
           if not chosen:
-              sys.exit("No matching iOS simulator found for preferred device list")
+              sys.exit("No available iPhone simulator found")
 
           print(f"platform=iOS Simulator,id={chosen[2]}")
           PY
@@ -119,24 +123,31 @@ jobs:
           restore-keys: spm-${{ runner.os }}-
 
       - name: Resolve Dependencies
-        run: xcodebuild -resolvePackageDependencies -scheme ${{ env.SCHEME }} -clonedSourcePackagesDirPath .spm-cache
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project ${{ env.PROJECT }} \
+            -scheme ${{ env.SCHEME }} \
+            -clonedSourcePackagesDirPath .spm-cache
 
       - name: Build (Debug)
         run: |
           set -o pipefail
           xcodebuild build \
+            -project ${{ env.PROJECT }} \
             -scheme ${{ env.SCHEME }} \
             -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             | bundle exec xcpretty
 
       - name: Run Tests
         run: |
           set -o pipefail
           xcodebuild test \
+            -project ${{ env.PROJECT }} \
             -scheme ${{ env.SCHEME }} \
             -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
@@ -144,6 +155,7 @@ jobs:
             -resultBundlePath TestResults.xcresult \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             | bundle exec xcpretty
 
       - name: Upload Test Results
@@ -205,9 +217,15 @@ jobs:
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
-          (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
-          (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
-          (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
+          set -euo pipefail
+          if echo "$ASC_KEY_CONTENT" | grep -q "BEGIN.*PRIVATE KEY"; then
+            printf '%s' "$ASC_KEY_CONTENT" > AuthKey.p8
+          else
+            (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
+            (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
+            (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
+          fi
+          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8
 
       # Install certificates and profiles via Fastlane Match
       - name: Install Code Signing

@@ -35,9 +35,15 @@ jobs:
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
         run: |
-          (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
-          (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
-          (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
+          set -euo pipefail
+          if echo "$ASC_KEY_CONTENT" | grep -q "BEGIN.*PRIVATE KEY"; then
+            printf '%s' "$ASC_KEY_CONTENT" > AuthKey.p8
+          else
+            (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
+            (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
+            (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
+          fi
+          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8
 
       - name: Create API Key JSON
         env:
