@@ -66,7 +66,11 @@ platform :ios do
       output_name: "NiyazPusulasi.ipa",
       clean: true,
       include_bitcode: false,
-      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3"
+      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3 " \
+              "\"NiyazPusulasi:CODE_SIGN_IDENTITY=Apple Distribution\" " \
+              "\"NiyazPusulasWidget:CODE_SIGN_IDENTITY=Apple Distribution\" " \
+              "\"NiyazPusulasi:PROVISIONING_PROFILE_SPECIFIER=match AppStore com.niyazpusulasi.app\" " \
+              "\"NiyazPusulasWidget:PROVISIONING_PROFILE_SPECIFIER=match AppStore com.niyazpusulasi.app.widget\""
     )
 
     # Upload to TestFlight
