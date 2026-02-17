@@ -62,6 +62,8 @@ targets:
         buildPhase: sources
       - path: NiyazPusulasi/Models/PrayerName.swift
         buildPhase: sources
+      - path: NiyazPusulasi/Extensions/String+Localization.swift
+        buildPhase: sources
     entitlements:
       path: NiyazPusulasWidget/NiyazPusulasWidget.entitlements
     settings:
