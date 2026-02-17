@@ -227,15 +227,7 @@ jobs:
           fi
           grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8
 
-      # Install certificates and profiles via Fastlane Match
-      - name: Install Code Signing
-        env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-        run: bundle exec fastlane match appstore --readonly
-
-      # Build and upload to TestFlight
+      # Build and upload to TestFlight (match + build in single lane)
       - name: Build & Upload to TestFlight
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}

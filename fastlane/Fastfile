@@ -50,11 +50,13 @@ platform :ios do
       in_house: false
     )
 
-    # Code signing via Match
+    # Code signing via Match (installs cert + profile into CI keychain)
     match(
       type: "appstore",
       app_identifier: [APP_IDENTIFIER, WIDGET_IDENTIFIER],
-      readonly: true
+      readonly: true,
+      keychain_name: "fastlane_tmp_keychain",
+      keychain_password: ""
     )
 
     # Build the app
