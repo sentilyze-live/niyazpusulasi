@@ -25,6 +25,9 @@ struct ReminderSettings: Codable, Equatable {
     /// Whether to show full-screen alarm overlay when app is open.
     var alarmModeEnabled: Bool
 
+    /// Selected adhan sound for notifications.
+    var adhanSound: AdhanSound = .default
+
     /// Default settings: all obligatory prayers enabled at prayer time, Ramadan reminders at 15 min.
     static let `default` = ReminderSettings(
         prayerEnabled: Dictionary(
@@ -37,7 +40,8 @@ struct ReminderSettings: Codable, Equatable {
         imsakOffsetMinutes: 15,
         iftarEnabled: true,
         iftarOffsetMinutes: 15,
-        alarmModeEnabled: false
+        alarmModeEnabled: false,
+        adhanSound: .default
     )
 
     /// Count of enabled notification slots per day for budget calculation.

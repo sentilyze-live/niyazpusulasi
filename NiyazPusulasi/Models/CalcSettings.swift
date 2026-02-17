@@ -22,18 +22,18 @@ struct CalcSettings: Codable, Equatable {
 
         var displayName: String {
             switch self {
-            case .turkey:               return "Diyanet (Türkiye)"
-            case .muslimWorldLeague:    return "Muslim World League"
-            case .egyptian:             return "Egyptian General Authority"
-            case .karachi:              return "University of Karachi"
-            case .ummAlQura:            return "Umm al-Qura (Makkah)"
-            case .dubai:                return "Dubai"
-            case .northAmerica:         return "ISNA (North America)"
-            case .kuwait:               return "Kuwait"
-            case .qatar:                return "Qatar"
-            case .singapore:            return "Singapore"
-            case .tehran:               return "Tehran"
-            case .moonsightingCommittee: return "Moonsighting Committee"
+            case .turkey:               return "calc_method_turkey".localized
+            case .muslimWorldLeague:    return "calc_method_mwl".localized
+            case .egyptian:             return "calc_method_egyptian".localized
+            case .karachi:              return "calc_method_karachi".localized
+            case .ummAlQura:            return "calc_method_umm_al_qura".localized
+            case .dubai:                return "calc_method_dubai".localized
+            case .northAmerica:         return "calc_method_isna".localized
+            case .kuwait:               return "calc_method_kuwait".localized
+            case .qatar:                return "calc_method_qatar".localized
+            case .singapore:            return "calc_method_singapore".localized
+            case .tehran:               return "calc_method_tehran".localized
+            case .moonsightingCommittee: return "calc_method_moonsighting".localized
             }
         }
     }
@@ -47,8 +47,8 @@ struct CalcSettings: Codable, Equatable {
 
         var displayName: String {
             switch self {
-            case .hanafi: return "Hanefi"
-            case .shafi:  return "Şafii"
+            case .hanafi: return "madhab_hanafi".localized
+            case .shafi:  return "madhab_shafi".localized
             }
         }
     }

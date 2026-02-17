@@ -37,5 +37,32 @@
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>Minimalist</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Minimalist</string>
+				</array>
+			</dict>
+			<key>Ramadan</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Ramadan</string>
+				</array>
+			</dict>
+			<key>Tesbih</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-Tesbih</string>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

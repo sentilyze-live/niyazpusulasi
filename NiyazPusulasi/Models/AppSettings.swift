@@ -13,9 +13,9 @@ struct AppSettings: Codable, Equatable {
 
         var displayName: String {
             switch self {
-            case .system: return "Sistem"
-            case .light:  return "Açık"
-            case .dark:   return "Koyu"
+            case .system: return "theme_system".localized
+            case .light:  return "theme_light".localized
+            case .dark:   return "theme_dark".localized
             }
         }
     }
@@ -28,8 +28,8 @@ struct AppSettings: Codable, Equatable {
 
         var displayName: String {
             switch self {
-            case .twelve:     return "12 Saat"
-            case .twentyFour: return "24 Saat"
+            case .twelve:     return "time_format_12".localized
+            case .twentyFour: return "time_format_24".localized
             }
         }
     }
@@ -40,6 +40,7 @@ struct AppSettings: Codable, Equatable {
     var theme: Theme
     var premiumTheme: PremiumTheme?
     var timeFormat: TimeFormat
+    var selectedAppIcon: String? = nil
 
     static let `default` = AppSettings(
         location: .istanbul,

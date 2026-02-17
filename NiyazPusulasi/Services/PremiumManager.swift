@@ -2,13 +2,8 @@ import Foundation
 import RevenueCat
 
 private enum Config {
-    static var revenueCatAPIKey: String {
-        #if DEBUG
-        return ProcessInfo.processInfo.environment["REVENUECAT_API_KEY"] ?? "test_XOBsZUSCbusCTyQtPePOrMUsJJE"
-        #else
-        return ProcessInfo.processInfo.environment["REVENUECAT_API_KEY"] ?? ""
-        #endif
-    }
+    // SDK API Key from RevenueCat dashboard (App Store connect edilince production key ile değiştir)
+    static let revenueCatAPIKey = "test_XOBsZUSCbusCTyQtPePOrMUsJJE"
 }
 
 /// Manages premium subscription state and feature gating.
@@ -155,6 +150,8 @@ enum PremiumFeature: String, CaseIterable {
 
     // Customization
     case premiumThemes
+    case customAppIcons
+    case customNotificationSounds
 
     // Spiritual Tools
     case prayerTracking
@@ -173,34 +170,38 @@ enum PremiumFeature: String, CaseIterable {
     /// Maximum habits allowed in free tier.
     static let freeHabitLimit = 3
 
-    /// Turkish description for paywall display.
+    /// Localized title for paywall display.
     var paywallTitle: String {
         switch self {
-        case .lockScreenWidgets:          return "Kilit Ekranı Widget'ları"
-        case .allHomeScreenWidgets:       return "Tüm Widget'lar"
-        case .ramadanWidget:              return "Ramazan Widget'ı"
-        case .unlimitedHabits:            return "Sınırsız Alışkanlık"
-        case .heatmapView:                return "Isı Haritası"
-        case .premiumThemes:              return "Premium Temalar"
-        case .prayerTracking:             return "Namaz Takibi"
-        case .tasbeehCounter:             return "Tesbih Sayacı"
-        case .duaCollection:              return "Dua Koleksiyonu"
-        case .iCloudSync:                 return "iCloud Senkronizasyonu"
+        case .lockScreenWidgets:          return "premium_lockscreen_widgets_title".localized
+        case .allHomeScreenWidgets:       return "premium_all_widgets_title".localized
+        case .ramadanWidget:              return "premium_ramadan_widget_title".localized
+        case .unlimitedHabits:            return "premium_unlimited_habits_title".localized
+        case .heatmapView:                return "premium_heatmap_title".localized
+        case .premiumThemes:              return "premium_themes_title".localized
+        case .prayerTracking:             return "premium_prayer_tracking_title".localized
+        case .tasbeehCounter:             return "premium_tasbeeh_title".localized
+        case .duaCollection:              return "premium_dua_title".localized
+        case .iCloudSync:                 return "premium_icloud_title".localized
+        case .customAppIcons:             return "premium_custom_icons_title".localized
+        case .customNotificationSounds:   return "premium_sounds_title".localized
         }
     }
 
     var paywallDescription: String {
         switch self {
-        case .lockScreenWidgets:          return "Kilit ekranında namaz vakitlerini gör"
-        case .allHomeScreenWidgets:       return "Ana ekranında 3 farklı widget seçeneği"
-        case .ramadanWidget:              return "Ramazan imsak ve iftar widget'ı"
-        case .unlimitedHabits:            return "Sınırsız alışkanlık ile hedeflerine ulaş"
-        case .heatmapView:                return "Aylık performansını renkli harita ile gör"
-        case .premiumThemes:              return "6 farklı tema ile uygulamanı kişiselleştir"
-        case .prayerTracking:             return "Günlük kıldığın namazları takip et"
-        case .tasbeehCounter:             return "Haptic feedback ile dijital tesbih çek"
-        case .duaCollection:              return "6 kategoride 20+ dua ve anlamları"
-        case .iCloudSync:                 return "Verilerini tüm cihazlarında senkronize et"
+        case .lockScreenWidgets:          return "premium_lockscreen_widgets_desc".localized
+        case .allHomeScreenWidgets:       return "premium_all_widgets_desc".localized
+        case .ramadanWidget:              return "premium_ramadan_widget_desc".localized
+        case .unlimitedHabits:            return "premium_unlimited_habits_desc".localized
+        case .heatmapView:                return "premium_heatmap_desc".localized
+        case .premiumThemes:              return "premium_themes_desc".localized
+        case .prayerTracking:             return "premium_prayer_tracking_desc".localized
+        case .tasbeehCounter:             return "premium_tasbeeh_desc".localized
+        case .duaCollection:              return "premium_dua_desc".localized
+        case .iCloudSync:                 return "premium_icloud_desc".localized
+        case .customAppIcons:             return "premium_custom_icons_description".localized
+        case .customNotificationSounds:   return "premium_sounds_description".localized
         }
     }
 
@@ -216,6 +217,8 @@ enum PremiumFeature: String, CaseIterable {
         case .tasbeehCounter:             return "circle.dotted"
         case .duaCollection:              return "book.fill"
         case .iCloudSync:                 return "icloud.fill"
+        case .customAppIcons:             return "app.badge.fill"
+        case .customNotificationSounds:   return "speaker.wave.3.fill"
         }
     }
 }

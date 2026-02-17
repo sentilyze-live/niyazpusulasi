@@ -55,6 +55,25 @@ struct SettingsView: View {
 
                 // Appearance
                 Section("Görünüm") {
+                    // App Icon Selection
+                    NavigationLink {
+                        AppIconSettingsView()
+                    } label: {
+                        HStack {
+                            Label("Uygulama İkonu", systemImage: "app.badge")
+                            Spacer()
+                            if let iconName = settingsManager.settings.selectedAppIcon {
+                                Image(uiImage: UIImage(named: iconName) ?? UIImage())
+                                    .resizable()
+                                    .frame(width: 29, height: 29)
+                                    .cornerRadius(6)
+                            } else {
+                                Image(systemName: "app.fill")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+
                     Picker("Tema", selection: $settingsManager.settings.theme) {
                         ForEach(AppSettings.Theme.allCases) { theme in
                             Text(theme.displayName).tag(theme)
@@ -117,6 +136,8 @@ struct SettingsView: View {
                         Text("Adhan Swift")
                             .foregroundStyle(.secondary)
                     }
+
+
                 }
             }
             .navigationTitle("Ayarlar")
@@ -125,6 +146,7 @@ struct SettingsView: View {
             }
         }
     }
+
 }
 
 #Preview {

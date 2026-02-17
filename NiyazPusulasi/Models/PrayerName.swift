@@ -11,7 +11,20 @@ enum PrayerName: String, CaseIterable, Codable, Identifiable {
 
     var id: String { rawValue }
 
+    /// Localized display name based on user's language preference
+    var localizedName: String {
+        switch self {
+        case .fajr:    return "prayer_fajr".localized
+        case .sunrise: return "prayer_sunrise".localized
+        case .dhuhr:   return "prayer_dhuhr".localized
+        case .asr:     return "prayer_asr".localized
+        case .maghrib: return "prayer_maghrib".localized
+        case .isha:    return "prayer_isha".localized
+        }
+    }
+
     /// Display name in Turkish.
+    @available(*, deprecated, renamed: "localizedName", message: "Use localizedName for multi-language support")
     var turkishName: String {
         switch self {
         case .fajr:    return "İmsak"
@@ -24,6 +37,7 @@ enum PrayerName: String, CaseIterable, Codable, Identifiable {
     }
 
     /// Display name in English.
+    @available(*, deprecated, renamed: "localizedName", message: "Use localizedName for multi-language support")
     var englishName: String {
         switch self {
         case .fajr:    return "Fajr"

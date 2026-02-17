@@ -99,34 +99,48 @@ struct NextPrayerWidgetView: View {
     // MARK: - System Small
 
     private var systemSmallView: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: "location.fill")
-                    .font(.system(size: 10))
-                Text(entry.payload.locationName)
-                    .font(.system(size: 11))
+        ZStack {
+            // Background gradient if theme exists
+            if let theme = entry.payload.widgetTheme {
+                LinearGradient(
+                    colors: theme.gradientColors,
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+            }
+
+            VStack(spacing: 8) {
+                HStack {
+                    Image(systemName: "location.fill")
+                        .font(.system(size: 10))
+                    Text(entry.payload.locationName)
+                        .font(.system(size: 11))
+                    Spacer()
+                }
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                VStack(spacing: 4) {
+                    Text(entry.payload.nextPrayerName)
+                        .font(.headline)
+                        .foregroundColor(entry.payload.widgetTheme?.accentColor)
+
+                    Text(entry.payload.nextPrayerTime, style: .time)
+                        .font(.system(.title2, design: .rounded).weight(.bold))
+                        .foregroundColor(entry.payload.widgetTheme?.accentColor)
+
+                    // Live countdown
+                    Text(entry.payload.nextPrayerTime, style: .relative)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
                 Spacer()
             }
-            .foregroundStyle(.secondary)
-
-            Spacer()
-
-            VStack(spacing: 4) {
-                Text(entry.payload.nextPrayerName)
-                    .font(.headline)
-
-                Text(entry.payload.nextPrayerTime, style: .time)
-                    .font(.system(.title2, design: .rounded).weight(.bold))
-
-                // Live countdown
-                Text(entry.payload.nextPrayerTime, style: .relative)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
+            .padding(4)
         }
-        .padding(4)
     }
 
     // MARK: - Lock Screen Widgets

@@ -10,7 +10,8 @@ struct RamadanProvider: TimelineProvider {
             imsak: Date().addingTimeInterval(-3600),
             iftar: Date().addingTimeInterval(3600),
             locationName: "İstanbul",
-            isRamadan: true
+            isRamadan: true,
+            widgetTheme: nil
         )
     }
 
@@ -30,7 +31,8 @@ struct RamadanProvider: TimelineProvider {
                 date: imsak,
                 imsak: imsak, iftar: entry.iftar,
                 locationName: entry.locationName,
-                isRamadan: entry.isRamadan
+                isRamadan: entry.isRamadan,
+                widgetTheme: entry.widgetTheme
             ))
         }
 
@@ -39,7 +41,8 @@ struct RamadanProvider: TimelineProvider {
                 date: iftar,
                 imsak: entry.imsak, iftar: iftar,
                 locationName: entry.locationName,
-                isRamadan: entry.isRamadan
+                isRamadan: entry.isRamadan,
+                widgetTheme: entry.widgetTheme
             ))
         }
 
@@ -58,7 +61,8 @@ struct RamadanProvider: TimelineProvider {
             imsak: payload?.todayImsak,
             iftar: payload?.todayIftar,
             locationName: payload?.locationName ?? "—",
-            isRamadan: payload?.isRamadan ?? false
+            isRamadan: payload?.isRamadan ?? false,
+            widgetTheme: payload?.widgetTheme
         )
     }
 }
@@ -71,6 +75,7 @@ struct RamadanWidgetEntry: TimelineEntry {
     let iftar: Date?
     let locationName: String
     let isRamadan: Bool
+    let widgetTheme: WidgetTheme?
 }
 
 // MARK: - Widget
@@ -109,58 +114,70 @@ struct RamadanWidgetView: View {
     }
 
     private func ramadanContent(imsak: Date, iftar: Date) -> some View {
-        VStack(spacing: 10) {
-            // Location
-            HStack {
-                Image(systemName: "moon.fill")
-                    .font(.system(size: 10))
-                Text(entry.locationName)
-                    .font(.system(size: 11))
-                Spacer()
+        ZStack {
+            // Background gradient if theme exists
+            if let theme = entry.widgetTheme {
+                LinearGradient(
+                    colors: theme.gradientColors,
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
             }
-            .foregroundStyle(.secondary)
 
-            Spacer()
-
-            // Imsak
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("İmsak")
+            VStack(spacing: 10) {
+                // Location
+                HStack {
+                    Image(systemName: "moon.fill")
+                        .font(.system(size: 10))
+                    Text(entry.locationName)
                         .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
-                    Text(timeFormatter.string(from: imsak))
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .foregroundStyle(.indigo)
+                    Spacer()
                 }
-                Spacer()
-            }
+                .foregroundStyle(.secondary)
 
-            // Iftar
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("İftar")
+                Spacer()
+
+                // Imsak
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("İmsak")
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                        Text(timeFormatter.string(from: imsak))
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
+                            .foregroundStyle(entry.widgetTheme?.accentColor ?? .indigo)
+                    }
+                    Spacer()
+                }
+
+                // Iftar
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("İftar")
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                        Text(timeFormatter.string(from: iftar))
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
+                            .foregroundStyle(entry.widgetTheme?.accentColor ?? .orange)
+                    }
+                    Spacer()
+                }
+
+                // Countdown to nearest
+                let now = Date()
+                if now < imsak {
+                    Text(imsak, style: .relative)
                         .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
-                    Text(timeFormatter.string(from: iftar))
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(entry.widgetTheme?.accentColor ?? .indigo)
+                } else if now < iftar {
+                    Text(iftar, style: .relative)
+                        .font(.system(size: 11))
+                        .foregroundStyle(entry.widgetTheme?.accentColor ?? .orange)
                 }
-                Spacer()
             }
-
-            // Countdown to nearest
-            let now = Date()
-            if now < imsak {
-                Text(imsak, style: .relative)
-                    .font(.system(size: 11))
-                    .foregroundStyle(.indigo)
-            } else if now < iftar {
-                Text(iftar, style: .relative)
-                    .font(.system(size: 11))
-                    .foregroundStyle(.orange)
-            }
+            .padding(4)
         }
-        .padding(4)
     }
 
     private var notRamadanContent: some View {
@@ -184,6 +201,7 @@ struct RamadanWidgetView: View {
         imsak: Calendar.current.date(bySettingHour: 5, minute: 32, second: 0, of: Date()),
         iftar: Calendar.current.date(bySettingHour: 17, minute: 55, second: 0, of: Date()),
         locationName: "İstanbul",
-        isRamadan: true
+        isRamadan: true,
+        widgetTheme: nil
     )
 }

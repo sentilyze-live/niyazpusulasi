@@ -12,10 +12,12 @@ struct NiyazPusulasiApp: App {
     @StateObject private var settingsManager = SettingsManager.shared
     @StateObject private var locationManager = LocationManager()
     @StateObject private var premiumManager = PremiumManager.shared
+    @StateObject private var themeManager = ThemeManager.shared
 
     init() {
         registerBackgroundTasks()
         PremiumManager.shared.configure()
+        HabitService.shared.seedDefaultHabitsIfNeeded()
     }
 
     var body: some Scene {
@@ -25,7 +27,14 @@ struct NiyazPusulasiApp: App {
                 .environmentObject(settingsManager)
                 .environmentObject(locationManager)
                 .environmentObject(premiumManager)
+                .environmentObject(themeManager)
                 .preferredColorScheme(colorScheme(for: settingsManager.settings.theme))
+                .onChange(of: settingsManager.settings.premiumTheme) { _, newTheme in
+                    themeManager.setTheme(newTheme)
+                }
+                .onAppear {
+                    themeManager.setTheme(settingsManager.settings.premiumTheme)
+                }
         }
         .onChange(of: scenePhase) { _, newPhase in
             switch newPhase {

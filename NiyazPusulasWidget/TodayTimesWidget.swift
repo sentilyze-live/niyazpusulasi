@@ -72,50 +72,63 @@ struct TodayTimesWidgetView: View {
     }
 
     var body: some View {
-        VStack(spacing: 8) {
-            // Header
-            HStack {
-                HStack(spacing: 4) {
-                    Image(systemName: "location.fill")
-                        .font(.system(size: 10))
-                    Text(entry.payload.locationName)
-                        .font(.system(size: 11))
-                }
-                .foregroundStyle(.secondary)
-
-                Spacer()
-
-                Text(entry.date, style: .date)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.tertiary)
+        ZStack {
+            // Background gradient if theme exists
+            if let theme = entry.payload.widgetTheme {
+                LinearGradient(
+                    colors: theme.gradientColors,
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
             }
 
-            // Prayer times grid (2 rows × 3 columns)
-            let rows = [prayers.prefix(3), prayers.suffix(3)]
+            VStack(spacing: 8) {
+                // Header
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "location.fill")
+                            .font(.system(size: 10))
+                        Text(entry.payload.locationName)
+                            .font(.system(size: 11))
+                    }
+                    .foregroundStyle(.secondary)
 
-            ForEach(0..<2, id: \.self) { rowIndex in
-                HStack(spacing: 12) {
-                    ForEach(Array(rows[rowIndex].enumerated()), id: \.offset) { _, prayer in
-                        let isNext = prayer.0 == entry.payload.nextPrayerName
-                        VStack(spacing: 4) {
-                            Image(systemName: prayer.1)
-                                .font(.system(size: 14))
-                                .foregroundStyle(isNext ? .blue : .secondary)
+                    Spacer()
 
-                            Text(prayer.0)
-                                .font(.system(size: 10, weight: isNext ? .bold : .regular))
-                                .foregroundStyle(isNext ? .primary : .secondary)
+                    Text(entry.date, style: .date)
+                        .font(.system(size: 10))
+                        .foregroundStyle(.tertiary)
+                }
 
-                            Text(timeFormatter.string(from: prayer.2))
-                                .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                                .foregroundStyle(isNext ? .blue : .primary)
+                // Prayer times grid (2 rows × 3 columns)
+                let rows = [prayers.prefix(3), prayers.suffix(3)]
+
+                ForEach(0..<2, id: \.self) { rowIndex in
+                    HStack(spacing: 12) {
+                        ForEach(Array(rows[rowIndex].enumerated()), id: \.offset) { _, prayer in
+                            let isNext = prayer.0 == entry.payload.nextPrayerName
+                            let accentColor = entry.payload.widgetTheme?.accentColor ?? .blue
+                            VStack(spacing: 4) {
+                                Image(systemName: prayer.1)
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(isNext ? accentColor : .secondary)
+
+                                Text(prayer.0)
+                                    .font(.system(size: 10, weight: isNext ? .bold : .regular))
+                                    .foregroundStyle(isNext ? .primary : .secondary)
+
+                                Text(timeFormatter.string(from: prayer.2))
+                                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                                    .foregroundStyle(isNext ? accentColor : .primary)
+                            }
+                            .frame(maxWidth: .infinity)
                         }
-                        .frame(maxWidth: .infinity)
                     }
                 }
             }
+            .padding(4)
         }
-        .padding(4)
     }
 }
 

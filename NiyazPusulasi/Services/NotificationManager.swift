@@ -128,8 +128,13 @@ final class NotificationManager: ObservableObject {
             content.categoryIdentifier = ramadanCategory
         }
 
-        // Sound — use default for now, custom adhan can be added later
-        content.sound = .default
+        // Sound — use selected adhan sound
+        let adhanSound = settingsManager.settings.reminderSettings.adhanSound
+        if let fileName = adhanSound.fileName {
+            content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "\(fileName).caf"))
+        } else {
+            content.sound = .default
+        }
 
         // Time Sensitive for iOS 15+
         if item.isTimeSensitive {

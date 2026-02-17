@@ -13,12 +13,12 @@ enum PremiumTheme: String, CaseIterable, Identifiable, Codable {
 
     var displayName: String {
         switch self {
-        case .ocean:    return "Okyanus"
-        case .desert:   return "Çöl"
-        case .forest:   return "Orman"
-        case .night:    return "Gece"
-        case .sapphire: return "Safir"
-        case .coral:    return "Mercan"
+        case .ocean:    return "theme_ocean".localized
+        case .desert:   return "theme_desert".localized
+        case .forest:   return "theme_forest".localized
+        case .night:    return "theme_night".localized
+        case .sapphire: return "theme_sapphire".localized
+        case .coral:    return "theme_coral".localized
         }
     }
 

@@ -176,12 +176,25 @@ final class TodayViewModel: ObservableObject {
             nextPrayerTime: nextPrayerInfo?.time ?? Date(),
             isRamadan: isRamadan,
             todayImsak: isRamadan ? today.imsak : nil,
-            todayIftar: isRamadan ? today.maghrib : nil
+            todayIftar: isRamadan ? today.maghrib : nil,
+            widgetTheme: computeWidgetTheme()
         )
 
         if let data = try? JSONEncoder().encode(payload),
            let defaults = UserDefaults(suiteName: WidgetPayload.appGroupId) {
             defaults.set(data, forKey: WidgetPayload.userDefaultsKey)
         }
+    }
+
+    private func computeWidgetTheme() -> WidgetTheme? {
+        guard let premiumTheme = settingsManager.settings.premiumTheme else { return nil }
+
+        return WidgetTheme(
+            accentColorHex: premiumTheme.accentColor.toHex() ?? "#007AFF",
+            backgroundColorHex: "#FFFFFF",
+            gradientStartHex: premiumTheme.gradientColors[0].toHex() ?? "#0048A0",
+            gradientEndHex: premiumTheme.gradientColors[1].toHex() ?? "#0078D0",
+            fontScale: 1.0
+        )
     }
 }
