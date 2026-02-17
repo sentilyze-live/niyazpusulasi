@@ -12,7 +12,12 @@ platform :ios do
   PROJECT = "NiyazPusulasi.xcodeproj"
 
   before_all do
-    setup_ci if ENV['CI']
+    if ENV['CI']
+      setup_ci(
+        provider: "travis",
+        force: true
+      )
+    end
   end
 
   # ─────────────────────────────────────────────
@@ -54,10 +59,10 @@ platform :ios do
     match(
       type: "appstore",
       app_identifier: [APP_IDENTIFIER, WIDGET_IDENTIFIER],
-      readonly: false,
+      readonly: true,
       api_key: api_key,
       keychain_name: "fastlane_tmp_keychain",
-      keychain_password: ""
+      keychain_password: ENV["MATCH_PASSWORD"] || ""
     )
 
     # Build the app
