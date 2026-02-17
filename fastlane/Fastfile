@@ -68,12 +68,16 @@ platform :ios do
       output_directory: "./build",
       output_name: "NiyazPusulasi.ipa",
       clean: true,
-      include_bitcode: false,
-      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3 " \
-              "\"NiyazPusulasi:CODE_SIGN_IDENTITY=Apple Distribution\" " \
-              "\"NiyazPusulasWidget:CODE_SIGN_IDENTITY=Apple Distribution\" " \
-              "\"NiyazPusulasi:PROVISIONING_PROFILE_SPECIFIER=match AppStore com.niyazpusulasi.app\" " \
-              "\"NiyazPusulasWidget:PROVISIONING_PROFILE_SPECIFIER=match AppStore com.niyazpusulasi.app.widget\""
+      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3",
+      export_options: {
+        method: "app-store",
+        teamID: "C4WUTK99E3",
+        signingStyle: "manual",
+        provisioningProfiles: {
+          APP_IDENTIFIER => "match AppStore #{APP_IDENTIFIER}",
+          WIDGET_IDENTIFIER => "match AppStore #{WIDGET_IDENTIFIER}"
+        }
+      }
     )
 
     # Upload to TestFlight
