@@ -42,5 +42,6 @@ let placeholderPayload = WidgetPayload(
     nextPrayerTime: Date().addingTimeInterval(3600),
     isRamadan: false,
     todayImsak: nil,
-    todayIftar: nil
+    todayIftar: nil,
+    widgetTheme: nil
 )
