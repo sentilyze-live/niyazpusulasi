@@ -79,7 +79,7 @@ struct NotificationSoundSettingsView: View {
 
 
 @MainActor
-final class AudioPreviewPlayer: ObservableObject {
+final class AudioPreviewPlayer: NSObject, ObservableObject {
     @Published var isPlaying = false
     @Published var currentSound: String?
 
