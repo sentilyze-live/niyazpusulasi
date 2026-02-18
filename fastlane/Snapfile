@@ -3,12 +3,12 @@
 
 # App Store required device sizes
 devices([
-  "iPhone 16 Pro Max",   # 6.9" - Required for App Store
-  "iPhone 8 Plus"        # 5.5" - Covers older screen size requirement
+  "iPhone 16 Pro Max",          # 6.9" - Required for App Store
+  "iPhone SE (3rd generation)"  # 4.7" - Smallest supported device
 ])
 
 languages([
-  "tr-TR",
+  "tr",
   "en-US",
   "ar-SA"
 ])
