@@ -162,18 +162,17 @@ platform :ios do
 
   # ─────────────────────────────────────────────
   # Lane: screenshots
+  # Captures App Store screenshots via UI tests.
+  # Config is in fastlane/Snapfile.
+  # Triggered via GitHub Actions: .github/workflows/screenshots.yml
   # ─────────────────────────────────────────────
   desc "Capture App Store screenshots"
   lane :screenshots do
     capture_screenshots(
       scheme: SCHEME,
-      devices: [
-        "iPhone 15 Pro Max",
-        "iPhone SE (3rd generation)",
-        "iPad Pro (12.9-inch) (6th generation)"
-      ],
-      languages: ["tr-TR", "en-US"],
-      clear_previous_screenshots: true
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: true,
+      override_status_bar: true
     )
   end
 

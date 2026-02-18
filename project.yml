@@ -33,6 +33,7 @@ targets:
     resources:
       - path: NiyazPusulasi/Resources/Assets.xcassets
       - path: NiyazPusulasi/Resources/cities_database.json
+      - path: NiyazPusulasi/PrivacyInfo.xcprivacy
     entitlements:
       path: NiyazPusulasi/NiyazPusulasi.entitlements
     settings:
@@ -92,3 +93,19 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.niyazpusulasi.app.tests
         GENERATE_INFOPLIST_FILE: YES
+
+  NiyazPusulasUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: NiyazPusulasUITests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: NiyazPusulasi
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.niyazpusulasi.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: NO

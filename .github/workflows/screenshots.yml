@@ -1,0 +1,108 @@
+name: App Store Screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      devices:
+        description: 'Devices to capture (comma-separated, leave blank for Snapfile defaults)'
+        required: false
+        default: ''
+
+env:
+  SCHEME: 'NiyazPusulasi'
+  PROJECT: 'NiyazPusulasi.xcodeproj'
+
+jobs:
+  screenshots:
+    name: Capture Screenshots
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          XCODE_PATH=$(ls -d /Applications/Xcode_16*.app 2>/dev/null | sort -V | tail -1)
+          if [ -z "$XCODE_PATH" ]; then
+            XCODE_PATH=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
+          fi
+          echo "Using Xcode at: $XCODE_PATH"
+          sudo xcode-select -s "$XCODE_PATH"
+          xcodebuild -version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode Project
+        run: xcodegen generate
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Cache SPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            .build
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Resolve SPM Dependencies
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project ${{ env.PROJECT }} \
+            -scheme ${{ env.SCHEME }} \
+            -clonedSourcePackagesDirPath .spm-cache
+
+      - name: Boot Simulators
+        run: |
+          # Pre-boot simulators to speed up snapshot
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 8 Plus" | head -4
+
+      - name: Capture Screenshots
+        run: |
+          bundle exec fastlane screenshots
+        env:
+          CI: true
+
+      - name: List Generated Screenshots
+        if: always()
+        run: |
+          echo "=== Generated screenshots ==="
+          find fastlane/screenshots -name "*.png" 2>/dev/null | sort || echo "No screenshots found"
+          echo ""
+          echo "=== Screenshot count ==="
+          find fastlane/screenshots -name "*.png" 2>/dev/null | wc -l || echo "0"
+
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: app-store-screenshots
+          path: fastlane/screenshots/
+          retention-days: 30
+
+      - name: Summary
+        if: success()
+        run: |
+          COUNT=$(find fastlane/screenshots -name "*.png" 2>/dev/null | wc -l | tr -d ' ')
+          echo "## Screenshot Capture Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**$COUNT screenshots** captured successfully." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Download the **app-store-screenshots** artifact from the Actions run summary." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Devices" >> $GITHUB_STEP_SUMMARY
+          echo "- iPhone 16 Pro Max (6.9\")" >> $GITHUB_STEP_SUMMARY
+          echo "- iPhone 8 Plus (5.5\")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Languages" >> $GITHUB_STEP_SUMMARY
+          echo "- tr-TR (Turkish)" >> $GITHUB_STEP_SUMMARY
+          echo "- en-US (English)" >> $GITHUB_STEP_SUMMARY
+          echo "- ar-SA (Arabic)" >> $GITHUB_STEP_SUMMARY

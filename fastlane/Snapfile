@@ -1,0 +1,38 @@
+# Snapfile - Fastlane screenshot configuration
+# https://docs.fastlane.tools/actions/snapshot/
+
+# App Store required device sizes
+devices([
+  "iPhone 16 Pro Max",   # 6.9" - Required for App Store
+  "iPhone 8 Plus"        # 5.5" - Covers older screen size requirement
+])
+
+languages([
+  "tr-TR",
+  "en-US",
+  "ar-SA"
+])
+
+# UI Testing scheme
+scheme("NiyazPusulasi")
+
+# Destination for screenshots
+output_directory("./fastlane/screenshots")
+
+# Clear old screenshots before new run
+clear_previous_screenshots(true)
+
+# Show clean status bar (09:41, full battery, full signal)
+override_status_bar(true)
+
+# Don't output simulator logs - keeps CI output clean
+output_simulator_logs(false)
+
+# Stop on first failure
+stop_after_first_error(false)
+
+# Number of retries on failure
+number_of_retries(1)
+
+# Screenshot file format
+output_files("png")
