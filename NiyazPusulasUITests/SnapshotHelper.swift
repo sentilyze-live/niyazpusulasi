@@ -150,7 +150,7 @@ open class Snapshot: NSObject {
 
             // Verifying accessibility
             for _ in 1...3 {
-                app.statusBars.firstMatch.waitForExistence(timeout: 0.1)
+                _ = app.statusBars.firstMatch.waitForExistence(timeout: 0.1)
             }
         #endif
 
@@ -217,7 +217,7 @@ private extension XCUIElementQuery {
     }
 
     var deviceStatusBars: XCUIElementQuery {
-        let deviceWidth = XCUIScreen.main.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0)).screenPoint.x
+        let deviceWidth = XCUIScreen.main.bounds.width
 
         let isStatusBar = NSPredicate { (evaluatedObject, _) in
             guard let element = evaluatedObject as? XCUIElementAttributes else { return false }
