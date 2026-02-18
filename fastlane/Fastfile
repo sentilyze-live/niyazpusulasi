@@ -73,7 +73,6 @@ platform :ios do
       output_directory: "./build",
       output_name: "NiyazPusulasi.ipa",
       clean: true,
-      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=C4WUTK99E3",
       export_options: {
         method: "app-store",
         teamID: "C4WUTK99E3",
