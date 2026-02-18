@@ -18,14 +18,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  XCODE_VERSION: '16.0'
   SCHEME: 'NiyazPusulasi'
   PROJECT: 'NiyazPusulasi.xcodeproj'
-  BUNDLE_ID: 'com.niyazpusulasi.app'
 
 jobs:
   # ─────────────────────────────────────────────
-  # Job 1: Build & Test
+  # Job 1: Build & Test (simulator, no signing)
   # ─────────────────────────────────────────────
   build:
     name: Build & Test
@@ -54,21 +52,10 @@ jobs:
       - name: Select iOS Simulator
         run: |
           DESTINATION=$(python3 - <<'PY'
-          import json
-          import subprocess
-          import sys
+          import json, subprocess, sys
 
-          preferred = [
-              "iPhone 16 Pro",
-              "iPhone 16",
-              "iPhone 15 Pro",
-              "iPhone 15",
-              "iPhone SE (3rd generation)"
-          ]
-
-          data = json.loads(subprocess.check_output([
-              "xcrun", "simctl", "list", "devices", "available", "-j"
-          ]))
+          preferred = ["iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro", "iPhone 15", "iPhone SE (3rd generation)"]
+          data = json.loads(subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "-j"]))
 
           ios_devices = []
           for runtime, devices in data.get("devices", {}).items():
@@ -79,33 +66,25 @@ jobs:
                   version = tuple(int(x) for x in version_str.split("."))
               except ValueError:
                   version = (0,)
-
               for device in devices:
-                  if not device.get("isAvailable"):
-                      continue
-                  name = device.get("name")
-                  udid = device.get("udid")
-                  if name and udid and name.startswith("iPhone"):
-                      ios_devices.append((name, version, udid))
+                  if device.get("isAvailable") and device.get("name", "").startswith("iPhone"):
+                      ios_devices.append((device["name"], version, device["udid"]))
 
           chosen = None
-          for wanted_name in preferred:
-              matches = [d for d in ios_devices if d[0] == wanted_name]
+          for name in preferred:
+              matches = [d for d in ios_devices if d[0] == name]
               if matches:
                   chosen = max(matches, key=lambda d: d[1])
                   break
-
           if not chosen and ios_devices:
               chosen = max(ios_devices, key=lambda d: (d[1], d[0]))
-
           if not chosen:
               sys.exit("No available iPhone simulator found")
-
           print(f"platform=iOS Simulator,id={chosen[2]}")
           PY
           )
           echo "IOS_SIM_DESTINATION=$DESTINATION" >> "$GITHUB_ENV"
-          echo "Using simulator destination: $DESTINATION"
+          echo "Using simulator: $DESTINATION"
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -129,7 +108,7 @@ jobs:
             -scheme ${{ env.SCHEME }} \
             -clonedSourcePackagesDirPath .spm-cache
 
-      - name: Build (Debug)
+      - name: Build (Debug, Simulator)
         run: |
           set -o pipefail
           xcodebuild build \
@@ -138,6 +117,7 @@ jobs:
             -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
+            CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -153,6 +133,7 @@ jobs:
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
             -resultBundlePath TestResults.xcresult \
+            CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="-" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
@@ -212,7 +193,6 @@ jobs:
           key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
           restore-keys: spm-${{ runner.os }}-
 
-      # Decode the App Store Connect API Key from secrets
       - name: Decode API Key
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
@@ -221,13 +201,12 @@ jobs:
           if echo "$ASC_KEY_CONTENT" | grep -q "BEGIN.*PRIVATE KEY"; then
             printf '%s' "$ASC_KEY_CONTENT" > AuthKey.p8
           else
-            (echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8) || \
-            (echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8) || \
-            (echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8)
+            echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8 2>/dev/null || \
+            echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8 2>/dev/null || \
+            echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8
           fi
-          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8
+          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8 || (echo "ERROR: AuthKey.p8 is not a valid private key" && exit 1)
 
-      # Build and upload to TestFlight (match + build in single lane)
       - name: Build & Upload to TestFlight
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
