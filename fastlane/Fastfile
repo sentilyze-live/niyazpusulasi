@@ -59,7 +59,7 @@ platform :ios do
     match(
       type: "appstore",
       app_identifier: [APP_IDENTIFIER, WIDGET_IDENTIFIER],
-      readonly: true,
+      readonly: false,
       api_key: api_key,
       keychain_name: "fastlane_tmp_keychain",
       keychain_password: ENV["MATCH_PASSWORD"] || ""
