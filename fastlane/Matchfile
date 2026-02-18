@@ -2,6 +2,8 @@ git_url(ENV["MATCH_GIT_URL"] || "https://github.com/sentilyze-live/ios-certifica
 
 storage_mode("git")
 
+git_branch("master")
+
 type("appstore")
 
 app_identifier([
@@ -10,6 +12,3 @@ app_identifier([
 ])
 
 team_id("C4WUTK99E3")
-
-# Uncomment for readonly in CI
-# readonly(true)
