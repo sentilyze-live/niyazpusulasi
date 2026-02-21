@@ -58,16 +58,13 @@ targets:
       - path: NiyazPusulasWidget
         excludes:
           - "**/.DS_Store"
+      # Shared model/extension files compiled into both app and widget
+      - path: NiyazPusulasi/Models/WidgetPayload.swift
+      - path: NiyazPusulasi/Models/PrayerTimeDay.swift
+      - path: NiyazPusulasi/Models/PrayerName.swift
+      - path: NiyazPusulasi/Extensions/String+Localization.swift
     resources:
       - path: NiyazPusulasWidget/PrivacyInfo.xcprivacy
-      - path: NiyazPusulasi/Models/WidgetPayload.swift
-        buildPhase: sources
-      - path: NiyazPusulasi/Models/PrayerTimeDay.swift
-        buildPhase: sources
-      - path: NiyazPusulasi/Models/PrayerName.swift
-        buildPhase: sources
-      - path: NiyazPusulasi/Extensions/String+Localization.swift
-        buildPhase: sources
     entitlements:
       path: NiyazPusulasWidget/NiyazPusulasWidget.entitlements
     settings:
