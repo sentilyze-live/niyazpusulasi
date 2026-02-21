@@ -203,7 +203,7 @@ jobs:
           tar xzf asc-client.tar.gz
           sudo mv asc-client /usr/local/bin/asc-client
           xattr -d com.apple.quarantine /usr/local/bin/asc-client 2>/dev/null || true
-          asc-client --version
+          echo "asc-client installed at $(which asc-client)"
 
       - name: Decode API Key
         env:
@@ -219,17 +219,24 @@ jobs:
           fi
           grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8 \
             || (echo "ERROR: AuthKey.p8 is not a valid private key" && exit 1)
+          echo "AuthKey.p8 decoded successfully"
 
       - name: Configure asc-client
         env:
           ASC_KEY_ID:    ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
         run: |
-          printf '%s\n%s\n%s\n' \
-            "$ASC_KEY_ID" \
-            "$ASC_ISSUER_ID" \
-            "$(pwd)/AuthKey.p8" \
-            | asc-client configure
+          # asc-client stores config at ~/.asc-client/config.json
+          # Write it directly to avoid interactive 'configure' prompts
+          mkdir -p ~/.asc-client
+          cat > ~/.asc-client/config.json << JSON
+          {
+            "keyId": "$ASC_KEY_ID",
+            "issuerId": "$ASC_ISSUER_ID",
+            "privateKeyPath": "$(pwd)/AuthKey.p8"
+          }
+          JSON
+          echo "asc-client configured (keyId: $ASC_KEY_ID)"
 
       - name: Build & Sign IPA (fastlane match + xcodebuild)
         env:
