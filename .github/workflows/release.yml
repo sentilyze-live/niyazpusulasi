@@ -1,0 +1,90 @@
+name: Release to App Store
+
+# Trigger manually from GitHub Actions UI.
+# Steps: create version → upload screenshots → update metadata → submit for review.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App Store version string (e.g. 1.0.0)'
+        required: true
+        default: '1.0.0'
+      submit_for_review:
+        description: 'Submit for review after uploading?'
+        type: boolean
+        default: true
+
+jobs:
+  release:
+    name: Submit to App Store
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    env:
+      BUNDLE_ID: 'com.niyazpusulasi.app'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install asc-client
+        run: |
+          curl -fsSL \
+            https://github.com/keremerkan/asc-client/releases/latest/download/asc-client-macos-arm64.tar.gz \
+            -o asc-client.tar.gz
+          tar xzf asc-client.tar.gz
+          sudo mv asc-client /usr/local/bin/asc-client
+          xattr -d com.apple.quarantine /usr/local/bin/asc-client 2>/dev/null || true
+          asc-client --version
+
+      - name: Decode API Key
+        env:
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+        run: |
+          set -euo pipefail
+          if echo "$ASC_KEY_CONTENT" | grep -q "BEGIN.*PRIVATE KEY"; then
+            printf '%s' "$ASC_KEY_CONTENT" > AuthKey.p8
+          else
+            echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8 2>/dev/null || \
+            echo "$ASC_KEY_CONTENT" | base64 -d  > AuthKey.p8 2>/dev/null || \
+            echo "$ASC_KEY_CONTENT" | base64 -D  > AuthKey.p8
+          fi
+          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8 \
+            || (echo "ERROR: AuthKey.p8 is not a valid private key" && exit 1)
+
+      - name: Configure asc-client
+        env:
+          ASC_KEY_ID:    ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          printf '%s\n%s\n%s\n' \
+            "$ASC_KEY_ID" \
+            "$ASC_ISSUER_ID" \
+            "$(pwd)/AuthKey.p8" \
+            | asc-client configure
+
+      - name: Create new App Store version
+        run: |
+          echo "Creating version ${{ inputs.version }} for ${{ env.BUNDLE_ID }}"
+          asc-client apps create-version ${{ env.BUNDLE_ID }} ${{ inputs.version }} || \
+            echo "Version may already exist — continuing"
+
+      - name: Upload screenshots
+        run: |
+          echo "Uploading screenshots from media/ ..."
+          asc-client apps upload-media ${{ env.BUNDLE_ID }} --folder media/
+
+      - name: Update localizations (name, description, keywords)
+        run: |
+          echo "Updating metadata from media/localizations.json ..."
+          asc-client apps update-localizations ${{ env.BUNDLE_ID }} --file media/localizations.json
+
+      - name: Submit for App Store review
+        if: ${{ inputs.submit_for_review == 'true' }}
+        run: |
+          echo "Submitting ${{ env.BUNDLE_ID }} v${{ inputs.version }} for review..."
+          asc-client apps submit-for-review ${{ env.BUNDLE_ID }}
+
+      - name: Cleanup
+        if: always()
+        run: rm -f AuthKey.p8

@@ -16,13 +16,12 @@ platform :ios do
 
   before_all do
     if ENV['CI']
-      # Create a dedicated keychain for this build
       create_keychain(
-        name: KEYCHAIN_NAME,
-        password: KEYCHAIN_PASSWORD,
+        name:             KEYCHAIN_NAME,
+        password:         KEYCHAIN_PASSWORD,
         default_keychain: true,
-        unlock: true,
-        timeout: 3600,
+        unlock:           true,
+        timeout:          3600,
         lock_when_sleeps: false
       )
     end
@@ -38,85 +37,16 @@ platform :ios do
     if ENV['CI']
       delete_keychain(name: KEYCHAIN_NAME) rescue nil
     end
-    UI.error("Lane #{lane} failed: #{exception.message}")
+    UI.error("Lane '#{lane}' failed: #{exception.message}")
   end
 
   # ─────────────────────────────────────────────
-  # Lane: tests
+  # Lane: build_release
+  # Fetches AppStore certs via match and builds IPA.
+  # asc-client handles upload/submission — not fastlane.
   # ─────────────────────────────────────────────
-  desc "Run all unit tests"
-  lane :tests do
-    run_tests(
-      project: PROJECT,
-      scheme: SCHEME,
-      device: "iPhone 15 Pro",
-      clean: true,
-      code_coverage: true
-    )
-  end
-
-  # ─────────────────────────────────────────────
-  # Lane: beta
-  # Builds and uploads to TestFlight
-  # ─────────────────────────────────────────────
-  desc "Build and upload to TestFlight"
-  lane :beta do
-    # Increment build number
-    increment_build_number(
-      build_number: Time.now.strftime("%Y%m%d%H%M")
-    )
-
-    # App Store Connect API Key
-    api_key = app_store_connect_api_key(
-      key_id:      ENV["ASC_KEY_ID"],
-      issuer_id:   ENV["ASC_ISSUER_ID"],
-      key_filepath: "AuthKey.p8",
-      duration:    1200,
-      in_house:    false
-    )
-
-    # Install certificates + provisioning profiles into our keychain
-    # readonly: true — never regenerate certs in CI; run setup-certificates workflow first
-    match(
-      type:             "appstore",
-      app_identifier:   [APP_IDENTIFIER, WIDGET_IDENTIFIER],
-      readonly:         true,
-      api_key:          api_key,
-      keychain_name:    KEYCHAIN_NAME,
-      keychain_password: KEYCHAIN_PASSWORD
-    )
-
-    # Build
-    build_app(
-      project:          PROJECT,
-      scheme:           SCHEME,
-      export_method:    "app-store",
-      output_directory: "./build",
-      output_name:      "NiyazPusulasi.ipa",
-      clean:            true,
-      export_options: {
-        method: "app-store",
-        teamID: TEAM_ID,
-        signingStyle: "manual",
-        provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING]
-      }
-    )
-
-    # Upload to TestFlight
-    upload_to_testflight(
-      api_key:                          api_key,
-      skip_waiting_for_build_processing: true,
-      changelog:                        "CI build - #{last_git_commit[:message]}"
-    )
-  end
-
-  # ─────────────────────────────────────────────
-  # Lane: upload_metadata
-  # Uploads only metadata (no binary) to App Store
-  # Languages: tr, en-US, ar-SA
-  # ─────────────────────────────────────────────
-  desc "Upload metadata (description, keywords, title) to App Store — no binary upload"
-  lane :upload_metadata do
+  desc "Fetch AppStore certificates and build signed IPA"
+  lane :build_release do
     api_key = app_store_connect_api_key(
       key_id:       ENV["ASC_KEY_ID"],
       issuer_id:    ENV["ASC_ISSUER_ID"],
@@ -125,48 +55,51 @@ platform :ios do
       in_house:     false
     )
 
-    deliver(
-      api_key:             api_key,
-      skip_binary_upload:  true,
-      skip_screenshots:    true,
-      skip_app_version_update: false,
-      force:               true,
-      languages:           ["tr", "en-US", "ar-SA"],
-      precheck_include_in_app_purchases: false
-    )
-  end
-
-  # ─────────────────────────────────────────────
-  # Lane: release
-  # ─────────────────────────────────────────────
-  desc "Submit to App Store review"
-  lane :release do
-    api_key = app_store_connect_api_key(
-      key_id:      ENV["ASC_KEY_ID"],
-      issuer_id:   ENV["ASC_ISSUER_ID"],
-      key_filepath: "AuthKey.p8",
-      duration:    1200,
-      in_house:    false
+    match(
+      type:              "appstore",
+      app_identifier:    [APP_IDENTIFIER, WIDGET_IDENTIFIER],
+      readonly:          true,
+      api_key:           api_key,
+      keychain_name:     KEYCHAIN_NAME,
+      keychain_password: KEYCHAIN_PASSWORD
     )
 
-    deliver(
-      api_key:                      api_key,
-      submit_for_review:            true,
-      automatic_release:            false,
-      force:                        true,
-      precheck_include_in_app_purchases: false,
-      submission_information: {
-        add_id_info_uses_idfa: false
+    build_app(
+      project:          PROJECT,
+      scheme:           SCHEME,
+      export_method:    "app-store",
+      output_directory: "./build",
+      output_name:      "NiyazPusulasi.ipa",
+      clean:            true,
+      export_options: {
+        method:               "app-store",
+        teamID:               TEAM_ID,
+        signingStyle:         "manual",
+        provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING]
       }
     )
   end
 
   # ─────────────────────────────────────────────
-  # Lane: setup_iap
-  # Creates subscription group + monthly/yearly products in App Store Connect.
-  # Run once before first submission: bundle exec fastlane setup_iap
+  # Lane: tests
   # ─────────────────────────────────────────────
-  desc "Create subscription group and products in App Store Connect"
+  desc "Run unit tests on simulator"
+  lane :tests do
+    run_tests(
+      project:       PROJECT,
+      scheme:        SCHEME,
+      device:        "iPhone 16 Pro",
+      clean:         true,
+      code_coverage: true
+    )
+  end
+
+  # ─────────────────────────────────────────────
+  # Lane: setup_iap
+  # Creates subscription group + products in ASC.
+  # Run once: bundle exec fastlane setup_iap
+  # ─────────────────────────────────────────────
+  desc "Create IAP subscription group and products in App Store Connect (run once)"
   lane :setup_iap do
     require 'spaceship'
 
@@ -183,13 +116,12 @@ platform :ios do
     app = Spaceship::ConnectAPI::App.find(APP_IDENTIFIER)
     UI.user_error!("App #{APP_IDENTIFIER} not found") unless app
 
-    # --- Subscription Group ---
     groups = Spaceship::ConnectAPI::SubscriptionGroup.all(app_id: app.id)
-    group = groups.find { |g| g.reference_name == "Premium Plans" }
+    group  = groups.find { |g| g.reference_name == "Premium Plans" }
 
     unless group
       group = Spaceship::ConnectAPI::SubscriptionGroup.create(
-        app_id: app.id,
+        app_id:         app.id,
         reference_name: "Premium Plans"
       )
       UI.success("Created subscription group: Premium Plans (id: #{group.id})")
@@ -197,7 +129,6 @@ platform :ios do
       UI.message("Subscription group already exists: #{group.id}")
     end
 
-    # --- Helper: create or skip ---
     def create_sub(group, product_id, name, duration, trial_days)
       existing = Spaceship::ConnectAPI::Subscription.all(group_id: group.id)
                    .find { |s| s.product_id == product_id }
@@ -207,54 +138,38 @@ platform :ios do
       end
 
       sub = Spaceship::ConnectAPI::Subscription.create(
-        group_id:         group.id,
-        product_id:       product_id,
-        name:             name,
-        family_shareable: true,
+        group_id:            group.id,
+        product_id:          product_id,
+        name:                name,
+        family_shareable:    true,
         subscription_period: duration,
-        review_note:      "Subscription unlocks all premium features of Niyaz Pusulası."
+        review_note:         "Subscription unlocks all premium features of Niyaz Pusulasi."
       )
 
-      # Add free trial introductory offer
-      Spaceship::ConnectAPI::SubscriptionIntroductoryOffer.create(
-        subscription_id:   sub.id,
-        duration:          "P#{trial_days}D",
-        offer_mode:        "FREE_TRIAL",
-        number_of_periods: 1
-      ) if trial_days > 0
+      if trial_days > 0
+        Spaceship::ConnectAPI::SubscriptionIntroductoryOffer.create(
+          subscription_id:   sub.id,
+          duration:          "P#{trial_days}D",
+          offer_mode:        "FREE_TRIAL",
+          number_of_periods: 1
+        )
+      end
 
-      # Localization (Turkish)
       Spaceship::ConnectAPI::SubscriptionLocalization.create(
         subscription_id: sub.id,
         locale:          "tr",
         name:            name,
-        description:     "Niyaz Pusulası'nın tüm premium özelliklerine erişim."
+        description:     "Niyaz Pusulasi'nin tum premium ozelliklerine erisim."
       )
 
       UI.success("Created #{product_id}")
     end
 
-    create_sub(group, "niyaz_premium_monthly", "Niyaz Premium - Aylık",  "P1M", 7)
-    create_sub(group, "niyaz_premium_yearly",  "Niyaz Premium - Yıllık", "P1Y", 7)
+    create_sub(group, "niyaz_premium_monthly", "Niyaz Premium - Aylik",  "P1M", 7)
+    create_sub(group, "niyaz_premium_yearly",  "Niyaz Premium - Yillik", "P1Y", 7)
 
     UI.success("IAP setup complete! Group ID: #{group.id}")
-    UI.important("Next: Go to App Store Connect → Subscriptions → set pricing for both products.")
-  end
-
-  # ─────────────────────────────────────────────
-  # Lane: screenshots
-  # Captures App Store screenshots via UI tests.
-  # Config is in fastlane/Snapfile.
-  # Triggered via GitHub Actions: .github/workflows/screenshots.yml
-  # ─────────────────────────────────────────────
-  desc "Capture App Store screenshots"
-  lane :screenshots do
-    capture_screenshots(
-      scheme: SCHEME,
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true,
-      override_status_bar: true
-    )
+    UI.important("Next: App Store Connect -> Subscriptions -> set pricing for both products.")
   end
 
 end

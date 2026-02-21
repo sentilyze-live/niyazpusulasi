@@ -23,6 +23,9 @@ fastlane/screenshots/
 fastlane/test_output/
 fastlane/README.md
 
+# asc-client generated files
+asc-client.tar.gz
+
 # Secrets — NEVER commit these
 AuthKey*.p8
 ApiKey*.p8

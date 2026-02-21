@@ -18,8 +18,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SCHEME: 'NiyazPusulasi'
+  SCHEME:  'NiyazPusulasi'
   PROJECT: 'NiyazPusulasi.xcodeproj'
+  BUNDLE_ID: 'com.niyazpusulasi.app'
 
 jobs:
   # ─────────────────────────────────────────────
@@ -40,7 +41,7 @@ jobs:
           if [ -z "$XCODE_PATH" ]; then
             XCODE_PATH=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
           fi
-          echo "Using Xcode at: $XCODE_PATH"
+          echo "Using Xcode: $XCODE_PATH"
           sudo xcode-select -s "$XCODE_PATH"
 
       - name: Install XcodeGen
@@ -105,7 +106,7 @@ jobs:
         run: |
           xcodebuild -resolvePackageDependencies \
             -project ${{ env.PROJECT }} \
-            -scheme ${{ env.SCHEME }} \
+            -scheme  ${{ env.SCHEME }} \
             -clonedSourcePackagesDirPath .spm-cache
 
       - name: Build (Debug, Simulator)
@@ -113,7 +114,7 @@ jobs:
           set -o pipefail
           xcodebuild build \
             -project ${{ env.PROJECT }} \
-            -scheme ${{ env.SCHEME }} \
+            -scheme  ${{ env.SCHEME }} \
             -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
@@ -128,7 +129,7 @@ jobs:
           set -o pipefail
           xcodebuild test \
             -project ${{ env.PROJECT }} \
-            -scheme ${{ env.SCHEME }} \
+            -scheme  ${{ env.SCHEME }} \
             -destination "${IOS_SIM_DESTINATION}" \
             -clonedSourcePackagesDirPath .spm-cache \
             -configuration Debug \
@@ -148,16 +149,17 @@ jobs:
           retention-days: 7
 
   # ─────────────────────────────────────────────
-  # Job 2: Deploy to TestFlight
+  # Job 2: Build signed IPA + Upload to TestFlight
+  # Triggers: v* tag push  OR  workflow_dispatch with deploy=true
   # ─────────────────────────────────────────────
   deploy:
     name: Deploy to TestFlight
     runs-on: macos-15
     needs: build
+    timeout-minutes: 45
     if: |
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_to_testflight == 'true')
-    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -169,7 +171,6 @@ jobs:
           if [ -z "$XCODE_PATH" ]; then
             XCODE_PATH=$(ls -d /Applications/Xcode*.app 2>/dev/null | sort -V | tail -1)
           fi
-          echo "Using Xcode at: $XCODE_PATH"
           sudo xcode-select -s "$XCODE_PATH"
 
       - name: Install XcodeGen
@@ -193,6 +194,16 @@ jobs:
           key: spm-${{ runner.os }}-${{ hashFiles('project.yml', '**/Package.resolved') }}
           restore-keys: spm-${{ runner.os }}-
 
+      - name: Install asc-client
+        run: |
+          curl -fsSL \
+            https://github.com/keremerkan/asc-client/releases/latest/download/asc-client-macos-arm64.tar.gz \
+            -o asc-client.tar.gz
+          tar xzf asc-client.tar.gz
+          sudo mv asc-client /usr/local/bin/asc-client
+          xattr -d com.apple.quarantine /usr/local/bin/asc-client 2>/dev/null || true
+          asc-client --version
+
       - name: Decode API Key
         env:
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
@@ -202,21 +213,48 @@ jobs:
             printf '%s' "$ASC_KEY_CONTENT" > AuthKey.p8
           else
             echo "$ASC_KEY_CONTENT" | base64 --decode > AuthKey.p8 2>/dev/null || \
-            echo "$ASC_KEY_CONTENT" | base64 -d > AuthKey.p8 2>/dev/null || \
-            echo "$ASC_KEY_CONTENT" | base64 -D > AuthKey.p8
+            echo "$ASC_KEY_CONTENT" | base64 -d  > AuthKey.p8 2>/dev/null || \
+            echo "$ASC_KEY_CONTENT" | base64 -D  > AuthKey.p8
           fi
-          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8 || (echo "ERROR: AuthKey.p8 is not a valid private key" && exit 1)
+          grep -q "BEGIN.*PRIVATE KEY" AuthKey.p8 \
+            || (echo "ERROR: AuthKey.p8 is not a valid private key" && exit 1)
 
-      - name: Build & Upload to TestFlight
+      - name: Configure asc-client
         env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_KEY_ID:    ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-        run: bundle exec fastlane beta
+        run: |
+          printf '%s\n%s\n%s\n' \
+            "$ASC_KEY_ID" \
+            "$ASC_ISSUER_ID" \
+            "$(pwd)/AuthKey.p8" \
+            | asc-client configure
 
-      - name: Clean up
+      - name: Build & Sign IPA (fastlane match + xcodebuild)
+        env:
+          ASC_KEY_ID:                   ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID:                ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT:              ${{ secrets.ASC_KEY_CONTENT }}
+          MATCH_PASSWORD:               ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL:                ${{ secrets.MATCH_GIT_URL }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        run: bundle exec fastlane build_release
+
+      - name: Set build number from tag
+        run: |
+          BUILD=$(echo "${{ github.ref_name }}" | tr -d 'v' | tr '.' '0' || date +%Y%m%d%H%M)
+          echo "BUILD_NUMBER=$BUILD" >> "$GITHUB_ENV"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUILD" NiyazPusulasi/Info.plist
+
+      - name: Upload IPA to TestFlight
+        run: |
+          asc-client builds upload build/NiyazPusulasi.ipa
+
+      - name: Wait for build processing
+        run: |
+          echo "Waiting for TestFlight to process the build..."
+          asc-client builds await-processing ${{ env.BUNDLE_ID }} || true
+
+      - name: Cleanup
         if: always()
         run: rm -f AuthKey.p8
