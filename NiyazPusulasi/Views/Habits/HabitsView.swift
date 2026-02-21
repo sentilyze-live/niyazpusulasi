@@ -89,6 +89,7 @@ struct HabitsView: View {
         }
         .onAppear { viewModel.onAppear() }
     }
+}
 
     // MARK: - Add Habit with Premium Gate
 
@@ -276,8 +277,6 @@ struct HabitsView: View {
         }
         .presentationDetents([.medium])
     }
-}
-
 }
 #Preview {
     HabitsView()
