@@ -9,41 +9,53 @@ struct PrayerTimeRow: View {
     let formattedTime: String
 
     var body: some View {
-        HStack(spacing: 12) {
-            // Prayer icon
-            Image(systemName: prayer.symbolName)
-                .font(.body)
-                .foregroundStyle(iconColor)
-                .frame(width: 28)
+        HStack {
+            Image(systemName: prayer.symbolName) // Assuming prayer.symbolName is the correct property
+                .font(.title2)
+                .foregroundStyle(isCurrent ? Color.themeGold : (isNext ? Color.themeCyan : .gray.opacity(0.5)))
+                .frame(width: 30)
 
-            // Prayer name
-            Text(prayer.turkishName)
-                .font(.body)
-                .fontWeight(isHighlighted ? .semibold : .regular)
-                .foregroundStyle(textColor)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(prayer.localizedName)
+                    .font(.subheadline)
+                    .fontWeight(isCurrent || isNext ? .semibold : .medium)
+                    .foregroundStyle(isCurrent || isNext ? .white : .gray)
+                
+                if isCurrent {
+                    Text("Şu an")
+                        .font(.caption2)
+                        .foregroundStyle(Color.themeGold)
+                } else if isNext {
+                    Text("Sıradaki")
+                        .font(.caption2)
+                        .foregroundStyle(Color.themeCyan)
+                }
+            }
 
             Spacer()
 
-            // Time
             Text(formattedTime)
-                .font(.system(.body, design: .monospaced))
-                .fontWeight(isHighlighted ? .semibold : .regular)
-                .foregroundStyle(textColor)
-
-            // Status indicator
+                .font(.headline)
+                .foregroundStyle(isCurrent ? Color.themeGold : .white)
+        }
+        .padding()
+        .background {
             if isCurrent {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: 8))
-                    .foregroundStyle(.green)
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.themeGold.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.themeGold.opacity(0.5), lineWidth: 1)
+                    )
             } else if isNext {
-                Image(systemName: "arrow.right.circle.fill")
-                    .font(.system(size: 14))
-                    .foregroundStyle(.blue)
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.themeCyan.opacity(0.1))
+            } else {
+                Color.clear
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(isHighlighted ? highlightBackground : Color.clear)
     }
 
     private var isHighlighted: Bool {

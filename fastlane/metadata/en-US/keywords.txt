@@ -1,1 +1,1 @@
-prayer,times,muslim,qibla,adhan,ramadan,imsak,iftar,quran,dhikr,tasbih,hijri,fasting,suhoor,islamic
+prayer,times,muslim,qibla,adhan,ramadan,imsak,iftar,quran,dhikr,tasbeeh,hijri,fasting,salah,islamic

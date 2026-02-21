@@ -27,7 +27,7 @@ jobs:
   # ─────────────────────────────────────────────
   build:
     name: Build & Test
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 30
 
     steps:
@@ -98,7 +98,7 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             .build
-          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml', '**/Package.resolved') }}
           restore-keys: spm-${{ runner.os }}-
 
       - name: Resolve Dependencies
@@ -152,7 +152,7 @@ jobs:
   # ─────────────────────────────────────────────
   deploy:
     name: Deploy to TestFlight
-    runs-on: macos-14
+    runs-on: macos-15
     needs: build
     if: |
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
@@ -190,7 +190,7 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             .build
-          key: spm-${{ runner.os }}-${{ hashFiles('project.yml') }}
+          key: spm-${{ runner.os }}-${{ hashFiles('project.yml', '**/Package.resolved') }}
           restore-keys: spm-${{ runner.os }}-
 
       - name: Decode API Key

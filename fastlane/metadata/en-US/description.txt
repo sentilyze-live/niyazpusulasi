@@ -45,6 +45,15 @@ PREMIUM FEATURES (Optional)
 
 Core features are always free. Premium subscription is entirely optional.
 
+PREMIUM SUBSCRIPTION
+• Monthly: $4.99/month
+• Yearly: $29.99/year (save 50%)
+• 7-day free trial available
+• Payment charged to your Apple ID account at confirmation of purchase
+• Subscription automatically renews unless cancelled at least 24 hours before the end of the current period
+• Manage or cancel your subscription in App Store Account Settings
+• No charge during the free trial period if cancelled before trial ends
+
 PRIVACY & SECURITY
 • Your location is only used to calculate prayer times
 • Your data stays on your device — nothing is sent to servers

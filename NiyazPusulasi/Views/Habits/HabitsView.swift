@@ -15,14 +15,43 @@ struct HabitsView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Date header
-                    Text(dateFormatter.string(from: viewModel.currentDate))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-
-                    // Habit checklist
+            ZStack {
+                Color.themeDarkBg.ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Date header
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("GÖREVLER")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                
+                                Text(dateFormatter.string(from: viewModel.currentDate).uppercased())
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                    .tracking(1)
+                                    .foregroundStyle(Color.themeGold)
+                            }
+                            Spacer()
+                            
+                            // Done counter
+                            let doneCount = viewModel.habits.filter { $0.isDone }.count
+                            let totalCount = viewModel.habits.count
+                            Circle()
+                                .fill(Color.white.opacity(0.1))
+                                .frame(width: 44, height: 44)
+                                .overlay(
+                                    Text("\(doneCount)/\(totalCount)")
+                                        .font(.caption)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.themeCyan)
+                                )
+                        }
+                        .padding(.top, 8)
+                        
+                        // Habit checklist
                     habitChecklistSection
 
                     // Monthly heatmap (premium gated)
@@ -119,15 +148,15 @@ struct HabitsView: View {
     // MARK: - Checklist
 
     private var habitChecklistSection: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 12) {
             if viewModel.habits.isEmpty {
                 VStack(spacing: 12) {
                     Image(systemName: "checklist")
                         .font(.system(size: 36))
-                        .foregroundStyle(.secondary)
-                    Text("Henüz alışkanlık eklenmemiş")
+                        .foregroundStyle(.gray)
+                    Text("Henüz görev eklenmemiş")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 40)
@@ -140,18 +169,15 @@ struct HabitsView: View {
                 if !premiumManager.isPremium {
                     HStack {
                         Spacer()
-                        Text("\(viewModel.habits.count)/\(PremiumFeature.freeHabitLimit) ücretsiz alışkanlık")
+                        Text("\(viewModel.habits.count)/\(PremiumFeature.freeHabitLimit) ücretsiz görev")
                             .font(.system(size: 10))
-                            .foregroundStyle(.tertiary)
+                            .foregroundStyle(.gray)
                         Spacer()
                     }
                     .padding(.vertical, 6)
                 }
             }
         }
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
     }
 
     private func habitRow(_ habit: HabitsViewModel.HabitItem) -> some View {
@@ -160,16 +186,30 @@ struct HabitsView: View {
                 viewModel.toggleHabit(habit)
             }
         } label: {
-            HStack(spacing: 12) {
-                Image(systemName: habit.isDone ? "checkmark.circle.fill" : "circle")
-                    .font(.title3)
-                    .foregroundStyle(habit.isDone ? .green : .secondary)
-                    .contentTransition(.symbolEffect(.replace))
+            HStack(spacing: 16) {
+                // Custom Checkbox
+                ZStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(habit.isDone ? Color.themeGold : Color.gray.opacity(0.5), lineWidth: 2)
+                        .frame(width: 24, height: 24)
+                        .background(habit.isDone ? Color.themeGold.opacity(0.2) : Color.clear)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
 
-                Text(habit.title)
-                    .font(.body)
-                    .foregroundStyle(habit.isDone ? .secondary : .primary)
-                    .strikethrough(habit.isDone)
+                    if habit.isDone {
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(Color.themeGold)
+                            .transition(.scale)
+                    }
+                }
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(habit.title)
+                        .font(.body)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(habit.isDone ? .gray : .white)
+                        .strikethrough(habit.isDone, color: .gray)
+                }
 
                 Spacer()
 
@@ -177,16 +217,24 @@ struct HabitsView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "flame.fill")
                             .font(.caption)
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(Color.themeGold)
                         Text("\(habit.streak)")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.orange)
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.white)
                     }
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.white.opacity(0.1))
+                    .clipShape(Capsule())
                 }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .contentShape(Rectangle())
+            .padding()
+            .glassPanel(cornerRadius: 16, opacity: 0.4)
+            .shadow(color: habit.isDone ? .clear : Color.themeCyan.opacity(0.05), radius: 5, x: 0, y: 3)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(habit.isDone ? Color.themeGold.opacity(0.3) : Color.clear, lineWidth: 1)
+            )
         }
         .buttonStyle(.plain)
     }
@@ -230,6 +278,7 @@ struct HabitsView: View {
     }
 }
 
+}
 #Preview {
     HabitsView()
         .environment(\.managedObjectContext, PersistenceController.preview.viewContext)

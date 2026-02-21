@@ -154,6 +154,14 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Allahumme salli ala Muhammed ve ala ali Muhammed",
                     meaning: "Allah'ım! Muhammed'e ve Muhammed'in ailesine rahmet eyle",
                     source: nil),
+                Dua(title: "Kunut Duası", arabic: "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ",
+                    transliteration: "Allahumme'hdinî fîmen hedeyt",
+                    meaning: "Allah'ım! Hidayet ettiklerinin arasında beni de hidayete erdir",
+                    source: "Ebu Davud, Tirmizi"),
+                Dua(title: "Rabbena Atina", arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً",
+                    transliteration: "Rabbena atina fid'dünya haseneten ve fil ahirati haseneten",
+                    meaning: "Rabbimiz! Bize dünyada da ahirette de iyilik ver",
+                    source: "Bakara Suresi 201"),
             ]
         case .morning:
             return [
@@ -165,6 +173,18 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Subhanallahi ve bihamdihi",
                     meaning: "Allah'ı hamd ile tesbih ederim (100 kez)",
                     source: "Buhari, Müslim"),
+                Dua(title: "Sabah Istiazesi", arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+                    transliteration: "Euzü billahi mineşşeytanirracim",
+                    meaning: "Kovulmuş şeytandan Allah'a sığınırım",
+                    source: nil),
+                Dua(title: "Günün Bereketi", arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا",
+                    transliteration: "Allahumme bike asbahna ve bike emseyna",
+                    meaning: "Allah'ım! Senin adınla sabahladık, senin adınla akşamladık",
+                    source: "Ebu Davud"),
+                Dua(title: "Sağlık Duası", arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي",
+                    transliteration: "Allahumme afini fi bedeni",
+                    meaning: "Allah'ım! Bedenime afiyet ver",
+                    source: "Ebu Davud"),
             ]
         case .evening:
             return [
@@ -176,6 +196,14 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Allahu la ilahe illa huvel hayyul kayyum...",
                     meaning: "Allah, O'ndan başka ilah yoktur. O, daima diridir...",
                     source: "Bakara Suresi 255"),
+                Dua(title: "Uyku Duası", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+                    transliteration: "Bismike Allahumme emutu ve ahya",
+                    meaning: "Allah'ım! Senin adınla ölür ve dirilirim",
+                    source: "Buhari"),
+                Dua(title: "Akşam Zikri", arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ",
+                    transliteration: "Emseyna ve emsel mulku lillahi velhamdulillah",
+                    meaning: "Akşama eriştik ve mülk Allah'a aittir; hamd Allah'a mahsustur",
+                    source: "Ebu Davud"),
             ]
         case .prayer:
             return [
@@ -187,6 +215,18 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Ettehiyyatu lillahi ves salavatu vet tayyibat",
                     meaning: "Her türlü saygı, namaz ve güzellik Allah'a aittir",
                     source: nil),
+                Dua(title: "Allahümme Salli", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+                    transliteration: "Allahumme salli ala Muhammedin ve ala ali Muhammed",
+                    meaning: "Allah'ım! Muhammed'e ve ailesine rahmet eyle",
+                    source: nil),
+                Dua(title: "Allahümme Barik", arabic: "اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+                    transliteration: "Allahumme barik ala Muhammedin ve ala ali Muhammed",
+                    meaning: "Allah'ım! Muhammed'e ve ailesine bereket ver",
+                    source: nil),
+                Dua(title: "Namaz Sonrası Zikir", arabic: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَاللَّهُ أَكْبَرُ",
+                    transliteration: "Subhanallah (33) Elhamdülillah (33) Allahu Ekber (33)",
+                    meaning: "Allah'ı tesbih ederim, hamd ederim, Allah en büyüktür",
+                    source: "Buhari, Müslim"),
             ]
         case .eating:
             return [
@@ -198,6 +238,10 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Elhamdulillahillezi et'amena ve sekana",
                     meaning: "Bizi yedirip içiren Allah'a hamdolsun",
                     source: nil),
+                Dua(title: "Bereket Duası", arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا",
+                    transliteration: "Allahumme barik lena fima razaktana",
+                    meaning: "Allah'ım! Bize verdiğin rızıkta bereketini artır",
+                    source: "İbn Sünni"),
             ]
         case .travel:
             return [
@@ -205,6 +249,14 @@ enum DuaCategory: String, CaseIterable, Identifiable {
                     transliteration: "Subhanellezi sahhara lena haza",
                     meaning: "Bunu bizim hizmetimize veren Allah eksikliklerden münezzehtir",
                     source: "Zuhruf Suresi 13"),
+                Dua(title: "Eve Dönüş Duası", arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ",
+                    transliteration: "Ayibune taibune abidune lirabbina hamidun",
+                    meaning: "Dönenler, tövbe edenler, kulluk edenler ve Rabbimize hamd edenleriz",
+                    source: "Müslim"),
+                Dua(title: "Araç Binme Duası", arabic: "بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا",
+                    transliteration: "Bismillahi mecreha ve mürseha",
+                    meaning: "Allah'ın adıyla ilerler ve durur",
+                    source: "Hud Suresi 41"),
             ]
         }
     }

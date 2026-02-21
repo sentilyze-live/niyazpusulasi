@@ -28,7 +28,7 @@ struct TodayView: View {
                     PrayerTrackingView()
 
                     // Qibla mini indicator
-                    if viewModel.qiblaDirection > 0 {
+                    if viewModel.todayPrayers != nil {
                         QiblaView(direction: viewModel.qiblaDirection)
                     }
                 }
@@ -58,48 +58,64 @@ struct TodayView: View {
     private var headerSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                HStack(spacing: 6) {
-                    Image(systemName: "location.fill")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Text(settingsManager.location.displayName)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
+                Text("HAYIRLI GÜNLER")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .tracking(1)
+                    .foregroundStyle(.gray)
 
-                if !viewModel.hijriDate.isEmpty {
-                    Text(viewModel.hijriDate)
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
-                }
+                Text(settingsManager.location.displayName)
+                    .font(.title2)
+                    .bold()
+                    .foregroundStyle(.white)
             }
 
             Spacer()
 
-            Text(Date(), style: .date)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            // Notification Bell from prototype
+            Circle()
+                .fill(Color.white.opacity(0.1))
+                .frame(width: 40, height: 40)
+                .overlay(
+                    Image(systemName: "bell.fill")
+                        .foregroundStyle(Color.themeGold)
+                )
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 8)
     }
 
     // MARK: - Prayer Times List
 
     private func prayerTimesSection(_ prayers: PrayerTimeDay) -> some View {
-        VStack(spacing: 2) {
-            ForEach(PrayerName.allCases) { prayer in
-                PrayerTimeRow(
-                    prayer: prayer,
-                    time: prayers.time(for: prayer),
-                    isCurrent: viewModel.currentPrayer == prayer,
-                    isNext: viewModel.nextPrayerInfo?.name == prayer,
-                    formattedTime: settingsManager.formatTime(prayers.time(for: prayer))
-                )
+        VStack(spacing: 0) {
+            HStack {
+                Text("Bugünün Vakitleri")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                Spacer()
+                Text("Tümünü Gör")
+                    .font(.caption)
+                    .foregroundStyle(Color.themeGold)
+            }
+            .padding(.bottom, 12)
+            .padding(.horizontal, 8)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(PrayerName.allCases) { prayer in
+                        PrayerTimeRow(
+                            prayer: prayer,
+                            time: prayers.time(for: prayer),
+                            isCurrent: viewModel.currentPrayer == prayer,
+                            isNext: viewModel.nextPrayerInfo?.name == prayer,
+                            formattedTime: settingsManager.formatTime(prayers.time(for: prayer))
+                        )
+                        .frame(width: 100)
+                    }
+                }
+                .padding(.horizontal, 8)
             }
         }
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(color: .black.opacity(0.05), radius: 8, y: 2)
     }
 }
 

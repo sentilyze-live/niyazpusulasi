@@ -15,7 +15,7 @@ env:
 jobs:
   screenshots:
     name: Capture Screenshots
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 60
 
     steps:
@@ -63,7 +63,7 @@ jobs:
       - name: Boot Simulators
         run: |
           # Pre-boot simulators to speed up snapshot
-          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone 8 Plus" | head -4
+          xcrun simctl list devices available | grep -E "iPhone 16 Pro Max|iPhone SE (3rd generation)" | head -4
 
       - name: Capture Screenshots
         run: |
@@ -100,7 +100,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Devices" >> $GITHUB_STEP_SUMMARY
           echo "- iPhone 16 Pro Max (6.9\")" >> $GITHUB_STEP_SUMMARY
-          echo "- iPhone 8 Plus (5.5\")" >> $GITHUB_STEP_SUMMARY
+          echo "- iPhone SE 3rd generation (4.7\")" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Languages" >> $GITHUB_STEP_SUMMARY
           echo "- tr-TR (Turkish)" >> $GITHUB_STEP_SUMMARY

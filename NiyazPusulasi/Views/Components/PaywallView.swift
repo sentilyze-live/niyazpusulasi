@@ -1,10 +1,16 @@
 import SwiftUI
 import RevenueCat
 
+private enum AppURLs {
+    static let privacyPolicy = URL(string: "https://niyazpusulasi.com/legal/privacy-policy")!
+    static let termsOfUse = URL(string: "https://niyazpusulasi.com/legal/terms")!
+}
+
 /// Contextual soft paywall shown when user taps a premium feature.
 struct PaywallView: View {
     let trigger: PremiumFeature
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @StateObject private var premiumManager = PremiumManager.shared
     @State private var selectedPlan: PlanType = .yearly
     @State private var purchaseError: String?
@@ -129,8 +135,8 @@ struct PaywallView: View {
             benefitRow("paintpalette.fill", "6 premium tema")
             benefitRow("checkmark.seal.fill", "Namaz takibi")
             benefitRow("circle.dotted", "Dijital tesbih sayacı")
-            benefitRow("book.fill", "20+ dua koleksiyonu")
-            benefitRow("icloud.fill", "iCloud senkronizasyonu")
+            benefitRow("book.fill", "26 dua koleksiyonu")
+            // iCloud sync coming in a future update
         }
     }
 
@@ -299,13 +305,13 @@ struct PaywallView: View {
 
             HStack(spacing: 16) {
                 Button("Gizlilik Politikası") {
-                    // TODO: Open privacy policy URL
+                    openURL(AppURLs.privacyPolicy)
                 }
                 .font(.system(size: 10))
                 .foregroundStyle(.tertiary)
 
                 Button("Kullanım Şartları") {
-                    // TODO: Open terms URL
+                    openURL(AppURLs.termsOfUse)
                 }
                 .font(.system(size: 10))
                 .foregroundStyle(.tertiary)

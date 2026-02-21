@@ -2,8 +2,12 @@ import Foundation
 import RevenueCat
 
 private enum Config {
-    // SDK API Key from RevenueCat dashboard (App Store connect edilince production key ile değiştir)
-    static let revenueCatAPIKey = "test_XOBsZUSCbusCTyQtPePOrMUsJJE"
+    // MARK: - RevenueCat API Key
+    // ⚠️ BEFORE SUBMITTING TO APP STORE:
+    //    1. RevenueCat Dashboard → Apps & providers → Add new app (App Store)
+    //    2. App Store Connect app'ini bağla
+    //    3. Oluşan "appl_..." prefix'li SDK key ile aşağıdakini değiştir
+    static let revenueCatAPIKey = "appl_tV1VFWFwXeDPPwweVcyRXUGakFZ"
 }
 
 /// Manages premium subscription state and feature gating.
@@ -158,8 +162,8 @@ enum PremiumFeature: String, CaseIterable {
     case tasbeehCounter
     case duaCollection
 
-    // Sync
-    case iCloudSync
+    // Sync (coming in a future update)
+    // case iCloudSync
 
     /// Features available in the free tier.
     var isFreeFeature: Bool {
@@ -182,7 +186,6 @@ enum PremiumFeature: String, CaseIterable {
         case .prayerTracking:             return "premium_prayer_tracking_title".localized
         case .tasbeehCounter:             return "premium_tasbeeh_title".localized
         case .duaCollection:              return "premium_dua_title".localized
-        case .iCloudSync:                 return "premium_icloud_title".localized
         case .customAppIcons:             return "premium_custom_icons_title".localized
         case .customNotificationSounds:   return "premium_sounds_title".localized
         }
@@ -199,7 +202,6 @@ enum PremiumFeature: String, CaseIterable {
         case .prayerTracking:             return "premium_prayer_tracking_desc".localized
         case .tasbeehCounter:             return "premium_tasbeeh_desc".localized
         case .duaCollection:              return "premium_dua_desc".localized
-        case .iCloudSync:                 return "premium_icloud_desc".localized
         case .customAppIcons:             return "premium_custom_icons_description".localized
         case .customNotificationSounds:   return "premium_sounds_description".localized
         }
@@ -216,7 +218,6 @@ enum PremiumFeature: String, CaseIterable {
         case .prayerTracking:             return "checkmark.seal.fill"
         case .tasbeehCounter:             return "circle.dotted"
         case .duaCollection:              return "book.fill"
-        case .iCloudSync:                 return "icloud.fill"
         case .customAppIcons:             return "app.badge.fill"
         case .customNotificationSounds:   return "speaker.wave.3.fill"
         }

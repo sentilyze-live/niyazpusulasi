@@ -17,9 +17,9 @@ final class NotificationManager: ObservableObject {
     private let provider = FallbackPrayerTimesProvider.shared
     private let settingsManager = SettingsManager.shared
 
-    /// Maximum notifications to schedule (leaving 14 slots for other apps/system).
-    /// iOS has a 64-notification limit per app.
-    private let maxNotifications = 50
+    /// Maximum notifications to schedule.
+    /// iOS limit: 64. We use 50, leaving 14 slots as safety margin for system notifications.
+    private let maxNotifications = 60
     
     /// iOS system notification limit
     static let iOSNotificationLimit = 64
@@ -115,8 +115,8 @@ final class NotificationManager: ObservableObject {
 
         switch item.type {
         case .prayer(let prayer):
-            content.title = prayer.turkishName
-            content.body = "\(prayer.turkishName) vakti geldi"
+            content.title = prayer.localizedName
+            content.body = "\(prayer.localizedName) vakti geldi"
             content.categoryIdentifier = prayerCategory
         case .imsak:
             content.title = "İmsak Hatırlatması"

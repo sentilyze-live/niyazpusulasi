@@ -3,13 +3,10 @@ name: Setup Certificates (First Time)
 on:
   workflow_dispatch:
 
-env:
-  XCODE_VERSION: '16.0'
-
 jobs:
   setup-match:
     name: Generate Certificates & Profiles
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 15
 
     steps:

@@ -76,10 +76,11 @@ platform :ios do
     )
 
     # Install certificates + provisioning profiles into our keychain
+    # readonly: true — never regenerate certs in CI; run setup-certificates workflow first
     match(
       type:             "appstore",
       app_identifier:   [APP_IDENTIFIER, WIDGET_IDENTIFIER],
-      readonly:         false,
+      readonly:         true,
       api_key:          api_key,
       keychain_name:    KEYCHAIN_NAME,
       keychain_password: KEYCHAIN_PASSWORD
@@ -112,7 +113,7 @@ platform :ios do
   # ─────────────────────────────────────────────
   # Lane: upload_metadata
   # Uploads only metadata (no binary) to App Store
-  # Languages: tr-TR, en-US, ar-SA
+  # Languages: tr, en-US, ar-SA
   # ─────────────────────────────────────────────
   desc "Upload metadata (description, keywords, title) to App Store — no binary upload"
   lane :upload_metadata do
@@ -130,7 +131,7 @@ platform :ios do
       skip_screenshots:    true,
       skip_app_version_update: false,
       force:               true,
-      languages:           ["tr-TR", "en-US", "ar-SA"],
+      languages:           ["tr", "en-US", "ar-SA"],
       precheck_include_in_app_purchases: false
     )
   end
@@ -158,6 +159,86 @@ platform :ios do
         add_id_info_uses_idfa: false
       }
     )
+  end
+
+  # ─────────────────────────────────────────────
+  # Lane: setup_iap
+  # Creates subscription group + monthly/yearly products in App Store Connect.
+  # Run once before first submission: bundle exec fastlane setup_iap
+  # ─────────────────────────────────────────────
+  desc "Create subscription group and products in App Store Connect"
+  lane :setup_iap do
+    require 'spaceship'
+
+    api_key = app_store_connect_api_key(
+      key_id:       ENV["ASC_KEY_ID"],
+      issuer_id:    ENV["ASC_ISSUER_ID"],
+      key_filepath: "AuthKey.p8",
+      duration:     1200,
+      in_house:     false
+    )
+
+    Spaceship::ConnectAPI.auth(api_key: api_key)
+
+    app = Spaceship::ConnectAPI::App.find(APP_IDENTIFIER)
+    UI.user_error!("App #{APP_IDENTIFIER} not found") unless app
+
+    # --- Subscription Group ---
+    groups = Spaceship::ConnectAPI::SubscriptionGroup.all(app_id: app.id)
+    group = groups.find { |g| g.reference_name == "Premium Plans" }
+
+    unless group
+      group = Spaceship::ConnectAPI::SubscriptionGroup.create(
+        app_id: app.id,
+        reference_name: "Premium Plans"
+      )
+      UI.success("Created subscription group: Premium Plans (id: #{group.id})")
+    else
+      UI.message("Subscription group already exists: #{group.id}")
+    end
+
+    # --- Helper: create or skip ---
+    def create_sub(group, product_id, name, duration, trial_days)
+      existing = Spaceship::ConnectAPI::Subscription.all(group_id: group.id)
+                   .find { |s| s.product_id == product_id }
+      if existing
+        UI.message("#{product_id} already exists, skipping.")
+        return
+      end
+
+      sub = Spaceship::ConnectAPI::Subscription.create(
+        group_id:         group.id,
+        product_id:       product_id,
+        name:             name,
+        family_shareable: true,
+        subscription_period: duration,
+        review_note:      "Subscription unlocks all premium features of Niyaz Pusulası."
+      )
+
+      # Add free trial introductory offer
+      Spaceship::ConnectAPI::SubscriptionIntroductoryOffer.create(
+        subscription_id:   sub.id,
+        duration:          "P#{trial_days}D",
+        offer_mode:        "FREE_TRIAL",
+        number_of_periods: 1
+      ) if trial_days > 0
+
+      # Localization (Turkish)
+      Spaceship::ConnectAPI::SubscriptionLocalization.create(
+        subscription_id: sub.id,
+        locale:          "tr",
+        name:            name,
+        description:     "Niyaz Pusulası'nın tüm premium özelliklerine erişim."
+      )
+
+      UI.success("Created #{product_id}")
+    end
+
+    create_sub(group, "niyaz_premium_monthly", "Niyaz Premium - Aylık",  "P1M", 7)
+    create_sub(group, "niyaz_premium_yearly",  "Niyaz Premium - Yıllık", "P1Y", 7)
+
+    UI.success("IAP setup complete! Group ID: #{group.id}")
+    UI.important("Next: Go to App Store Connect → Subscriptions → set pricing for both products.")
   end
 
   # ─────────────────────────────────────────────

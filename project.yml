@@ -58,6 +58,8 @@ targets:
       - path: NiyazPusulasWidget
         excludes:
           - "**/.DS_Store"
+    resources:
+      - path: NiyazPusulasWidget/PrivacyInfo.xcprivacy
       - path: NiyazPusulasi/Models/WidgetPayload.swift
         buildPhase: sources
       - path: NiyazPusulasi/Models/PrayerTimeDay.swift

@@ -256,11 +256,12 @@ final class LocationManager: NSObject, ObservableObject {
     }
     
     private func timezoneFromAddress(_ address: CNPostalAddress) -> TimeZone? {
-        let state = address.state
-        guard !state.isEmpty else {
-            return nil
-        }
-        return TimeZone(identifier: state)
+        // `address.state` contains a state/region name, not a timezone identifier.
+        // Fall back to country-based detection instead.
+        let country = address.country
+        guard !country.isEmpty else { return nil }
+        let identifier = timeZoneForCountry(country)
+        return TimeZone(identifier: identifier)
     }
 }
 

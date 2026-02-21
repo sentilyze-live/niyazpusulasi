@@ -27,6 +27,11 @@ final class RamadanViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
+    deinit {
+        timer?.invalidate()
+        timer = nil
+    }
+
     // MARK: - Public API
 
     func onAppear() {

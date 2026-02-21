@@ -37,6 +37,11 @@ final class TodayViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
+    deinit {
+        timer?.invalidate()
+        timer = nil
+    }
+
     // MARK: - Public API
 
     func onAppear() {
@@ -47,11 +52,15 @@ final class TodayViewModel: ObservableObject {
     }
 
     func onDisappear() {
+        // Only stop the UI refresh timer; keep Live Activity running so it
+        // remains visible on the Lock Screen / Dynamic Island when the user
+        // switches to another tab or backgrounds the app.
         stopPeriodicUpdate()
-        endLiveActivity()
     }
-    
-    private func endLiveActivity() {
+
+    /// Call this only when the app is about to terminate or the user explicitly
+    /// dismisses the activity (e.g. from a settings toggle).
+    func terminateLiveActivity() {
         #if canImport(ActivityKit)
         if #available(iOS 16.1, *) {
             liveActivityManager.endActivity()
@@ -172,7 +181,7 @@ final class TodayViewModel: ObservableObject {
             updatedAt: Date(),
             locationName: settingsManager.location.displayName,
             todayPrayers: today,
-            nextPrayerName: nextPrayerInfo?.name.turkishName ?? "",
+            nextPrayerName: nextPrayerInfo?.name.localizedName ?? "",
             nextPrayerTime: nextPrayerInfo?.time ?? Date(),
             isRamadan: isRamadan,
             todayImsak: isRamadan ? today.imsak : nil,

@@ -5,57 +5,36 @@ struct QiblaView: View {
     let direction: Double
 
     var body: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: "safari")
-                    .foregroundStyle(.orange)
-                Text("Kıble Yönü")
-                    .font(.subheadline.weight(.medium))
-                Spacer()
-                Text(String(format: "%.1f°", direction))
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.orange)
+        HStack(spacing: 12) {
+            Image(systemName: "location.north.line.fill")
+                .foregroundStyle(Color.themeCyan)
+                .font(.system(size: 16, weight: .bold))
+            
+            Text("Kıble Yönü")
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundStyle(.white)
+            
+            Spacer()
+            
+            HStack(spacing: 4) {
+                Text(String(format: "%.0f°", direction))
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.themeGold)
+                
+                Image(systemName: "safari.fill")
+                    .rotationEffect(.degrees(direction - 45)) // Safari icon points 45deg by default
+                    .foregroundStyle(Color.themeGold)
             }
-
-            // Simple compass indicator
-            ZStack {
-                Circle()
-                    .stroke(Color.secondary.opacity(0.2), lineWidth: 2)
-                    .frame(width: 80, height: 80)
-
-                // Cardinal directions
-                ForEach(["K", "D", "G", "B"], id: \.self) { label in
-                    let index = ["K", "D", "G", "B"].firstIndex(of: label)!
-                    let angle = Double(index) * 90.0
-
-                    Text(label)
-                        .font(.system(size: 10, weight: .medium))
-                        .foregroundStyle(.secondary)
-                        .offset(y: -45)
-                        .rotationEffect(.degrees(angle))
-                }
-
-                // Qibla direction arrow
-                Image(systemName: "arrowtriangle.up.fill")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.orange)
-                    .offset(y: -28)
-                    .rotationEffect(.degrees(direction))
-
-                // Center dot
-                Circle()
-                    .fill(.orange)
-                    .frame(width: 6, height: 6)
-            }
-            .frame(height: 100)
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .glassPanel(cornerRadius: 20, opacity: 0.5)
     }
 }
 
 #Preview {
-    QiblaView(direction: 158.5)
+    QiblaView(direction: 153.0)
         .padding()
+        .appBackground()
 }

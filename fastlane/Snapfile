@@ -34,5 +34,3 @@ stop_after_first_error(false)
 # Number of retries on failure
 number_of_retries(1)
 
-# Screenshot file format
-output_files("png")

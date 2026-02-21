@@ -5,41 +5,74 @@ struct CountdownView: View {
     let prayerName: PrayerName
     let prayerTime: Date
 
+    @State private var now: Date = Date()
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
+    private var timeRemaining: TimeInterval {
+        max(0, prayerTime.timeIntervalSince(now))
+    }
+
     var body: some View {
         VStack(spacing: 12) {
-            HStack(spacing: 8) {
-                Image(systemName: prayerName.symbolName)
-                    .font(.title2)
-                    .foregroundStyle(.white.opacity(0.9))
+            Text("Sıradaki Vakit")
+                .font(.caption)
+                .fontWeight(.bold)
+                .tracking(2)
+                .foregroundStyle(Color.themeCyan)
+                .textCase(.uppercase)
 
-                Text("Sıradaki: \(prayerName.turkishName)")
-                    .font(.headline)
-                    .foregroundStyle(.white)
-            }
-
-            // Live countdown — SwiftUI handles the animation
-            Text(prayerTime, style: .relative)
+            Text(prayerName.localizedName)
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
-                .contentTransition(.numericText())
+                .glowingText(color: Color.themeGold, intensity: 15)
 
-            // Prayer time
-            Text(prayerTime, style: .time)
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.8))
+            // Animated Countdown Ring
+            ZStack {
+                Circle()
+                    .stroke(Color.white.opacity(0.1), lineWidth: 1)
+
+                Circle()
+                    .stroke(Color.white.opacity(0.2), style: StrokeStyle(lineWidth: 2, dash: [4, 4]))
+                    .padding(8)
+
+                VStack(spacing: 4) {
+                    Text(timeRemainingString(from: timeRemaining))
+                        .font(.system(size: 44, weight: .light, design: .default))
+                        .monospacedDigit()
+                        .tracking(-1)
+                        .foregroundStyle(.white)
+
+                    Text("Kaldı")
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .tracking(2)
+                        .foregroundStyle(.gray)
+                        .textCase(.uppercase)
+                }
+            }
+            .frame(width: 200, height: 200)
+            .padding(.vertical, 8)
         }
+        .padding()
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
-        .padding(.horizontal)
-        .background(
-            LinearGradient(
-                colors: gradientColors(for: prayerName),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: gradientColors(for: prayerName).first?.opacity(0.3) ?? .clear, radius: 12, y: 4)
+        .glassPanel(cornerRadius: 32, opacity: 0.6)
+        .onReceive(timer) { tick in
+            now = tick
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func timeRemainingString(from interval: TimeInterval) -> String {
+        let total = Int(interval)
+        let hours = total / 3600
+        let minutes = (total % 3600) / 60
+        let seconds = total % 60
+        if hours > 0 {
+            return String(format: "%d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d", minutes, seconds)
+        }
     }
 
     private func gradientColors(for prayer: PrayerName) -> [Color] {
@@ -66,4 +99,5 @@ struct CountdownView: View {
         )
     }
     .padding()
+    .appBackground()
 }

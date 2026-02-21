@@ -45,6 +45,14 @@ PREMIUM ÖZELLİKLER (İsteğe bağlı)
 
 Temel özellikler her zaman ücretsiz. Premium abonelik tamamen isteğe bağlıdır.
 
+PREMIUM ABONELİK
+• Aylık veya yıllık abonelik seçenekleri mevcuttur
+• 7 günlük ücretsiz deneme mevcuttur
+• Ödeme, satın alma onayında Apple ID hesabınıza yansıtılır
+• Abonelik, mevcut dönem sona ermeden en az 24 saat önce iptal edilmezse otomatik olarak yenilenir
+• App Store Hesap Ayarlarından aboneliğinizi yönetebilir veya iptal edebilirsiniz
+• Deneme süresi sona ermeden iptal edilirse ücret alınmaz
+
 GİZLİLİK & GÜVENLİK
 • Konum bilginiz yalnızca namaz vakti hesaplamak için kullanılır
 • Verileriniz cihazınızda kalır, sunucuya gönderilmez

@@ -129,6 +129,9 @@ struct TasbeehView: View {
             } message: {
                 Text("Sayacı sıfırlamak istediğinize emin misiniz?")
             }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(trigger: .tasbeehCounter)
+            }
         }
     }
 

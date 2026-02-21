@@ -12,7 +12,20 @@ final class LiveActivityService: ObservableObject {
     @Published var isActivityActive = false
     @Published var currentActivity: Activity<PrayerActivityAttributes>?
 
-    private init() {}
+    private init() {
+        // On init, re-adopt any activity that survived a process restart.
+        // This prevents stale activities from lingering on the Lock Screen.
+        adoptExistingActivityIfNeeded()
+    }
+
+    /// Re-adopts an existing Live Activity after a process restart.
+    private func adoptExistingActivityIfNeeded() {
+        let existing = Activity<PrayerActivityAttributes>.activities
+        if let first = existing.first {
+            currentActivity = first
+            isActivityActive = true
+        }
+    }
 
     // MARK: - Start Live Activity
 
@@ -32,11 +45,11 @@ final class LiveActivityService: ObservableObject {
         )
 
         let contentState = PrayerActivityAttributes.ContentState(
-            nextPrayerName: nextPrayer.turkishName,
+            nextPrayerName: nextPrayer.localizedName,
             prayerTime: prayerTime,
             prayerTimeFormatted: settingsManager.formatTime(prayerTime)
         )
-        
+
         do {
             let activity = try Activity.request(
                 attributes: attributes,
@@ -61,11 +74,11 @@ final class LiveActivityService: ObservableObject {
         let settingsManager = SettingsManager.shared
 
         let contentState = PrayerActivityAttributes.ContentState(
-            nextPrayerName: nextPrayer.turkishName,
+            nextPrayerName: nextPrayer.localizedName,
             prayerTime: prayerTime,
             prayerTimeFormatted: settingsManager.formatTime(prayerTime)
         )
-        
+
         Task {
             await activity.update(
                 ActivityContent(state: contentState, staleDate: nil)
@@ -76,12 +89,19 @@ final class LiveActivityService: ObservableObject {
     // MARK: - End Live Activity
     
     func endActivity() {
-        guard let activity = currentActivity else { return }
-        
-        Task {
-            await activity.end(nil, dismissalPolicy: .immediate)
+        // End the tracked activity if present
+        if let activity = currentActivity {
+            Task {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
         }
-        
+        // Also sweep any orphaned activities (e.g. from a previous process lifecycle)
+        let orphans = Activity<PrayerActivityAttributes>.activities
+            .filter { $0.id != currentActivity?.id }
+        for orphan in orphans {
+            Task { await orphan.end(nil, dismissalPolicy: .immediate) }
+        }
+
         currentActivity = nil
         isActivityActive = false
     }

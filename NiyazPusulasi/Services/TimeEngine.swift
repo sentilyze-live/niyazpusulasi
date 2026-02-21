@@ -98,6 +98,15 @@ final class TimeEngine {
 
     /// Builds a notification schedule respecting the iOS 64-slot limit.
     /// Returns at most `maxCount` notifications sorted by fire date.
+    /// Shared DateFormatter — DateFormatter is expensive to init, reuse via static property.
+    private static let notificationDateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.calendar = Calendar(identifier: .gregorian)
+        return f
+    }()
+
     func buildNotificationSchedule(
         days: [PrayerTimeDay],
         settings: ReminderSettings,
@@ -105,8 +114,7 @@ final class TimeEngine {
     ) -> [ScheduledNotification] {
         var notifications: [ScheduledNotification] = []
         let now = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateFormatter = Self.notificationDateFormatter
 
         for day in days {
             let dateString = dateFormatter.string(from: day.date)
@@ -122,7 +130,7 @@ final class TimeEngine {
 
                 notifications.append(ScheduledNotification(
                     id: "prayer_\(prayer.rawValue)_\(dateString)",
-                    prayerName: prayer.turkishName,
+                    prayerName: prayer.localizedName,
                     fireDate: fireDate,
                     type: .prayer(prayer),
                     isTimeSensitive: true

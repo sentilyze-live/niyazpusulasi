@@ -6,7 +6,7 @@ on:
 jobs:
   upload_metadata:
     name: Upload Metadata (tr-TR, en-US, ar-SA)
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 15
 
     steps:

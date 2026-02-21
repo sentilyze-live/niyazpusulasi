@@ -8,141 +8,175 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                // Location
-                Section("Konum") {
-                    NavigationLink {
-                        LocationSettingsView()
-                    } label: {
+            ZStack {
+                Color.themeDarkBg.ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Header
                         HStack {
-                            Label("Konum", systemImage: "location.fill")
+                            Text("AYARLAR")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
                             Spacer()
-                            Text(settingsManager.location.displayName)
-                                .foregroundStyle(.secondary)
                         }
-                    }
-                }
-
-                // Calculation Method
-                Section("Hesaplama") {
-                    Picker("Yöntem", selection: $settingsManager.settings.calcSettings.method) {
-                        ForEach(CalcSettings.Method.allCases) { method in
-                            Text(method.displayName).tag(method)
-                        }
-                    }
-
-                    Picker("Mezhep (Asr)", selection: $settingsManager.settings.calcSettings.madhab) {
-                        ForEach(CalcSettings.Madhab.allCases) { madhab in
-                            Text(madhab.displayName).tag(madhab)
-                        }
-                    }
-                }
-
-                // Notifications
-                Section("Bildirimler") {
-                    NavigationLink {
-                        NotificationSettingsView()
-                    } label: {
-                        Label("Bildirim Ayarları", systemImage: "bell.fill")
-                    }
-
-                    NavigationLink {
-                        NotificationHealthView()
-                    } label: {
-                        Label("Bildirim Sağlığı", systemImage: "heart.text.square.fill")
-                    }
-                }
-
-                // Appearance
-                Section("Görünüm") {
-                    // App Icon Selection
-                    NavigationLink {
-                        AppIconSettingsView()
-                    } label: {
-                        HStack {
-                            Label("Uygulama İkonu", systemImage: "app.badge")
-                            Spacer()
-                            if let iconName = settingsManager.settings.selectedAppIcon {
-                                Image(uiImage: UIImage(named: iconName) ?? UIImage())
-                                    .resizable()
-                                    .frame(width: 29, height: 29)
-                                    .cornerRadius(6)
-                            } else {
-                                Image(systemName: "app.fill")
-                                    .foregroundStyle(.secondary)
+                        .padding(.top, 8)
+                        
+                        settingsSection("KONUM VE HESAPLAMA") {
+                            NavigationLink {
+                                LocationSettingsView()
+                            } label: {
+                                settingsRow(icon: "location.fill", title: "Konum", value: settingsManager.location.displayName)
                             }
-                        }
-                    }
-
-                    Picker("Tema", selection: $settingsManager.settings.theme) {
-                        ForEach(AppSettings.Theme.allCases) { theme in
-                            Text(theme.displayName).tag(theme)
-                        }
-                    }
-
-                    // Premium theme picker
-                    if premiumManager.hasAccess(to: .premiumThemes) {
-                        Picker("Premium Tema", selection: Binding<PremiumTheme?>(
-                            get: { settingsManager.settings.premiumTheme },
-                            set: { settingsManager.settings.premiumTheme = $0 }
-                        )) {
-                            Text("Kapalı").tag(Optional<PremiumTheme>.none)
-                            ForEach(PremiumTheme.allCases) { theme in
-                                Label(theme.displayName, systemImage: theme.previewIcon)
-                                    .tag(Optional(theme))
-                            }
-                        }
-                    } else {
-                        Button {
-                            showPaywall = true
-                        } label: {
+                            
+                            Divider().background(Color.white.opacity(0.1))
+                            
                             HStack {
-                                Label("Premium Temalar", systemImage: "paintpalette.fill")
+                                Label("Yöntem", systemImage: "function")
+                                    .foregroundStyle(.white)
                                 Spacer()
-                                HStack(spacing: 4) {
-                                    ForEach(PremiumTheme.allCases.prefix(4)) { theme in
-                                        Circle()
-                                            .fill(theme.accentColor)
-                                            .frame(width: 14, height: 14)
+                                Picker("", selection: $settingsManager.settings.calcSettings.method) {
+                                    ForEach(CalcSettings.Method.allCases) { method in
+                                        Text(method.displayName).tag(method)
                                     }
                                 }
-                                Image(systemName: "lock.fill")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                .tint(Color.themeCyan)
+                            }
+                            
+                            Divider().background(Color.white.opacity(0.1))
+                            
+                            HStack {
+                                Label("Mezhep (Asr)", systemImage: "book.fill")
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Picker("", selection: $settingsManager.settings.calcSettings.madhab) {
+                                    ForEach(CalcSettings.Madhab.allCases) { madhab in
+                                        Text(madhab.displayName).tag(madhab)
+                                    }
+                                }
+                                .tint(Color.themeCyan)
                             }
                         }
-                        .foregroundStyle(.primary)
-                    }
-
-                    Picker("Saat Formatı", selection: $settingsManager.settings.timeFormat) {
-                        ForEach(AppSettings.TimeFormat.allCases) { format in
-                            Text(format.displayName).tag(format)
+                        
+                        settingsSection("BİLDİRİMLER") {
+                            NavigationLink {
+                                NotificationSettingsView()
+                            } label: {
+                                settingsRow(icon: "bell.fill", title: "Bildirim Ayarları")
+                            }
+                            
+                            Divider().background(Color.white.opacity(0.1))
+                            
+                            NavigationLink {
+                                NotificationHealthView()
+                            } label: {
+                                settingsRow(icon: "heart.text.square.fill", title: "Bildirim Sağlığı")
+                            }
+                        }
+                        
+                        settingsSection("GÖRÜNÜM") {
+                            NavigationLink {
+                                AppIconSettingsView()
+                            } label: {
+                                HStack {
+                                    Label("Uygulama İkonu", systemImage: "app.badge")
+                                        .foregroundStyle(.white)
+                                    Spacer()
+                                    if let iconName = settingsManager.settings.selectedAppIcon {
+                                        Image(uiImage: UIImage(named: iconName) ?? UIImage())
+                                            .resizable()
+                                            .frame(width: 29, height: 29)
+                                            .cornerRadius(6)
+                                    } else {
+                                        Image(systemName: "app.fill")
+                                            .foregroundStyle(.gray)
+                                    }
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundStyle(.gray)
+                                }
+                            }
+                            
+                            Divider().background(Color.white.opacity(0.1))
+                            
+                            HStack {
+                                Label("Tema", systemImage: "paintbrush.fill")
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Picker("", selection: $settingsManager.settings.theme) {
+                                    ForEach(AppSettings.Theme.allCases) { theme in
+                                        Text(theme.displayName).tag(theme)
+                                    }
+                                }
+                                .tint(Color.themeCyan)
+                            }
+                            
+                            if !premiumManager.hasAccess(to: .premiumThemes) {
+                                Divider().background(Color.white.opacity(0.1))
+                                Button {
+                                    showPaywall = true
+                                } label: {
+                                    HStack {
+                                        Label("Premium Temalar", systemImage: "crown.fill")
+                                            .foregroundStyle(Color.themeGold)
+                                        Spacer()
+                                        Image(systemName: "lock.fill")
+                                            .font(.caption)
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        settingsSection("HAKKINDA") {
+                            settingsRow(icon: "info.circle.fill", title: "Versiyon", value: "1.0.0")
+                            Divider().background(Color.white.opacity(0.1))
+                            settingsRow(icon: "swift", title: "Hesaplama Altyapısı", value: "Adhan Swift")
                         }
                     }
-                }
-
-                // About
-                Section("Hakkında") {
-                    HStack {
-                        Text("Versiyon")
-                        Spacer()
-                        Text("1.0.0")
-                            .foregroundStyle(.secondary)
-                    }
-
-                    HStack {
-                        Text("Hesaplama Kütüphanesi")
-                        Spacer()
-                        Text("Adhan Swift")
-                            .foregroundStyle(.secondary)
-                    }
-
-
+                    .padding()
                 }
             }
             .navigationTitle("Ayarlar")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .sheet(isPresented: $showPaywall) {
                 PaywallView(trigger: .premiumThemes)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func settingsSection<Content: View>(_ title: String, @ViewBuilder content: @escaping () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.caption)
+                .fontWeight(.bold)
+                .tracking(1)
+                .foregroundStyle(.gray)
+                .padding(.leading, 8)
+            
+            VStack(spacing: 16) {
+                content()
+            }
+            .padding()
+            .glassPanel(cornerRadius: 16, opacity: 0.5)
+        }
+    }
+    
+    private func settingsRow(icon: String, title: String, value: String? = nil) -> some View {
+        HStack {
+            Label(title, systemImage: icon)
+                .foregroundStyle(.white)
+            Spacer()
+            if let value = value {
+                Text(value)
+                    .foregroundStyle(.gray)
+            } else {
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(.gray)
             }
         }
     }

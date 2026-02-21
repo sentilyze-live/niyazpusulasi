@@ -35,7 +35,7 @@ struct NotificationSettingsView: View {
             // Prayer notifications
             Section("Namaz Bildirimleri") {
                 ForEach(PrayerName.obligatory) { prayer in
-                    Toggle(prayer.turkishName, isOn: prayerEnabledBinding(for: prayer))
+                    Toggle(prayer.localizedName, isOn: prayerEnabledBinding(for: prayer))
 
                     if settingsManager.reminderSettings.prayerEnabled[prayer.rawValue] == true {
                         Picker("Bildirim zamanı", selection: prayerOffsetBinding(for: prayer)) {
@@ -109,6 +109,7 @@ struct NotificationSettingsView: View {
         .navigationTitle("Bildirim Ayarları")
         .onChange(of: settingsManager.reminderSettings) { _, _ in
             Task {
+                try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s debounce
                 await notificationManager.rescheduleAllNotifications()
             }
         }

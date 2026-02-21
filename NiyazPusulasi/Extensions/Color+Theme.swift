@@ -2,20 +2,25 @@ import SwiftUI
 
 /// Semantic color extensions for consistent theming.
 extension Color {
-    // Prayer-related colors
-    static let prayerFajr = Color(red: 0.15, green: 0.1, blue: 0.3)
-    static let prayerSunrise = Color(red: 0.9, green: 0.55, blue: 0.25)
-    static let prayerDhuhr = Color(red: 0.25, green: 0.55, blue: 0.85)
-    static let prayerAsr = Color(red: 0.35, green: 0.65, blue: 0.55)
-    static let prayerMaghrib = Color(red: 0.75, green: 0.35, blue: 0.25)
-    static let prayerIsha = Color(red: 0.2, green: 0.12, blue: 0.3)
+    // MARK: - New Theme Colors
+    static let themeDarkBg = Color(red: 11/255, green: 17/255, blue: 32/255) // #0b1120
+    static let themeGold = Color(red: 212/255, green: 175/255, blue: 55/255) // #D4AF37
+    static let themeCyan = Color(red: 6/255, green: 182/255, blue: 212/255) // #06b6d4
+    
+    // Prayer-related colors (Updated to new theme)
+    static let prayerFajr = Color.themeCyan.opacity(0.8)
+    static let prayerSunrise = Color.themeGold.opacity(0.8)
+    static let prayerDhuhr = Color.yellow.opacity(0.8)
+    static let prayerAsr = Color.themeGold
+    static let prayerMaghrib = Color.themeCyan
+    static let prayerIsha = Color.gray.opacity(0.8)
 
     // Ramadan colors
-    static let ramadanImsak = Color.indigo
-    static let ramadanIftar = Color.orange
+    static let ramadanImsak = Color.themeCyan
+    static let ramadanIftar = Color.themeGold
 
     // Habit colors
-    static let habitDone = Color.green
+    static let habitDone = Color.themeGold
     static let habitStreak = Color.orange
 
     /// Returns the theme color for a given prayer.

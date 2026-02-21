@@ -27,8 +27,6 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Bulunduğunuz konuma göre namaz vakitlerini hesaplamak için konum bilgisine ihtiyaç duyulmaktadır.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Konum değişikliklerinde namaz vakitlerini güncellemek için arka plan konum erişimi gerekmektedir.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.niyazpusulasi.app.refresh</string>

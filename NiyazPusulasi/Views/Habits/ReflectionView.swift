@@ -9,71 +9,83 @@ struct ReflectionView: View {
     @FocusState private var isNoteFocused: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Günlük Değerlendirme")
-                .font(.subheadline.weight(.medium))
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Günün Özeti")
+                .font(.headline)
+                .foregroundStyle(.white)
 
-            // Rating
-            VStack(spacing: 8) {
-                HStack {
-                    Text("Ruh halin nasıl?")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Text("\(rating)/10")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(ratingColor)
-                }
+            Text("Bugün maneviyatını nasıl hissediyorsun?")
+                .font(.caption)
+                .foregroundStyle(.gray)
 
-                // Custom slider with emoji
-                HStack(spacing: 0) {
-                    ForEach(1...10, id: \.self) { value in
-                        Button {
-                            withAnimation(.spring(response: 0.2)) {
-                                rating = value
-                                onSave()
-                            }
-                        } label: {
-                            Circle()
-                                .fill(value <= rating ? ratingColor : Color(.tertiarySystemFill))
-                                .frame(width: value == rating ? 28 : 20, height: value == rating ? 28 : 20)
-                                .animation(.spring(response: 0.2), value: rating)
+            // Rating Emojis
+            HStack(spacing: 24) {
+                ForEach(1...5, id: \.self) { value in
+                    Button {
+                        withAnimation(.spring(response: 0.2)) {
+                            rating = value * 2 // map 1-5 to 1-10 rating
+                            onSave()
                         }
-                        .buttonStyle(.plain)
-
-                        if value < 10 {
-                            Spacer()
-                        }
+                    } label: {
+                        Text(emojiFor(rating: value * 2))
+                            .font(.system(size: rating >= value * 2 - 1 && rating <= value * 2 + 1 ? 36 : 24))
+                            .opacity(rating >= value * 2 - 1 && rating <= value * 2 + 1 ? 1.0 : 0.4)
+                            .shadow(color: rating >= value * 2 - 1 ? Color.themeCyan.opacity(0.3) : .clear, radius: 10)
                     }
+                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal, 4)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
 
             // Note
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Not (isteğe bağlı)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            TextField("Bugün neler hissettin? (Opsiyonel)", text: $note, axis: .vertical)
+                .textFieldStyle(.plain)
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .lineLimit(3...6)
+                .padding(12)
+                .background(Color.black.opacity(0.3))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+                .focused($isNoteFocused)
+                .onSubmit {
+                    onSave()
+                }
+                .onChange(of: isNoteFocused) { _, focused in
+                    if !focused { onSave() }
+                }
 
-                TextField("Bugün hakkında bir not...", text: $note, axis: .vertical)
-                    .textFieldStyle(.plain)
-                    .font(.subheadline)
-                    .lineLimit(3...6)
-                    .padding(8)
-                    .background(Color(.tertiarySystemFill))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .focused($isNoteFocused)
-                    .onSubmit {
-                        onSave()
-                    }
-                    .onChange(of: isNoteFocused) { _, focused in
-                        if !focused { onSave() }
-                    }
+            Button {
+                isNoteFocused = false
+                onSave()
+            } label: {
+                Text("Kaydet")
+                    .font(.headline)
+                    .foregroundStyle(.black)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.themeGold)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
+            .padding(.top, 4)
         }
-        .padding()
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(20)
+        .glassPanel(cornerRadius: 24, opacity: 0.5)
+    }
+
+    private func emojiFor(rating: Int) -> String {
+        switch rating {
+        case 1...2: return "😔"
+        case 3...4: return "😕"
+        case 5...6: return "😐"
+        case 7...8: return "🙂"
+        case 9...10: return "😇"
+        default: return "😐"
+        }
     }
 
     private var ratingColor: Color {
